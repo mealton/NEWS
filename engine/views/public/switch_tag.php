@@ -1,0 +1,1 @@
+<?php include __DIR__ . '/' . ($item_folder ? $item_folder : 'show') . '/item/' . $tag . '.php';

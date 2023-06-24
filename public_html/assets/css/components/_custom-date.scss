@@ -1,0 +1,100 @@
+.custom-date {
+  padding-left: 20px;
+
+  @media screen and (max-width: 999px) {
+    padding: 0;
+  }
+
+  input[type="date"] {
+    position: relative;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+    color: transparent;
+    background: transparent;
+  }
+
+  input[type="date"]::-webkit-inner-spin-button,
+  input[type="date"]::-webkit-clear-button {
+    z-index: -10;
+  }
+
+  input[type="date"]::-webkit-input-placeholder {
+    z-index: 99;
+  }
+
+  input[type="date"]:placeholder {
+    z-index: 99;
+  }
+
+  input[type="date"]:not(.has-value):before {
+    content: attr(placeholder);
+    width: 100%;
+  }
+
+  input[type="date"] {
+    padding: .375rem;
+    border-radius: .375rem;
+    height: 38px;
+  }
+
+  .pa__middle-range {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    justify-content: center;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    //margin-bottom: 50px;
+    @media screen and (max-width: 999px) {
+      margin: 15px auto;
+    }
+
+    @media screen and (max-width: 460px) {
+      .pa__middle-item input {
+        width: 17vw;
+      }
+    }
+
+  }
+
+  .pa__middle-item {
+    margin-right: 10px;
+  }
+
+  .pa__top-sec input[type="date"] {
+    border: 0;
+    //padding: 12px 20px;
+    color: #99a2ba;
+    font-size: 14px;
+    width: 85px;
+  }
+
+  .pa__top-sec input[type="date"]:not(:valid):before {
+    content: attr(placeholder);
+    width: 100%;
+    //font: 14px "Gilroy-Extrabold", sans-serif;
+  }
+
+
+  /*  @media screen and (max-width: 999px) {
+      .pa__top-sec {
+        width: 100%;
+        padding: 15px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+      }
+    }*/
+
+}

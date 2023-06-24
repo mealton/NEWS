@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+Host: mtuci.mealton.ru
+Sitemap: http://mtuci.mealton.ru/sitemap.xml

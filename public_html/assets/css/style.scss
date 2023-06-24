@@ -1,0 +1,63 @@
+.pointer {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  &::-webkit-scrollbar {
+    height: 11px;
+    width: 11px;
+
+    -webkit-appearance: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(47, 46, 46, 0.2);
+    border: 3px solid #fbf6f6;
+    border-radius: 8px;
+  }
+
+  scrollbar-width: thin;
+}
+
+.search-form-group #button-search{
+  border-top-right-radius: .375rem;
+  border-bottom-right-radius: .375rem;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.main-container {
+  flex: 1 0 auto;
+}
+
+footer {
+  flex: 0 0 auto;
+}
+
+@import "../../vendors/font-awesome/font-awesome.min.css";
+
+@import "components/nav";
+@import "components/uploader";
+@import "components/preloader";
+@import "components/profile";
+@import "components/edit-publication";
+@import "components/publication";
+@import "components/search-form";
+@import "components/likes";
+@import "components/lift";
+@import "components/manager";
+@import "components/custom-date";
+@import "components/slider";

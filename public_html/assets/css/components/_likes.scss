@@ -1,0 +1,44 @@
+.likes-block{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+#likes-count {
+
+  margin-left: 10px;
+  position: relative;
+  text-align: right;
+
+  .count {
+
+    &:first-child, &:last-child{
+      position: absolute;
+      left: 0;
+      width: 100%;
+    }
+
+    &:first-child{
+      top: -20px;
+    }
+
+    &:last-child{
+      top: 20px;
+    }
+
+    & > span {
+      position: relative;
+      transition: all .3s ease-in-out;
+
+      &.slided-up{
+        transform: translateY(-20px);
+        display: inline-block;
+      }
+      &.slided-down{
+        transform: translateY(20px);
+        display: inline-block;
+      }
+    }
+  }
+
+}

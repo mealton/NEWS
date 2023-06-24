@@ -1,0 +1,289 @@
+.public-author-preview {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 2;
+
+  .mask {
+    padding: 5px 10px;
+    box-sizing: border-box;
+  }
+}
+
+.public-item-preview, .subcategory-card {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.is-deleted {
+  opacity: .25 !important;
+}
+
+.publication-status-checkbox {
+  left: 0;
+  top: 0;
+  padding: 0;
+
+  width: 100%;
+  z-index: 2;
+
+  .top-labels {
+    padding: 5px 10px;
+    margin: 0;
+    box-sizing: border-box;
+    color: #FFF;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, .25);
+    //
+
+    .col-md-6 {
+      padding: 0;
+    }
+  }
+
+  .form-check-label {
+    width: 100%;
+    display: block;
+
+    .form-check-input {
+      float: none;
+      margin-left: 0;
+    }
+  }
+}
+
+.comment-form {
+  textarea {
+    min-height: 100px;
+    max-height: 100px;
+  }
+
+  .uploader-container {
+    margin: 10px auto;
+  }
+}
+
+#comments, .similar-publications {
+  hr:last-child {
+    display: none !important;
+  }
+}
+
+.replies {
+  padding-left: 50px;
+}
+
+.reply-form {
+  margin-top: 20px;
+}
+
+.remove-comment {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+
+.custom-modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 50px 15px;
+  z-index: 99;
+  text-align: center;
+  color: #FFF;
+  flex-wrap: wrap;
+  overflow: auto;
+
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+
+  img {
+    max-width: calc(100vw - 200px);
+    max-height: 80vh;
+    margin: 0 auto 30px;
+    @media screen and (max-width: 599px) {
+      max-width: 100%;
+    }
+  }
+}
+
+.modal-control {
+  position: absolute;
+  color: #FFF;
+  cursor: pointer;
+  font-size: 36px;
+}
+
+.prev-next {
+  top: 0;
+  width: 50px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+
+  &.fa-chevron-left {
+    left: 0;
+  }
+
+  &.fa-chevron-right {
+    right: 0;
+  }
+
+  @media screen and (max-width: 599px) {
+    display: none;
+  }
+}
+
+.close-modal {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  z-index: 2;
+}
+
+.none-moderated .image-preview{
+  position: relative;
+  pointer-events: none;
+  cursor: not-allowed;
+
+  .bg-image {
+    filter: blur(5px);
+  }
+
+
+  &:before, &:after {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &:before {
+    content: "";
+    filter: blur(5px);
+    z-index: 1;
+  }
+
+  &:after {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, .5);
+    content: "На модерации";
+  }
+}
+
+img.is-erotic {
+  filter: blur(3px);
+}
+
+@media screen and (max-width: 768px) {
+  .publication-counters {
+    width: 50%;
+    margin-left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    @media screen and (max-width: 500px) {
+      width: 75%;
+      margin-left: 25%;
+      margin-bottom: 15px;
+    }
+
+    .row {
+      width: 100%;
+    }
+
+    .col-md-4 {
+      width: 33.3%;
+    }
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+
+  .comment-form {
+    margin-bottom: 0 !important;
+
+    img.user-circle-img {
+      margin: 0 auto 10px;
+      display: block;
+    }
+  }
+
+  .comments-list {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+
+  .comment-item-container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    & > .d-flex {
+      display: block !important;
+    }
+
+    img[alt="avatar"] {
+      margin-bottom: 10px;
+    }
+
+    p.lead {
+      font-size: 16px;
+    }
+  }
+  .replies {
+    padding-left: 30px;
+  }
+}
+
+ul.publications-list {
+  padding: 10px 0 15px 45px;
+  font-size: smaller;
+  list-style-type: none;
+  line-height: 1.8;
+  text-decoration: underline;
+}
+
+.cat-tree > ul > li {
+
+}
+
+.preview-title {
+  &.mobile-preview-title {
+    display: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    &.mobile-preview-title {
+      display: block;
+    }
+    &.desktop-preview-title {
+      display: none;
+    }
+  }
+}
