@@ -20,7 +20,7 @@ $active_slide = array_shift($publications_slider);
                 <div class="carousel-caption d-none d-md-block">
                     <h5>
                         <a href="/publication/show/<?= $active_slide['id'] ?>::<?= $active_slide['alias'] ?>.html" title="Перейти в публикацию">
-                            <?= html_entity_decode($item['title']) ?>
+                            <?= html_entity_decode($active_slide['title']) ?>
                         </a>
                     </h5>
                     <p><?= html_entity_decode($active_slide['introtext']) ?></p>
