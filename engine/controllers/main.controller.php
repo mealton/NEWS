@@ -81,9 +81,7 @@ class Main
 
         //Выводим список доступных категорий
         $categories = $model->get_categories(10);
-        /*$categories = array_filter((array)$categories, function ($item) {
-            return !$item['parent_id'];
-        });*/
+
         $categories = array_map(function ($item) {
             return ['name' => $item['name'], 'href' => '/publication/category/' . $item['id'] . '/' . $item['name'] . '/'];
         }, (array)$categories);

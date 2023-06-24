@@ -823,6 +823,7 @@ ul.publications-list {
   user-select: none;
   position: relative;
   margin-top: 35px;
+  background-color: #000;
 }
 .top-carousel-slider .filter__cover {
   position: absolute;
@@ -848,7 +849,7 @@ ul.publications-list {
 }
 .top-carousel-slider img {
   max-height: 350px;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
 }
 

@@ -41,7 +41,15 @@ INNER JOIN `publications` as `p`
 GROUP BY `c`.`id`
 ORDER BY `c`.`name`
 SQL;
-        return db::getInstance()->Select((int)$limit > 0 ? $sql . " LIMIT " . $limit : $sql);
+
+        $categories = db::getInstance()->Select((int)$limit > 0 ? $sql . " LIMIT " . $limit : $sql);
+
+        foreach ($categories as $i => $item) {
+            if (in_array(0, $this->category_checker($item['id'])))
+                unset($categories[$i]);
+        }
+
+        return $categories;
 
     }
 
@@ -247,5 +255,19 @@ LIMIT 3
 SQL;
         return db::getInstance()->Select($sql);
     }
+
+    public function category_checker($category_id, $breadcrumb = [])
+    {
+        $query = $this->getter('categories', ['id' => $category_id]);
+
+        if (empty((array)$query))
+            return $breadcrumb;
+
+        $query = $query[0];
+        $breadcrumb[] = $query['is_active'];
+
+        return $this->category_checker($query['parent_id'], $breadcrumb);
+    }
+
 
 }

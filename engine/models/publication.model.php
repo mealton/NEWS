@@ -111,7 +111,14 @@ GROUP BY `p`.`id`
 $limit_sql
 SQL;
 
-        return db::getInstance()->Select($sql);
+        $publications = db::getInstance()->Select($sql);
+
+        foreach ($publications as $i => $item) {
+            if (in_array(0, $this->category_checker($item['category_id'])))
+                unset($publications[$i]);
+        }
+
+        return $publications;
     }
 
     //Вывод одной публикации
