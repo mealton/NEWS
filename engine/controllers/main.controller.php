@@ -37,7 +37,7 @@ class Main
         $model = new MainModel();
         $liked_publics = $model->getter('users', ['id' => $user_id], 'liked_comments');
         return $liked_publics[0]['liked_comments']
-            ? array_values(json_decode($liked_publics[0]['liked_comments']))
+            ? array_keys(unserialize($liked_publics[0]['liked_comments']))
             : [];
     }
 

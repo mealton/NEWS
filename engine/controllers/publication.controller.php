@@ -617,18 +617,17 @@ LIKES;
 
         if (in_array($id, $liked_comments)) {
             if ($publication->dislike_comment($id)) {
-                $index = array_search($id, $liked_comments);
-                unset($liked_comments[$index]);
+                unset($liked_comments[$id]);
                 $dislike = 1;
             }
         } else {
             if ($publication->like_comment($id))
-                $liked_comments[] = $id;
+                $liked_comments[$id] = 1;
         }
 
         Publication::$liked_comments = $liked_comments;
 
-        $liked_comments = json_encode($liked_comments);
+        $liked_comments = serialize($liked_comments);
         $result = $publication->update('users', ['liked_comments' => $liked_comments], $user_id);
         $likes = $publication->getter('comments', ['id' => $id], 'likes');
         json(['result' => $result, 'likes' => $likes[0]['likes'], 'dislike' => $dislike]);
