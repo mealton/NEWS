@@ -58,7 +58,7 @@ class Manager extends Main
         $comments = $model->get_user_comments();
 
         if (!empty($comments))
-            $manager[0]['comments'] = render('profile/user', 'comment-item', $this->comment_builder($comments));
+            $manager[0]['comments'] = render('manager', 'comment-item', $this->comment_builder($comments));
         else
             $manager[0]['comments'] = "<p class='lead'>Комментарии осутствут...</p>";
 

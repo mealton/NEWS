@@ -783,10 +783,11 @@ const publication = {
         ffetch(this.action, callback, data);
     },
 
-    removeComment(icon) {
+    removeComment(icon, manager = 0) {
         let data = {
             method: 'remove_comment',
-            id: icon.dataset.id
+            id: icon.dataset.id,
+            manager: manager
         };
 
         let callback = response => {

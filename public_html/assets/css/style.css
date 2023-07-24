@@ -488,6 +488,10 @@ footer {
     max-width: 100%;
   }
 }
+.custom-modal p.lead.clickable {
+  max-width: 70%;
+  margin: auto;
+}
 
 .modal-control {
   position: absolute;

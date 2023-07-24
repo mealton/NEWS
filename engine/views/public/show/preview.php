@@ -44,7 +44,7 @@
                                             <i class='fa fa-eye' aria-hidden='true'></i>
                                             <small><?= $views ?></small>
                                             &nbsp;
-                                            <i class='fa fa-heart<?= in_array($id, Publication::$liked_publics) ? '' : '-o' ?>'
+                                            <i class='fa fa-heart<?= in_array($id, array_keys(Publication::$liked_publics)) ? '' : '-o' ?>'
                                                aria-hidden='true'></i>
                                             <small><?= $likes ?></small>
                                             &nbsp;

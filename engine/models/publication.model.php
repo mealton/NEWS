@@ -86,7 +86,8 @@ SQL;
             $limit = $GLOBALS['config']['publications']['pagination-limit'];
             $limit_sql = $slider ? " ORDER BY RAND() LIMIT 10" : " ORDER BY `p`.`published_date` DESC LIMIT $limit OFFSET $offset";
         } else {
-            $filter['managerZone'] = "AND `p`.`moderated` = 0";
+            $filter['managerZone'] = "AND `p`.`moderated` = 0 ";
+            $limit_sql = " ORDER BY `p`.`published_date` DESC";
         }
 
         $sql = <<<SQL
@@ -107,7 +108,6 @@ $filter[tagFilter]
 LEFT JOIN `users` as `u` ON `p`.`user_id` = `u`.`id`
 WHERE 1 $unpublihed $filter[searchFilter] $filter[recentFilter] $filter[authorFilter] $filter[topFilter] $filter[dateFilter] $filter[managerZone]
 GROUP BY `p`.`id`
-
 $limit_sql
 SQL;
 
@@ -163,7 +163,7 @@ SELECT COUNT(`p`.`id`) as `publication_counter`
 FROM `publications` as `p`
 RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1 $filter[categoryFilter]
 $filter[tagFilter]
-WHERE 1 $unpublihed $filter[searchFilter] $filter[recentFilter] $filter[authorFilter]
+WHERE 1 $unpublihed $filter[searchFilter] $filter[recentFilter] $filter[authorFilter] $filter[dateFilter] $filter[managerZone]
 SQL;
 
         $query = db::getInstance()->Select($sql);

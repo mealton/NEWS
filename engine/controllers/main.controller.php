@@ -27,7 +27,7 @@ class Main
         $model = new MainModel();
         $liked_publics = $model->getter('users', ['id' => $user_id], 'liked_publics');
         return $liked_publics[0]['liked_publics']
-            ? array_values(json_decode($liked_publics[0]['liked_publics']))
+            ? unserialize($liked_publics[0]['liked_publics'])
             : [];
     }
 
@@ -73,6 +73,7 @@ class Main
         require_once dirname(__DIR__) . '/models/main.model.php';
         $model = new MainModel();
 
+        //pre(self::$liked_publics);
 
         //Дата первой публикации
         $published_date_start = $model->get_public_published_date_start();

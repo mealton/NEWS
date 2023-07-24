@@ -109,7 +109,7 @@ class Publication extends Main
     {
         $date_from = trim($query[2]);
         $date_to = trim($query[3]);
-        if($date_from == $date_to)
+        if ($date_from == $date_to)
             $title = "Новости за " . date_rus_format($date_from);
         else
             $title = "Новости от " . date_rus_format($date_from) . " до " . date_rus_format($date_to);
@@ -152,11 +152,11 @@ class Publication extends Main
 
         $liked_publics = $PublicationModel->getter('users', ['id' => $_SESSION['user']['id']], 'liked_publics');
         if ($liked_publics[0]['liked_publics'])
-            $liked_publics = json_decode($liked_publics[0]['liked_publics']);
+            $liked_publics = unserialize($liked_publics[0]['liked_publics']);
         else
             $liked_publics = [];
 
-        $publication[0]['is_liked'] = in_array($publication[0]['publication_id'], $liked_publics);
+        $publication[0]['is_liked'] = in_array($publication[0]['publication_id'], array_keys($liked_publics));
 
         $publication = pre_show($publication);
         $this->components['title'] = $publication[0]['title'];
@@ -587,20 +587,15 @@ LIKES;
         $publication = new PublicationModel();
         $liked_publics = $this->get_liked_publics($user_id);
 
-        if (in_array($id, $liked_publics)) {
-            if ($publication->dislike($id)) {
-                $index = array_search($id, $liked_publics);
-                unset($liked_publics[$index]);
-                $dislike = 1;
-            }
-        } else {
-            if ($publication->like($id))
-                $liked_publics[] = $id;
-        }
+        if (in_array($id, array_keys($liked_publics)) && $publication->dislike($id)) {
+            unset($liked_publics[$id]);
+            $dislike = 1;
+        } elseif (!in_array($id, array_keys($liked_publics)) && $publication->like($id))
+            $liked_publics[$id] = 1;
 
         Publication::$liked_publics = $liked_publics;
 
-        $liked_publics = json_encode($liked_publics);
+        $liked_publics = serialize($liked_publics);
         $result = $publication->update('users', ['liked_publics' => $liked_publics], $user_id);
         $likes = $publication->getter('publications', ['id' => $id], 'likes');
         json(['result' => $result, 'likes' => $likes[0]['likes'], 'dislike' => $dislike]);
@@ -713,9 +708,9 @@ LIKES;
         $comment = $publication->getter('comments', ['id' => $id]);
         $comment = $comment[0];
 
-        if ($_SESSION['user']['is_admin'] && $comment['is_complained']) {
+        if ($_SESSION['user']['is_admin'] && $comment['is_complained'] && $data['manager']) {
             $result = $publication->update('comments', ['is_active' => 0], $id);
-            json(['result' => $result]);
+            json(['result' => $result, 'class' => get_called_class()]);
             return true;
         } elseif (!$_SESSION['user']['is_admin'] && $comment['is_complained']) {
             json(['result' => false, 'message' => 'Комментарий не может быть удалён']);
@@ -745,7 +740,7 @@ LIKES;
         if (empty($subcategories))
             return "";
 
-        foreach ($subcategories as $i => $item_){
+        foreach ($subcategories as $i => $item_) {
             $subcategories[$i]['publications'] = render('sitemap', 'li-public', $model->getter('publications', ['is_published' => 1, 'moderated' => 1, 'is_deleted' => 0, 'category_id' => $item_['id']]));
             $subcategories[$i]['subs'] = $this->get_subs($item_);
         }
@@ -762,7 +757,7 @@ LIKES;
         $categories = array_filter($categories, function ($item) {
             return !$item['parent_id'];
         });
-        foreach ($categories as $i => $item){
+        foreach ($categories as $i => $item) {
             $categories[$i]['publications'] = render('sitemap', 'li-public', $model->getter('publications', ['is_published' => 1, 'moderated' => 1, 'is_deleted' => 0, 'category_id' => $item['id']]));
             $categories[$i]['subs'] = $this->get_subs($item);
         }

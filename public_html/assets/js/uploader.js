@@ -132,6 +132,7 @@ const uploader = {
 
 };
 
-$(document).ready(() => {
+$(document).ready((e) => {
     uploader.init();
+    e.preventDefault()
 });
