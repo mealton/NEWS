@@ -17,6 +17,8 @@
 <meta property="og:description" content="<?=  $components['description'] ? $components['description'] : $GLOBALS['config']['site']['description'] ?>" />
 <meta property="og:image" content="<?= $components['data_image']?>" />
 
+<link rel="canonical" href="<?= get_current_url() //$components['canonical'] ?>"/>
+
 <!--Yandex Webmaster-->
 <meta name="yandex-verification" content="f125773a1f3ed168" />
 
