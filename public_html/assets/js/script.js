@@ -83,6 +83,7 @@ $(document).ready(() => {
         ffetch('/publication', callback, data);
     });
 
+
     $('.show-password').on('click', function () {
         let form = $(this).closest('form');
         let inputs = form.find('input[name="password"], input[name="confirm_password"]');
