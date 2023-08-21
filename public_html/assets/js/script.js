@@ -36,6 +36,9 @@ $(document).ready(() => {
 
         let helper = $(this).siblings('.search-helper').find('ul');
 
+        if(!this.value)
+            return helper.html('');
+
         if (this.value.length < 3)
             return false;
         else if ([38, 40].includes(e.keyCode) && helper.html()) {
@@ -71,6 +74,11 @@ $(document).ready(() => {
         let callback = response => {
             console.log(response);
             helper.html(response.join(''));
+
+            $(document.body).on('click', e => {
+                if(!$(e.target).closest('.search-form-group').length)
+                    return helper.html('');
+            });
         };
         ffetch('/publication', callback, data);
     });
