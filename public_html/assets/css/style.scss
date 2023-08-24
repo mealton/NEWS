@@ -11,6 +11,16 @@ html, body {
   height: 100%;
 }
 
+.container-body{
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.container{
+  flex: 1 0 auto;
+}
+
 body {
   &::-webkit-scrollbar {
     height: 11px;
