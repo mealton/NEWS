@@ -53,7 +53,7 @@ class Main
         $city = $location_data['city'];
 
         //Определеяем погоду в данном регионе
-        $api_key = '261a4682452480df44f3b292048ae3b9';
+        $api_key = $GLOBALS['config']['api-keys']['open-weather'];
         $url = "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$api_key&lang=Ru";
 
         $response = curl($url);
