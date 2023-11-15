@@ -638,7 +638,7 @@ const publication = {
                     description = $(item).find('.img-description').text();
                     is_hidden = item.querySelector('input[name="is_hidden"]').checked;
                     source = $(item).find('img.publication-image-item[data-source]').first().attr('data-source');
-                    if (source.length === 1)
+                    if (source !== undefined && source.length === 1)
                         source = source[0];
                 } else if (tag === 'video') {
                     let video = item.querySelector('video, iframe');

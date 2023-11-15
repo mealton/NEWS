@@ -80,6 +80,7 @@ session_start();
                 </li>
 
             </ul>
+            <small id="today-informer"><?= $today_info ?></small>
             <?= $profile_area ?>
 
         </div>

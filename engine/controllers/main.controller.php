@@ -41,6 +41,31 @@ class Main
             : [];
     }
 
+
+    private function weather_informer()
+    {
+        //Определеяем местоположение
+        $url = 'http://ip-api.com/json/' . $_SERVER['REMOTE_ADDR'] . '?lang=ru';
+        $response = curl($url);
+        $location_data = json_decode($response, 1);
+
+        $country = $location_data['country'];
+        $city = $location_data['city'];
+
+        //Определеяем погоду в данном регионе
+        $api_key = '261a4682452480df44f3b292048ae3b9';
+        $url = "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$api_key&lang=Ru";
+
+        $response = curl($url);
+        $weather_data = json_decode($response, 1);
+
+        $temp = ceil($weather_data['main']['temp'] - 273) == 0 ? '0' : ceil($weather_data['main']['temp'] - 273);
+
+        return trim((string)$temp) . "˚C, $country $city";
+    }
+
+
+
     public function __construct($query = [], $async = false)
     {
         //Для ajax запросов
@@ -113,6 +138,16 @@ DROPDOWN;
 
         //Вывод компонентов навигации и подвала
         $profile_area = render('components', 'nav/profile-area', $_SESSION['user']);
+
+
+        //Дата
+        $workdays = [1 => 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+        $workday = $workdays[(int)date('N')];
+        $weather = $this->weather_informer();
+        $time = '<span id="time">' . date('H:i:') . '<i class="fa fa-spinner" aria-hidden="true"></i>' . '</span>';
+        $today_info = $weather . '<br>' . $workday . ', ' . date_rus_format(date('Y-m-d'), ['upper' => 1]) . ' ' . $time;
+
+
         $this->components['nav'] = render('components', 'nav/nav',
             [
                 'profile_area' => $profile_area,
@@ -121,6 +156,7 @@ DROPDOWN;
                 'published_date_start' => $published_date_start,
                 'date_from' => $date_from,
                 'date_to' => $date_to,
+                'today_info' => $today_info
             ]);
         $this->components['footer'] = render('components', 'footer');
 
