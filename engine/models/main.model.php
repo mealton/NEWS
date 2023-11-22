@@ -197,7 +197,7 @@ SQL;
         return db::getInstance()->Query($sql);
     }
 
-    public function getter($tablename, $data = array(), $fields = '*')
+    public function getter($tablename, $data = array(), $fields = '*', $order_by = ['order' => false, 'dir' => 'ASC'])
     {
         if (!$tablename || !is_array($data))
             return false;
@@ -222,6 +222,10 @@ SQL;
             }
         }
         $sql = 'SELECT ' . $fields . ' FROM `' . $tablename . '`' . trim($where, 'AND');
+
+        if($order_by['order'])
+            $sql.= " ORDER BY `$order_by[order]` $order_by[dir]";
+
         return db::getInstance()->Select($sql);
     }
 

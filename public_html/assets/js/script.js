@@ -130,6 +130,15 @@ $(document).ready(() => {
             lift.removeEventListener('click', liftOnclick);
         }
 
+        let navBar = $('#navbarSupportedContent');
+        let navBarToggler = $('.navbar-toggler[data-target="#navbarSupportedContent"]');
+
+        if(navBar.hasClass('show') && !navBarToggler.hasClass('collapsed'))
+            navBarToggler.click();
+
+
+
+
     };
 
     document.oncopy = addLink;
@@ -140,6 +149,20 @@ $(document).ready(() => {
         let from = this.elements.from.value;
         let to = this.elements.to.value;
         return location.href = `/publication/date/${from}/${to}`;
+    });
+
+    let sideBar = document.querySelector('aside');
+    let headerHeight = $('.container-body > header').outerHeight();
+    $(sideBar).css({
+        top: headerHeight + 'px',
+        height: (screen.height - headerHeight) + 'px',
+    });
+
+    $('#sidebar-toggler').on('click', () => {
+       if(sideBar.classList.contains('visible'))
+           return sideBar.classList.remove('visible');
+       else
+           return sideBar.classList.add('visible');
     });
 
 

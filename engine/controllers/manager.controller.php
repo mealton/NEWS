@@ -20,7 +20,7 @@ class Manager extends Main
 
         if (!$manager[0]['is_admin']) exit403($query);
 
-        $categories = $model->getter('categories');
+        $categories = $model->getter('categories', [], '*', ['order' => 'name']);
 
         foreach ($categories as $i => $item) {//Выбираем категорию
             $item['categories_list'] = [];

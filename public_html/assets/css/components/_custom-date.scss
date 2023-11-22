@@ -97,4 +97,37 @@
       }
     }*/
 
+  @media screen and (max-width: 400px) {
+    .pa__middle-range {
+      width: 100%;
+      display: block;
+
+      &:after {
+        clear: both;
+      }
+    }
+    .pa__middle-item {
+      width: 47.5%;
+      margin: 0 0 10px 0;
+      display: inline-block;
+
+      input {
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      &:nth-child(1) {
+        float: left;
+      }
+
+      &:nth-child(2) {
+        float: right;
+      }
+    }
+    [type="submit"] {
+      width: 100%;
+      display: block;
+    }
+  }
+
 }

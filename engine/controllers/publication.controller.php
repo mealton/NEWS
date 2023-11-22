@@ -39,7 +39,8 @@ class Publication extends Main
         $search = array_map(function ($item) {
             $title = preg_replace('/(' . $GLOBALS['search-value'] . ')/iu', '<b>$1</b>', strip_tags(htmlspecialchars_decode($item['title'])));
             $href = "/publication/show/$item[id]::$item[alias].html";
-            return "<li class='list-group-item'><a href=\"$href\">$title</a></li>";
+            $image = "<img src='$item[public_img]' class='search-img' alt='' />";
+            return "<li class='list-group-item'><a href=\"$href\">$image <span>$title</span></a></li>";
         }, $search);
         json($search);
     }
@@ -146,6 +147,8 @@ class Publication extends Main
         require_once dirname(__DIR__) . '/models/publication.model.php';
         $PublicationModel = new PublicationModel();
         $publication = $PublicationModel->get_publication($publication_id, $alias);
+
+        //pre($publication);
 
         if (empty($publication))
             exit404($query);

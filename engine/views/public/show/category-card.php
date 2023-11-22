@@ -3,6 +3,9 @@
         <div class="card-body">
             <h5 class="card-title"><?= $name ?></h5>
             <p class="card-text"><?= $description ?></p>
+            <?php if($is_hidden):?>
+                <img src="/assets/uploads/icons/18+.png" alt="" class="img-18">
+            <?php endif; ?>
         </div>
     </a>
 </div>

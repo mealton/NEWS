@@ -11,10 +11,17 @@ session_start();
         <a class="navbar-brand" href="/">
             <img src="/assets/uploads/img/logo.png" alt="<?= $GLOBALS['config']['site']['sitename'] ?>" width="50">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <span class="toggler-container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <button class="navbar-toggler" type="button" id="sidebar-toggler">
+                <i class='fa fa-arrows-h' aria-hidden='true'></i>
+            </button>
+        </span>
+
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 

@@ -55,7 +55,7 @@ SQL;
                 $authorFilter = "AND `p`.`user_id` = $filter[value]";
                 break;
             case ('top'):
-                $topFilter = "AND `p`.`likes` >= $filter[value]";
+                $topFilter = "AND `p`.`likes` >= $filter[value] AND DATE(`p`.`published_date`) >= DATE_SUB(CURRENT_DATE, INTERVAL 1 WEEK)";
                 break;
             case ('date'):
                 $filter['value'] = explode("::", $filter['value']);
@@ -163,7 +163,7 @@ SELECT COUNT(`p`.`id`) as `publication_counter`
 FROM `publications` as `p`
 RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1 $filter[categoryFilter]
 $filter[tagFilter]
-WHERE 1 $unpublihed $filter[searchFilter] $filter[recentFilter] $filter[authorFilter] $filter[dateFilter] $filter[managerZone]
+WHERE 1 $unpublihed $filter[searchFilter] $filter[recentFilter] $filter[topFilter] $filter[authorFilter] $filter[dateFilter] $filter[managerZone]
 SQL;
 
         $query = db::getInstance()->Select($sql);

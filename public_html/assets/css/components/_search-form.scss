@@ -12,11 +12,27 @@
   a {
     text-decoration: none;
     color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  img.search-img{
+    max-width: 50px;
+    margin-right: 10px;
+    transition: all .5s ease-in-out;
+    position: relative;
+
+    &:hover{
+      transform: scale(6);
+      z-index: 1000;
+    }
   }
 
   li {
     &.selected, &:hover {
       background-color: #ededed;
     }
+
   }
 }

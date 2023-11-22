@@ -16,6 +16,17 @@
   padding: 14px;
 }
 
+.toggler-container{
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+#sidebar-toggler{
+  height: 40px;
+  margin-left: 5px;
+}
+
 #login-dp .social-buttons {
   margin: 12px 0
 }

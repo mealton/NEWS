@@ -28,14 +28,16 @@
 
 
 
-        <span itemprop="author"><?= $author ?></span>
+        <span style="display: none;" itemprop="author"><?= $author ?></span>
 
 
         <!-- Post meta content-->
         <div class="row justify-content-between">
             <div class="col-md-8">
+                <br>
                 <div class="text-muted fst-italic mb-2">
-                    Опубликовано <?= date_rus_format($published_date) ?> пользователем <?= $author ?>
+                    Опубликовано <?= date_rus_format($published_date) ?> пользователем
+                    <a href="/publication/authors/<?= $user_id ?>::<?= $author ?>/"><b><?= $author ?></b></a>
                 </div>
             </div>
             <div class="col-md-4 publication-counters" style="text-align: right">

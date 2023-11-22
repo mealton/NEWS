@@ -11,13 +11,13 @@ html, body {
   height: 100%;
 }
 
-.container-body{
+.container-body {
   display: flex;
   flex-direction: column;
   min-height: 100%;
 }
 
-.container{
+.container {
   flex: 1 0 auto;
 }
 
@@ -38,7 +38,17 @@ body {
   scrollbar-width: thin;
 }
 
-.search-form-group #button-search{
+.container-body > header {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(34, 60, 80, .08);
+  -moz-box-shadow: 0 4px 8px 0 rgba(34, 60, 80, .08);
+  box-shadow: 0 4px 8px 0 rgba(34, 60, 80, .08);
+}
+
+.search-form-group #button-search {
   border-top-right-radius: .375rem;
   border-bottom-right-radius: .375rem;
 }
@@ -53,17 +63,17 @@ main {
   flex: 1 0 auto;
 }
 
-.pagination.justify-content-center{
+.pagination.justify-content-center {
   margin-top: 25px;
 }
 
-mark{
+mark {
   padding: 0;
   background-color: rgba(255, 243, 205, .7);
   display: inline-block;
 }
 
-.fa-spinner{
+.fa-spinner {
   -webkit-animation-name: spin;
   -webkit-animation-duration: 2000ms;
   -webkit-animation-iteration-count: infinite;
@@ -85,14 +95,41 @@ mark{
   animation-timing-function: linear;
 }
 
-#today-informer{
+#today-informer {
   font-size: smaller;
   margin-right: 30px;
   text-align: right;
+  @media screen and (max-width: 1199px) and (min-width: 1000px){
+    margin-right: 10px;
+    font-size: 12px;
+  }
 }
 
 footer {
   flex: 0 0 auto;
+}
+
+aside {
+  @media screen and (max-width: 991px) {
+    position: fixed;
+    left: 100%;
+    opacity: 0;
+    transition: all .5s ease-in-out;
+    background-color: #fff;
+    overflow: auto;
+    z-index: 2;
+    &.visible {
+      left: 0;
+      opacity: 1;
+    }
+  }
+}
+
+.current-category{
+  font-weight: 700;
+  color: rgb(220, 53, 69);
+  text-decoration: underline;
+  pointer-events: none;
 }
 
 @import "../../vendors/font-awesome/font-awesome.min.css";

@@ -10,8 +10,12 @@
 
     <header>
         <?= $components['nav'] ?>
-        <?= $components['slider'] ?>
     </header>
+
+    <div class="slider">
+        <?= $components['slider'] ?>
+    </div>
+
     <div class="container main-container">
         <div class="container mt-5">
             <div class="row">

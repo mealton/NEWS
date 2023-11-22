@@ -51,11 +51,11 @@
                                 <label class="form-check-label">
                                     <input type="checkbox" class="form-check-input" required>
                                     Я прочитал(а) и принимаю с <a href="/politics.html" target="_blank">политику
-                                        конциденциальности</a>
+                                        конциденциальности*</a>
                                 </label>
                             </div>
 
-                            <button type="submit" class="btn btn-primary mt-4">Сохранить</button>
+                            <button type="submit" class="btn btn-primary mt-4">Зарегистрироваться</button>
                         </div>
                     </div>
                 </div>

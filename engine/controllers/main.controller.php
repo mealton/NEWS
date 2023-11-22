@@ -52,6 +52,9 @@ class Main
         $country = $location_data['country'];
         $city = $location_data['city'];
 
+        if(!$country || !$city)
+            return '';
+
         //Определеяем погоду в данном регионе
         $api_key = $GLOBALS['config']['api-keys']['open-weather'];
         $url = "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$api_key&lang=Ru";
@@ -89,6 +92,8 @@ class Main
         $action = explode(".", $action);
         $action = $action[0];
 
+        //pre($action);
+
         //Задаем список лайкнутых публикаций
         if ((int)$_SESSION['user']['id']) {
             self::$liked_publics = $this->get_liked_publics((int)$_SESSION['user']['id']);
@@ -108,8 +113,16 @@ class Main
         //Выводим список доступных категорий
         $categories = $model->get_categories(10);
 
+        //Убираем категории 18+
+        $categories = array_filter($categories, function ($item) {
+            return !$item['is_hidden'];
+        });
+
+        if($action == 'category')
+            $GLOBALS['category'] = trim(end($query));
+
         $categories = array_map(function ($item) {
-            return ['name' => $item['name'], 'href' => '/publication/category/' . $item['id'] . '/' . $item['name'] . '/'];
+            return ['name' => $item['name'], 'href' => '/publication/category/' . $item['id'] . '/' . $item['name'] . '/', 'is_current' => $GLOBALS['category'] == $item['name']];
         }, (array)$categories);
 
         $categories_dropdown = array_map(function ($item) {
