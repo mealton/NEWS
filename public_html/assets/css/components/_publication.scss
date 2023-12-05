@@ -22,6 +22,17 @@
   }
 }
 
+.author-comment{
+  font-size: smaller;
+  margin-left: 5px;
+  line-height: 1;
+  padding: 0 5px 2px;
+  background-color: dodgerblue;
+  text-transform: lowercase;
+  border-radius: 5px;
+  color: #FFF;
+}
+
 .public-item-preview, .subcategory-card {
   a {
     color: inherit;

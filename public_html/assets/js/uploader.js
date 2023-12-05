@@ -16,7 +16,7 @@ const uploader = {
     uploadVideoFile(input) {
         this.previews = $(input).closest('.uploader-container').next('.uploader-previews');
         let file = input['files'][0];
-        if(file.size > UPLOAD_VIDEO_MAX_SIZE)
+        if (file.size > UPLOAD_VIDEO_MAX_SIZE)
             return this.previews.html(`<p class="preview-item">Пожалуйста, не загружайте видео более 20 мегабайт.</p>`);
         let reader = new FileReader();
         input.parentElement.classList.add('preloader');
@@ -33,12 +33,10 @@ const uploader = {
         let callback = response => {
             console.log(response);
             input.parentElement.classList.remove('preloader');
-            if (response.result){
+            if (response.result) {
                 this.previews.html(response.preview);
                 $(input).closest('.uploader-container').find('input[name="url"]').val(response.src);
-            }
-
-            else
+            } else
                 this.previews.html(`<p class="preview-item">Ошибка загрузки</p>`);
 
         };
@@ -55,11 +53,10 @@ const uploader = {
         let callback = response => {
             //console.log(input);
             $('.upload-url, .upload-file').removeClass('preloader');
-            if (response.result){
+            if (response.result) {
                 this.previews.append(response.preview);
-            }
-
-            else
+                $('#update-user').prop({disabled: 0});
+            } else
                 this.previews.html(`<p class="preview-item">Ошибка загрузки</p>`);
         };
         ffetch(this.action, callback, data);
@@ -76,9 +73,10 @@ const uploader = {
         let callback = response => {
             console.log(response);
             //if (response.result) {
-                element.parentElement.remove();
-                input.val('');
-           // }
+            element.parentElement.remove();
+            input.val('');
+            $('#update-user').prop({disabled: 1});
+            // }
         };
         ffetch(this.action, callback, data);
     },

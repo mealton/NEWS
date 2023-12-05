@@ -54,13 +54,13 @@
                     <div class="card mb-4">
                         <div class="card-header">Рубрики</div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-6">
+                            <div class="row categories">
+                                <div class="col-sm-6 categories__item-container">
                                     <ul class="list-unstyled mb-0">
                                         <?= $components['categories_left'] ?>
                                     </ul>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-6 categories__item-container">
                                     <ul class="list-unstyled mb-0">
                                         <?= $components['categories_right'] ?>
                                     </ul>
@@ -88,7 +88,7 @@
 
                     <?php if ($components['sidebar-publics']): ?>
                         <div class="card mb-4">
-                            <div class="card-header">Это интересно"</div>
+                            <div class="card-header">Это интересно</div>
                             <div class="card-body sidebar-publics">
                                 <?= $components['sidebar-publics'] ?>
                             </div>

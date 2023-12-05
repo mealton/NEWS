@@ -27,8 +27,9 @@ class MainModel
         return true;
     }
 
-    public function get_categories($limit = 0)
+    public function get_categories($limit = 0, $no_children = 0)
     {
+        $no_children = $no_children ? " AND `c`.`parent_id` = 0" : "";
         $sql = <<<SQL
 SELECT `c`.*
 FROM `categories` as `c`
@@ -37,12 +38,15 @@ LEFT JOIN `categories` as `c_`
     AND `c`.`is_active` = 1 AND `c_`.`is_active` = 1 
 INNER JOIN `publications` as `p`
     ON (`c`.`id` = `p`.`category_id` OR `c_`.`id` = `p`.`category_id`)
-    AND `c`.`is_active` = 1 AND `p`.`moderated` = 1 AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0
+    AND `c`.`is_active` = 1 AND `p`.`moderated` = 1 AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0 $no_children
 GROUP BY `c`.`id`
 ORDER BY `c`.`name`
 SQL;
 
-        $categories = db::getInstance()->Select((int)$limit > 0 ? $sql . " LIMIT " . $limit : $sql);
+        if ((int)$limit > 0)
+            $sql .= " LIMIT " . $limit;
+
+        $categories = db::getInstance()->Select($sql);
 
         foreach ($categories as $i => $item) {
             if (in_array(0, $this->category_checker($item['id'])))
@@ -223,8 +227,8 @@ SQL;
         }
         $sql = 'SELECT ' . $fields . ' FROM `' . $tablename . '`' . trim($where, 'AND');
 
-        if($order_by['order'])
-            $sql.= " ORDER BY `$order_by[order]` $order_by[dir]";
+        if ($order_by['order'])
+            $sql .= " ORDER BY `$order_by[order]` $order_by[dir]";
 
         return db::getInstance()->Select($sql);
     }
@@ -253,7 +257,8 @@ IF(
 (SELECT COUNT(`id`) FROM `comments` WHERE `publication_id` = `p`.`id` AND `is_active` = 1) as `comment_count`
 FROM `publications` as `p`
 INNER JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1 AND `cat`.`is_hidden` = 0
-GROUP BY `p`.`id`
+WHERE `p`.`is_deleted` != 1 AND `p`.`is_published` = 1 AND `p`.`moderated` = 1 AND `cat`.`is_active` = 1
+GROUP BY `p`.`published_date`
 ORDER BY `p`.`views` DESC, `p`.`likes` DESC
 LIMIT 3
 SQL;

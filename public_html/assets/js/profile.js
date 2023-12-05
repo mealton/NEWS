@@ -73,7 +73,10 @@ $(document).ready(() => {
     $('#update-profile-form').on('submit', function (e) {
         e.preventDefault();
         let data = formExecute(this);
-        data.profile_image = $('.uploader-previews img').attr('src');
+        let preview = $('.uploader-previews img').attr('src');
+
+        if(preview)
+            data.profile_image = preview;
 
         let submitter = this.querySelector('[type="submit"]');
         let submitterClassname = submitter.className;

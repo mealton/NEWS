@@ -21,6 +21,7 @@
             <h6 class="fw-bold mb-1">
                 <a href="/publication/authors/<?= $user_id ?>::<?= $username ?>/">
                     <?= $username ?>
+                    <?= $is_author ? '<span class="author-comment">Комментарий автора</span>' : '' ?>
                 </a>
             </h6>
             <div class="d-flex align-items-center mb-3">

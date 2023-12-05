@@ -41,8 +41,7 @@ class Main
             : [];
     }
 
-
-    private function weather_informer()
+    private function location_informer()
     {
         //Определеяем местоположение
         $url = 'http://ip-api.com/json/' . $_SERVER['REMOTE_ADDR'] . '?lang=ru';
@@ -52,8 +51,10 @@ class Main
         $country = $location_data['country'];
         $city = $location_data['city'];
 
-        if(!$country || !$city)
+        if (!$country || !$city)
             return '';
+
+        return $location_data;
 
         //Определеяем погоду в данном регионе
         $api_key = $GLOBALS['config']['api-keys']['open-weather'];
@@ -67,7 +68,27 @@ class Main
         return trim((string)$temp) . "˚C, $country $city";
     }
 
+    private function get_currency()
+    {
 
+        $url = 'https://www.cbr.ru/scripts/XML_daily.asp'; // Ссылка на XML-файл с курсами валют, будут самые актуальные значения курса
+        $currencies = curl($url);
+        $xml = @simplexml_load_string($currencies);
+
+        $general_currencies = ['R01235' => 'usd', 'R01239' => 'eur', 'R01035' => 'gbp'];
+        $result = [];
+
+        foreach ($xml->Valute as $item) {
+            if (in_array($item['ID'], array_keys($general_currencies))){
+                $json = json_encode($item);
+                $array = json_decode($json,TRUE);
+                $result[] = ['name' => $array['Name'], 'value' => $array['Value'], 'icon' => $array['CharCode']];
+            }
+
+        }
+
+        return $result;
+    }
 
     public function __construct($query = [], $async = false)
     {
@@ -111,14 +132,14 @@ class Main
         //pre($published_date_start);
 
         //Выводим список доступных категорий
-        $categories = $model->get_categories(10);
+        $categories = $model->get_categories(0, 1);
 
         //Убираем категории 18+
         $categories = array_filter($categories, function ($item) {
             return !$item['is_hidden'];
         });
 
-        if($action == 'category')
+        if ($action == 'category')
             $GLOBALS['category'] = trim(end($query));
 
         $categories = array_map(function ($item) {
@@ -156,9 +177,23 @@ DROPDOWN;
         //Дата
         $workdays = [1 => 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
         $workday = $workdays[(int)date('N')];
-        $weather = $this->weather_informer();
-        $time = '<span id="time">' . date('H:i:') . '<i class="fa fa-spinner" aria-hidden="true"></i>' . '</span>';
-        $today_info = $weather . '<br>' . $workday . ', ' . date_rus_format(date('Y-m-d'), ['upper' => 1]) . ' ' . $time;
+        $location = $this->location_informer(); //Информер погоды
+
+        //pre($weather);
+
+        $currency = $this->get_currency();
+        $currencyHTML = '';
+        foreach ($currency as $item)
+            $currencyHTML .= "<i class='fa fa-" . strtolower($item['icon']) ."' aria-hidden='true' title='$item[name]'></i> " .
+                round((float) str_replace(',', '.', $item['value']), 2) . "&nbsp;&nbsp;";
+
+
+        $time = '<span id="time">' . date('H:i') . '</span>';
+        $today_info =
+            trim($currencyHTML, "&nbsp;") . '<br>' .
+            '<i class="fa fa-map-marker" aria-hidden="true"></i> ' . $location['country']. ' ' . $location['city'] . '<br>' .
+            $workday . ', ' . date_rus_format(date('Y-m-d'), ['upper' => 1]) .
+            ' ' . $time;
 
 
         $this->components['nav'] = render('components', 'nav/nav',
@@ -172,6 +207,8 @@ DROPDOWN;
                 'today_info' => $today_info
             ]);
         $this->components['footer'] = render('components', 'footer');
+
+        //pre($categories);
 
 
         $categories = array_chunk($categories, ceil(count($categories) / 2));
@@ -199,7 +236,6 @@ DROPDOWN;
         }
         return true;
     }
-
 
     //Для авторизации при входе на сайт, если уже авторизовался ранее
     private function auth_cookie()
@@ -248,10 +284,13 @@ DROPDOWN;
 
 
         //Slider
-        $publications_slider = $publication->get_publications($this->offset, $filter, 1);
-        $this->components['slider'] = count((array)$publications_slider) > 3
-            ? render('components', 'slider', ['publications_slider' => $publications_slider])
-            : "";
+        if (!$filter && $GLOBALS['config']['publications']['slider']) {
+            $publications_slider = $publication->get_publications($this->offset, $filter, 1);
+            $this->components['slider'] = count((array)$publications_slider) > 3
+                ? render('components', 'slider', ['publications_slider' => $publications_slider])
+                : "";
+        }
+
 
         $content = !empty($publications)
             ? render('public/show', 'preview', $this->convert_title($publications)) . $this->pagination_constructor($filter)

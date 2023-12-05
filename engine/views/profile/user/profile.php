@@ -92,7 +92,7 @@
         <div class="row">
             <hr>
             <div align="right">
-                <button class="btn btn-primary profile-button" type="submit" disabled>Изменить профиль</button>
+                <button class="btn btn-primary profile-button" id="update-user" type="submit" disabled>Изменить профиль</button>
                 <button class="btn btn-danger" id="delete-profile" data-id="<?= $id ?>"
                         data-token="<?= $registration_token ?>" type="button">Удалить профиль
                 </button>

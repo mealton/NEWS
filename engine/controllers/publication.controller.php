@@ -8,6 +8,8 @@
 class Publication extends Main
 {
 
+    private $publication_author_id;
+
     public function init()
     {
 
@@ -149,6 +151,7 @@ class Publication extends Main
         $publication = $PublicationModel->get_publication($publication_id, $alias);
 
         //pre($publication);
+        $this->publication_author_id = $publication[0]['user_id'];
 
         if (empty($publication))
             exit404($query);
@@ -220,9 +223,12 @@ LIKES;
         $comments = $PublicationModel->get_comments($publication_id);
 
         $comments = array_map(function ($item) {
+            $item['is_author'] = $item['user_id'] == $this->publication_author_id;
             $item['commet_is_liked'] = in_array($item['id'], Main::$liked_comments);
             return $item;
         }, (array)$comments);
+
+        //pre($comments);
 
         if (!empty($comments))
             $comments = render('public/show/comments', 'comment-item', $this->comment_builder($comments));

@@ -130,11 +130,11 @@ $(document).ready(() => {
             lift.removeEventListener('click', liftOnclick);
         }
 
-        let navBar = $('#navbarSupportedContent');
+       /* let navBar = $('#navbarSupportedContent');
         let navBarToggler = $('.navbar-toggler[data-target="#navbarSupportedContent"]');
 
         if(navBar.hasClass('show') && !navBarToggler.hasClass('collapsed'))
-            navBarToggler.click();
+            navBarToggler.click();*/
 
 
 
@@ -151,19 +151,24 @@ $(document).ready(() => {
         return location.href = `/publication/date/${from}/${to}`;
     });
 
-    let sideBar = document.querySelector('aside');
-    let headerHeight = $('.container-body > header').outerHeight();
-    $(sideBar).css({
-        top: headerHeight + 'px',
-        height: (screen.height - headerHeight) + 'px',
-    });
+    //САЙДБАР
+    if(screen.width < 992){
+        let sideBar = document.querySelector('aside');
+        let headerHeight = $('.container-body > header').outerHeight();
+        $(sideBar).css({
+            top: headerHeight + 'px',
+            height: (screen.height - headerHeight) + 'px',
+        });
 
-    $('#sidebar-toggler').on('click', () => {
-       if(sideBar.classList.contains('visible'))
-           return sideBar.classList.remove('visible');
-       else
-           return sideBar.classList.add('visible');
-    });
+        $('#sidebar-toggler').on('click', () => {
+            if(sideBar.classList.contains('visible'))
+                return sideBar.classList.remove('visible');
+            else
+                return sideBar.classList.add('visible');
+        });
+    }
+
+
 
 
     setInterval(() => {
@@ -174,10 +179,16 @@ $(document).ready(() => {
         let minutes = date.getMinutes();
         if (+minutes < 10)
             minutes = '0' + minutes;
-        let seconds = date.getSeconds();
-        if (+seconds < 10)
-            seconds = '0' + seconds;
-        document.getElementById('time').innerHTML = `${hours}:${minutes}:${seconds}`
+        // let seconds = date.getSeconds();
+        // if (+seconds < 10)
+        //     seconds = '0' + seconds;
+
+        let timer = document.getElementById('time')
+        let time = timer.innerHTML;
+        let currentTime = `${hours}:${minutes}`;
+
+        if(time !== currentTime)
+            timer.innerHTML = currentTime;
     }, 1000);
 
 

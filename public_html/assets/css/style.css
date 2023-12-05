@@ -130,6 +130,15 @@ footer {
   pointer-events: none;
 }
 
+.categories__item-container {
+  flex: 0 0 auto !important;
+  width: 50% !important;
+}
+
+#today-informer .fa {
+  color: #0d6efd;
+}
+
 #login-dp {
   min-width: 250px;
   padding: 14px 14px 0;
@@ -495,6 +504,17 @@ footer {
   top: 5px;
   right: 0;
   max-width: 30px;
+}
+
+.author-comment {
+  font-size: smaller;
+  margin-left: 5px;
+  line-height: 1;
+  padding: 0 5px 2px;
+  background-color: dodgerblue;
+  text-transform: lowercase;
+  border-radius: 5px;
+  color: #FFF;
 }
 
 .public-item-preview a, .subcategory-card a {
@@ -1002,6 +1022,12 @@ ul.publications-list {
   max-height: 350px;
   object-fit: contain;
   object-position: center;
+}
+
+@media screen and (max-width: 767px) {
+  .slider {
+    display: none;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

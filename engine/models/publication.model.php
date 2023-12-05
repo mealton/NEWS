@@ -84,7 +84,7 @@ SQL;
             $unpublihed = !$filter['user-zone'] ? 'AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0 AND `p`.`moderated` = 1' . $erotic_filter : '';
             $filter = $this->get_filter_string($filter);
             $limit = $GLOBALS['config']['publications']['pagination-limit'];
-            $limit_sql = $slider ? " ORDER BY RAND() LIMIT 10" : " ORDER BY `p`.`published_date` DESC LIMIT $limit OFFSET $offset";
+            $limit_sql = $slider ? " ORDER BY RAND() LIMIT 20" : " ORDER BY `p`.`published_date` DESC LIMIT $limit OFFSET $offset";
         } else {
             $filter['managerZone'] = "AND `p`.`moderated` = 0 ";
             $limit_sql = " ORDER BY `p`.`published_date` DESC";
@@ -110,7 +110,6 @@ WHERE 1 $unpublihed $filter[searchFilter] $filter[recentFilter] $filter[authorFi
 GROUP BY `p`.`id`
 $limit_sql
 SQL;
-
         $publications = db::getInstance()->Select($sql);
 
         foreach ($publications as $i => $item) {
@@ -332,7 +331,7 @@ IF(`p`.`image_default` != "", `p`.`image_default`, (SELECT `content` FROM `conte
 FROM `publications` as `p`
 RIGHT JOIN `hashtags` as `h` ON  `p`.`id` = `h`.`publication_id` AND `h`.`name` IN ("$hashtags") AND `h`.`publication_id` != $id
 RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1
-WHERE `p`.`id` != $id AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0
+WHERE `p`.`id` != $id AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0 AND `p`.`moderated` = 1
 GROUP BY `p`.`id`
 HAVING `tags_counter` > 2
 ORDER BY `tags_counter` DESC
@@ -347,7 +346,7 @@ SELECT
 IF(`p`.`image_default` != "", `p`.`image_default`, (SELECT `content` FROM `content` WHERE `publication_id` = `p`.`id` AND `tag` = "image" AND `content` != "" AND `is_active` = 1 ORDER BY RAND() LIMIT 1)) as `public_img`
 FROM `publications` as `p`
 RIGHT JOIN `publications` as `p_` ON `p`.`category_id` = `p_`.`category_id` AND `p_`.`is_published` = 1 AND `p_`.`is_deleted` = 0 AND `p_`.`id` != `p`.`id`
-WHERE `p`.`id` != $id AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0  AND `p`.`category_id` = (SELECT `category_id` FROM `publications` WHERE `id` = $id LIMIT 1)
+WHERE `p`.`id` != $id AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0  AND `p`.`category_id` = (SELECT `category_id` FROM `publications` WHERE `id` = $id LIMIT 1) AND `p`.`moderated` = 1
 GROUP BY `p`.`id`
 ORDER BY `p`.`published_date` DESC
 LIMIT 20
