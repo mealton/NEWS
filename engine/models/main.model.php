@@ -29,6 +29,10 @@ class MainModel
 
     public function get_categories($limit = 0, $no_children = 0)
     {
+
+        //Фильтр на показ эротики
+        $erotic_user_filter = $_SESSION['user']['show_erotic'] ? "" : "HAVING `c`.`is_hidden` != 1";
+
         $no_children = $no_children ? " AND `c`.`parent_id` = 0" : "";
         $sql = <<<SQL
 SELECT `c`.*
@@ -40,6 +44,7 @@ INNER JOIN `publications` as `p`
     ON (`c`.`id` = `p`.`category_id` OR `c_`.`id` = `p`.`category_id`)
     AND `c`.`is_active` = 1 AND `p`.`moderated` = 1 AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0 $no_children
 GROUP BY `c`.`id`
+$erotic_user_filter
 ORDER BY `c`.`name`
 SQL;
 

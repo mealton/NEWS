@@ -90,6 +90,9 @@ SQL;
             $limit_sql = " ORDER BY `p`.`published_date` DESC";
         }
 
+        //Фильтр на показ эротики
+        $erotic_user_filter = $_SESSION['user']['show_erotic'] ? "" : "HAVING `cat`.`is_hidden` != 1";
+
         $sql = <<<SQL
 SELECT 
 `p`.*, COUNT(`c1`.`id`) as `img_counter`, 
@@ -108,8 +111,11 @@ $filter[tagFilter]
 LEFT JOIN `users` as `u` ON `p`.`user_id` = `u`.`id`
 WHERE 1 $unpublihed $filter[searchFilter] $filter[recentFilter] $filter[authorFilter] $filter[topFilter] $filter[dateFilter] $filter[managerZone]
 GROUP BY `p`.`id`
+$erotic_user_filter
 $limit_sql
+
 SQL;
+
         $publications = db::getInstance()->Select($sql);
 
         foreach ($publications as $i => $item) {
@@ -187,6 +193,10 @@ SQL;
     //Вывод подкатегорий
     public function get_subcategories($id)
     {
+
+        //Фильтр на показ эротики
+        $erotic_user_filter = $_SESSION['user']['show_erotic'] ? "" : "HAVING `c`.`is_hidden` != 1";
+
         $sql = <<<SQL
 SELECT `c`.*, COUNT(`p`.`id`) as `public_count`
 FROM `categories` as `c`
@@ -195,6 +205,7 @@ INNER JOIN `publications` as `p`
     AND `c`.`is_active` = 1 AND `p`.`moderated` = 1 AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0
 WHERE `c`.`parent_id` = $id
 GROUP BY `c`.`id`
+$erotic_user_filter
 ORDER BY `c`.`name`
 SQL;
         return db::getInstance()->Select($sql);

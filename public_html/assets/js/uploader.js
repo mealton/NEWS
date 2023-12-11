@@ -132,5 +132,6 @@ const uploader = {
 
 $(document).ready((e) => {
     uploader.init();
-    e.preventDefault()
+    if(typeof e.preventDefault === 'function')
+        e.preventDefault()
 });

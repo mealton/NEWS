@@ -18,8 +18,10 @@ function formExecute(form) {
         let field = fields[i];
         if (['SELECT', 'TEXTAREA', 'INPUT'].includes(field.tagName) && field.type !== 'submit') {
             if (['checkbox', 'radio'].includes(field.type)) {
-                if (!field.checked)
+                if (field.type === "radio" && !field.checked)
                     continue;
+                else if (field.type === "checkbox")
+                    data[field.name] = +field.checked;
                 else
                     data[field.name] = field.value ? field.value : 1;
             } else

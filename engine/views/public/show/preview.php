@@ -1,7 +1,7 @@
 <article>
     <div class="row gx-5 public-item-preview">
         <div class="col-md-6 mb-4">
-            <div class="bg-image hover-overlay ripple shadow-2-strong rounded-5 position-relative"
+            <div class="bg-image hover-overlay ripple shadow-2-strong rounded-5 position-relative <?= $special_content_category ? 'is-erotic-container' : '' ?>"
                  data-mdb-ripple-color="light">
                 <a href="/publication/show/<?= $id ?>::<?= $alias ?>.html">
                     <h2 class="preview-title mobile-preview-title">

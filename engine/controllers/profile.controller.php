@@ -374,7 +374,7 @@ class Profile extends Main
         if ((bool)$result) {
             $user = $model->getter('users', ['id' => $id, 'registration_token' => $registration_token]);
             $_SESSION['user'] = $user[0];
-            json(['result' => (bool)$result, 'user' => $user[0]]);
+            json(['result' => (bool)$result, 'user' => $user[0], 'data' => $data]);
         }
         return true;
     }

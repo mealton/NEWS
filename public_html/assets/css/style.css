@@ -126,7 +126,6 @@ footer {
 .current-category {
   font-weight: 700;
   color: rgb(220, 53, 69);
-  text-decoration: underline;
   pointer-events: none;
 }
 
@@ -494,6 +493,18 @@ footer {
 .public-author-preview .mask {
   padding: 5px 10px;
   box-sizing: border-box;
+}
+
+.is-erotic-container:after {
+  position: absolute;
+  content: "";
+  top: 5px;
+  right: 5px;
+  background: url("/assets/uploads/icons/18+.png") center no-repeat;
+  background-size: contain;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
 }
 
 .card-body {

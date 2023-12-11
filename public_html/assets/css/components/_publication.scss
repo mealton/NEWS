@@ -11,6 +11,20 @@
   }
 }
 
+.is-erotic-container {
+  &:after {
+    position: absolute;
+    content: '';
+    top: 5px;
+    right: 5px;
+    background: url("/assets/uploads/icons/18+.png") center no-repeat;
+    background-size: contain;
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+  }
+}
+
 .card-body {
   position: relative;
 
@@ -22,7 +36,7 @@
   }
 }
 
-.author-comment{
+.author-comment {
   font-size: smaller;
   margin-left: 5px;
   line-height: 1;

@@ -36,6 +36,16 @@
                                       class="form-control" placeholder="О себе"><?= $about ?></textarea>
                         </div>
                     </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" name="show_erotic" type="checkbox"
+                                       onchange="$(this).closest('form').find('[type=submit]').prop({disabled:false})"
+                                       id="show_erotic" <?= $show_erotic ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="show_erotic">Показывать публикации 18+	</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
