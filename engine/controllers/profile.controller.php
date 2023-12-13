@@ -142,14 +142,30 @@ class Profile extends Main
 
             $history = $PublicationModel->getter('users', ['id' => $_SESSION['user']['id']], 'history');
             $history = (array)unserialize($history[0]['history']);
-            if (!empty($history)) {
-                arsort($history);
 
+            if (current($history)) {
+                arsort($history);
                 $publications_history = $PublicationModel->get_history($history);
-                //pre($publications_history);
-                $user[0]['publications_history'] = render('profile/user', 'publications_history_item', $publications_history);
-            }else{
-                $user[0]['publications_history'] = "<p>История посещений отсутствует...</p>";
+                $history_group = [];
+
+                foreach ($publications_history as $item){
+                    $date = $item['visited_date'];
+                    if($history_group[$date])
+                        $history_group[$date][] = $item;
+                    else
+                        $history_group[$date] = [$item];
+                }
+
+                //pre($history_group);
+                $user[0]['publications_history'] = "";
+
+                foreach ($history_group as $date => $item){
+                    $user[0]['publications_history'] .= "<h5 style='text-align: center; margin: 30px 0; font-weight: 700'>" . date_rus_format($date) . "</h5>";
+                    $user[0]['publications_history'] .= render('profile/user', 'publications_history_item', $item);;
+                }
+
+            } else {
+                $user[0]['publications_history'] = "";
             }
 
 
@@ -409,6 +425,24 @@ class Profile extends Main
                 exit('Возникла непредвиденная ошибка....');
         } else
             header('Location: /');
+    }
+
+
+    //очистка истории
+    protected function clear_history()
+    {
+        session_start();
+        $id = (int)$_SESSION['user']['id'];
+        if (!$id) {
+            json(['result' => false, 'message' => 'Не получен id пользователя']);
+            return false;
+        }
+
+        require_once dirname(__DIR__) . '/models/profile.model.php';
+        $model = new ProfileModel();
+        $result = $model->update('users', ['history' => ''], $id);
+        json(['result' => (bool)$result]);
+        return true;
     }
 
 }

@@ -69,6 +69,22 @@ $(document).ready(() => {
             (publication_page ? `&page=${publication_page}` : ''));
     });
 
+    $('#clear-history').on('click', function () {
+        if (!confirm('Очистить историю посещений?'))
+            return false;
+
+        let data = {method: 'clear_history'};
+        let callback = response => {
+            console.log(response);
+            if(!response.result)
+                return false;
+
+            this.className = 'fa fa-trash-o disabled';
+            document.querySelector('#history-container').innerHTML = `<p>История посещений отсутствует...</p>`;
+        };
+        ffetch(action, callback, data);
+    });
+
     //Обновить данные профиля
     $('#update-profile-form').on('submit', function (e) {
         e.preventDefault();

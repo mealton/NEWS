@@ -28,3 +28,9 @@
     }
   }
 }
+
+.fa.fa-trash-o.disabled {
+  cursor: default;
+  opacity: .7;
+  pointer-events: none;
+}

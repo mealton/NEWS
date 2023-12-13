@@ -149,7 +149,9 @@ SQL;
         $publications = db::getInstance()->Select($sql);
         return array_map(function ($item){
             $visited = $this->history[$item['id']];
-            $item['visited'] = date_rus_format(date('Y-m-d H:i:s', $visited), ['time' => 1]);
+            $item['visited_date'] = date('Y-m-d', $visited);
+            $item['time'] = date('H:i:s', $visited) ;
+            $item['visited_strtotime'] = $visited;
             return $item;
         }, $publications);
     }
