@@ -150,6 +150,13 @@ class Publication extends Main
         $PublicationModel = new PublicationModel();
         $publication = $PublicationModel->get_publication($publication_id, $alias);
 
+        //История
+        $history = $PublicationModel->getter('users', ['id' => $_SESSION['user']['id']], 'history');
+        $history = unserialize($history[0]['history']);
+        $history = is_array($history) ? $history : [];
+        $history[$publication_id] = time();
+        $PublicationModel->update('users', ['history' => serialize($history)], $_SESSION['user']['id']);
+
         //pre($publication);
         $this->publication_author_id = $publication[0]['user_id'];
 

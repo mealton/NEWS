@@ -89,7 +89,7 @@ class Profile extends Main
                         'input-login' => $username,
                         'input-password' => $_POST['password'],
                         'remember-user' => isset($_POST['remember-user']),
-                        'message' => 'Извините, вы заблокированы до ' . date_rus_format(date('Y-m-d h:i:s', $unbanned_date), ['time' =>1])
+                        'message' => 'Извините, вы заблокированы до ' . date_rus_format(date('Y-m-d h:i:s', $unbanned_date), ['time' => 1])
                     ];
                     header('location: /profile/login.html');
                     return false;
@@ -139,6 +139,19 @@ class Profile extends Main
 
             require_once dirname(__DIR__) . '/models/publication.model.php';
             $PublicationModel = new PublicationModel();
+
+            $history = $PublicationModel->getter('users', ['id' => $_SESSION['user']['id']], 'history');
+            $history = (array)unserialize($history[0]['history']);
+            if (!empty($history)) {
+                arsort($history);
+
+                $publications_history = $PublicationModel->get_history($history);
+                //pre($publications_history);
+                $user[0]['publications_history'] = render('profile/user', 'publications_history_item', $publications_history);
+            }else{
+                $user[0]['publications_history'] = "<p>История посещений отсутствует...</p>";
+            }
+
 
             if ($_GET['publication_id']) {
                 $publication_id = (int)$_GET['publication_id'];

@@ -4,6 +4,8 @@
 class PublicationModel extends MainModel
 {
 
+    private $history = [];
+
 
     public function init()
     {
@@ -124,6 +126,32 @@ SQL;
         }
 
         return $publications;
+    }
+
+    //Вывод истории публикаций
+    public function get_history($history)
+    {
+        $this->history = $history;
+        $ids = implode(", ", array_keys($this->history));
+        $sql = <<<SQL
+SELECT 
+`p`.*,
+`cat`.`is_hidden` as `special_content_category`,
+IF(`p`.`image_default` != "", 
+    `p`.`image_default`, 
+    (SELECT `content` FROM `content` WHERE `publication_id` = `p`.`id` AND `tag` = "image" AND `content` != "" AND `is_active` = 1 ORDER BY RAND() LIMIT 1)) as `public_img`
+FROM `publications` as `p`
+RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1
+WHERE `p`.`id` IN ($ids)
+ORDER BY FIELD(`p`.`id`, $ids)
+SQL;
+
+        $publications = db::getInstance()->Select($sql);
+        return array_map(function ($item){
+            $visited = $this->history[$item['id']];
+            $item['visited'] = date_rus_format(date('Y-m-d H:i:s', $visited), ['time' => 1]);
+            return $item;
+        }, $publications);
     }
 
     //Вывод одной публикации
