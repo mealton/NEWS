@@ -41,21 +41,9 @@ class Main
             : [];
     }
 
-    private function location_informer()
+
+    private function weather_informer($city)
     {
-        //Определеяем местоположение
-        $url = 'http://ip-api.com/json/' . $_SERVER['REMOTE_ADDR'] . '?lang=ru';
-        $response = curl($url);
-        $location_data = json_decode($response, 1);
-
-        $country = $location_data['country'];
-        $city = $location_data['city'];
-
-        if (!$country || !$city)
-            return '';
-
-        return $location_data;
-
         //Определеяем погоду в данном регионе
         $api_key = $GLOBALS['config']['api-keys']['open-weather'];
         $url = "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$api_key&lang=Ru";
@@ -65,7 +53,20 @@ class Main
 
         $temp = ceil($weather_data['main']['temp'] - 273) == 0 ? '0' : ceil($weather_data['main']['temp'] - 273);
 
-        return trim((string)$temp) . "˚C, $country $city";
+        //Устанавливаем срок жизни cookie полчаса
+        setcookie('weather', trim((string)$temp), time() + 60 * 30, '/');
+
+        return trim((string)$temp);
+    }
+
+    private function location_informer()
+    {
+        //Определеяем местоположение
+        $url = 'http://ip-api.com/json/' . $_SERVER['REMOTE_ADDR'] . '?lang=ru';
+        $response = curl($url);
+        $location_data = json_decode($response, 1);
+        $location_data['weather'] = $_COOKIE['weather'] ? $_COOKIE['weather'] : $this->weather_informer($location_data['city']);
+        return $location_data;
     }
 
     private function get_currency()
@@ -179,8 +180,6 @@ DROPDOWN;
         $workday = $workdays[(int)date('N')];
         $location = $this->location_informer(); //Информер погоды
 
-        //pre($weather);
-
         $currency = $this->get_currency();
         $currencyHTML = '';
         foreach ($currency as $item)
@@ -191,9 +190,9 @@ DROPDOWN;
         $time = '<span id="time">' . date('H:i') . '</span>';
         $today_info =
             trim($currencyHTML, "&nbsp;") . '<br>' .
-            '<i class="fa fa-map-marker" aria-hidden="true"></i> ' . $location['country']. ' ' . $location['city'] . '<br>' .
-            $workday . ', ' . date_rus_format(date('Y-m-d'), ['upper' => 1]) .
-            ' ' . $time;
+            $location['weather'] . "&#8451; " .
+            '<i class="fa fa-map-marker" aria-hidden="true"></i> ' . $location['country']. ' ' . $location['city'] .
+            '<br>' . $workday . ', ' . date_rus_format(date('Y-m-d'), ['upper' => 1]) . ' ' . $time;
 
 
         $this->components['nav'] = render('components', 'nav/nav',
