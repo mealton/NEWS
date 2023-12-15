@@ -150,8 +150,8 @@ SQL;
         return array_map(function ($item){
             $visited = $this->history[$item['id']];
             $item['visited_date'] = date('Y-m-d', $visited);
-            $item['time'] = date('H:i:s', $visited) ;
-            $item['visited_strtotime'] = $visited;
+            $item['time'] = date('H:i', $visited) ;
+            //$item['breadcrumbs'] = $this->get_breadcrumb($item['category_id']);
             return $item;
         }, $publications);
     }

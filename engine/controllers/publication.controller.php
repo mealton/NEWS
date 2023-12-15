@@ -440,6 +440,9 @@ LIKES;
         $h1 = $dom->find("h1", 0)->plaintext;
         $title = $h1 ? $h1 : $metaTags['title'];
 
+        $title = htmlspecialchars_decode($title);
+        $title = html_entity_decode($title);
+
         $media = [];
         $tags = $dom->find($tags_container, 0);
         $content_elements = $dom->find($content_container, 0);

@@ -66,6 +66,23 @@ function date_rus_format($date, $options = [])
         ($time ? $delimiter . $date['hour'] . ':' . (intval($date['minute']) < 10 ? '0' . $date['minute'] : $date['minute']) : '');
 }
 
+function date_converter($date)
+{
+    if ($date == date('Y-m-d'))
+        return 'Сегодня';
+    elseif ($date == date('Y-m-d', time() - 86400))
+        return 'Вчера';
+    elseif ($date == date('Y-m-d', time() - 2 * 86400))
+        return 'Позавчера';
+    elseif ($date == date('Y-m-d', time() + 86400))
+        return 'Завтра';
+    elseif ($date == date('Y-m-d', time() + 2 * 86400))
+        return 'Послезавтра';
+    else
+        return date_rus_format($date);
+}
+
+
 function current_ending($count, $endings = array())
 {
     switch (1) {

@@ -48,13 +48,13 @@ class Main
         $api_key = $GLOBALS['config']['api-keys']['open-weather'];
         $url = "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$api_key&lang=Ru";
 
-        $response = curl($url);
+        $response = file_get_contents($url);
         $weather_data = json_decode($response, 1);
 
         $temp = ceil($weather_data['main']['temp'] - 273) == 0 ? '0' : ceil($weather_data['main']['temp'] - 273);
 
-        //Устанавливаем срок жизни cookie полчаса
-        setcookie('weather', trim((string)$temp), time() + 60 * 30, '/');
+        //Устанавливаем срок жизни cookie 1 час
+        setcookie('weather', trim((string)$temp), time() + 60 * 60, '/');
 
         return trim((string)$temp);
     }
@@ -65,7 +65,14 @@ class Main
         $url = 'http://ip-api.com/json/' . $_SERVER['REMOTE_ADDR'] . '?lang=ru';
         $response = curl($url);
         $location_data = json_decode($response, 1);
-        $location_data['weather'] = $_COOKIE['weather'] ? $_COOKIE['weather'] : $this->weather_informer($location_data['city']);
+
+        /*try {
+           // $location_data['weather'] = ($_COOKIE['weather'] ? $_COOKIE['weather'] : $this->weather_informer($location_data['city'])) . "&#8451; ";
+        } catch (Exception $e) {
+            // exception is raised and it'll be handled here
+            pre($e->getMessage());// contains the error message
+        }*/
+
         return $location_data;
     }
 
@@ -190,7 +197,7 @@ DROPDOWN;
         $time = '<span id="time">' . date('H:i') . '</span>';
         $today_info =
             trim($currencyHTML, "&nbsp;") . '<br>' .
-            $location['weather'] . "&#8451; " .
+            $location['weather'] .
             '<i class="fa fa-map-marker" aria-hidden="true"></i> ' . $location['country']. ' ' . $location['city'] .
             '<br>' . $workday . ', ' . date_rus_format(date('Y-m-d'), ['upper' => 1]) . ' ' . $time;
 

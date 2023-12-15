@@ -150,6 +150,7 @@ class Profile extends Main
 
                 foreach ($publications_history as $item){
                     $date = $item['visited_date'];
+                    $item['breadcrumbs'] = $this->breadcrumb($item['category_id'], $item['title']);
                     if($history_group[$date])
                         $history_group[$date][] = $item;
                     else
@@ -160,8 +161,8 @@ class Profile extends Main
                 $user[0]['publications_history'] = "";
 
                 foreach ($history_group as $date => $item){
-                    $user[0]['publications_history'] .= "<h5 style='text-align: center; margin: 30px 0; font-weight: 700'>" . date_rus_format($date) . "</h5>";
-                    $user[0]['publications_history'] .= render('profile/user', 'publications_history_item', $item);;
+                    $user[0]['publications_history'] .= "<h5 style='text-align: center; margin: 30px 0; font-weight: 700'>" . date_converter($date) . "</h5>";
+                    $user[0]['publications_history'] .= render('profile/user', 'publications_history_item', $item);
                 }
 
             } else {
