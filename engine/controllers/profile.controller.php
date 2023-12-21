@@ -140,8 +140,8 @@ class Profile extends Main
             require_once dirname(__DIR__) . '/models/publication.model.php';
             $PublicationModel = new PublicationModel();
 
-            $history = $PublicationModel->getter('users', ['id' => $_SESSION['user']['id']], 'history');
-            $history = (array)unserialize($history[0]['history']);
+            $history = $user[0]['history'];//$PublicationModel->getter('users', ['id' => $_SESSION['user']['id']], 'history');
+            $history = (array)unserialize($history);
 
             if (current($history)) {
                 arsort($history);
@@ -169,6 +169,16 @@ class Profile extends Main
                 $user[0]['publications_history'] = "";
             }
 
+            $liked_publics = $user[0]['liked_publics'];
+            if($liked_publics){
+                $liked_publics = (array)unserialize($liked_publics);
+                $liked_publics = array_keys($liked_publics);
+            }else
+                $liked_publics = [];
+
+            $liked_publics = $this->get_publications(['filter' => 'liked', 'value' => $liked_publics], 1);
+
+            $user[0]['liked_publics'] = render('profile/user', 'publications_history_item', $liked_publics);
 
             if ($_GET['publication_id']) {
                 $publication_id = (int)$_GET['publication_id'];

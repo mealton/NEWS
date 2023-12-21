@@ -48,6 +48,9 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-block mb-4">Авторизоваться</button>
+                    <a href="/profile/registration.html">
+                        <button type="button" class="btn btn-outline-warning btn-block mb-4">Зарегистрироваться</button>
+                    </a>
 
                 </div>
 

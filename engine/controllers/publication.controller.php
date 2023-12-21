@@ -529,7 +529,7 @@ LIKES;
                 ? render('public/show', 'author_card', $authors)
                 : '<p>Авторов пока нет...</p>';
 
-            page($content, $this->components);
+            page("<div class=\"row justify-content-around\">" . $content . "</div>", $this->components);
             return true;
         }
 

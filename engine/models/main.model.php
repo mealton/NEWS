@@ -263,8 +263,9 @@ IF(
 FROM `publications` as `p`
 INNER JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1 AND `cat`.`is_hidden` = 0
 WHERE `p`.`is_deleted` != 1 AND `p`.`is_published` = 1 AND `p`.`moderated` = 1 AND `cat`.`is_active` = 1
+    AND DATE(`p`.`published_date`) >= DATE_SUB(CURRENT_DATE, INTERVAL 3 DAY)
 GROUP BY `p`.`published_date`
-ORDER BY `p`.`views` DESC, `p`.`likes` DESC
+ORDER BY `p`.`views` DESC, `p`.`likes` DESC, `p`.`published_date` DESC
 LIMIT 3
 SQL;
         return db::getInstance()->Select($sql);

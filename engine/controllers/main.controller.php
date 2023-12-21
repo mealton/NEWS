@@ -288,9 +288,11 @@ DROPDOWN;
         if ($return)
             return $publications;
 
+        //pre($_SESSION['user']);
+
 
         //Slider
-        if (!$filter && $GLOBALS['config']['publications']['slider']) {
+        if (!$filter && $_SESSION['user']['show_slider']) {
             $publications_slider = $publication->get_publications($this->offset, $filter, 1);
             $this->components['slider'] = count((array)$publications_slider) > 3
                 ? render('components', 'slider', ['publications_slider' => $publications_slider])

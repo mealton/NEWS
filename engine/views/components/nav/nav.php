@@ -68,7 +68,7 @@ session_start();
                             <form class="pa__middle-range" id="date-range-form">
                                 <div class="pa__middle-item">
                                     <input class="has-value" type="date" name="from" placeholder="От"
-                                           value="<?= $date_from ? $date_from : $published_date_start ?>"
+                                           value="<?= $date_from ? $date_from : date('Y-m-d') ?>"
                                            min="<?= $published_date_start ?>" required>
                                 </div>
                                 <div class="pa__middle-item">

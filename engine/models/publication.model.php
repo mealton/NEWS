@@ -59,6 +59,9 @@ SQL;
             case ('top'):
                 $topFilter = "AND `p`.`likes` >= $filter[value] AND DATE(`p`.`published_date`) >= DATE_SUB(CURRENT_DATE, INTERVAL 1 WEEK)";
                 break;
+            case ('liked'):
+                $likedFilter = "AND `p`.`id` IN(" . implode(', ', $filter['value']) . ") ";
+                break;
             case ('date'):
                 $filter['value'] = explode("::", $filter['value']);
                 $date_from = current($filter['value']);
@@ -74,6 +77,7 @@ SQL;
             'authorFilter' => $authorFilter,
             'topFilter' => $topFilter,
             'dateFilter' => $dateFilter,
+            'likedFilter' => $likedFilter,
         ];
     }
 
@@ -111,7 +115,7 @@ LEFT JOIN `content` as `c2` ON `p`.`id` = `c2`.`publication_id` AND `c2`.`tag` =
 RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1 $filter[categoryFilter]
 $filter[tagFilter]
 LEFT JOIN `users` as `u` ON `p`.`user_id` = `u`.`id`
-WHERE 1 $unpublihed $filter[searchFilter] $filter[recentFilter] $filter[authorFilter] $filter[topFilter] $filter[dateFilter] $filter[managerZone]
+WHERE 1 $unpublihed $filter[searchFilter] $filter[recentFilter] $filter[authorFilter] $filter[topFilter] $filter[dateFilter] $filter[managerZone] $filter[likedFilter]
 GROUP BY `p`.`id`
 $erotic_user_filter
 $limit_sql
@@ -147,10 +151,10 @@ ORDER BY FIELD(`p`.`id`, $ids)
 SQL;
 
         $publications = db::getInstance()->Select($sql);
-        return array_map(function ($item){
+        return array_map(function ($item) {
             $visited = $this->history[$item['id']];
             $item['visited_date'] = date('Y-m-d', $visited);
-            $item['time'] = date('H:i', $visited) ;
+            $item['time'] = date('H:i', $visited);
             //$item['breadcrumbs'] = $this->get_breadcrumb($item['category_id']);
             return $item;
         }, $publications);

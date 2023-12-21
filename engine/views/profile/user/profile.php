@@ -46,6 +46,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" name="show_slider" type="checkbox"
+                                       onchange="$(this).closest('form').find('[type=submit]').prop({disabled:false})"
+                                       id="show_slider" <?= $show_slider ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="show_slider">Показывать слайдер на главной странице</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
