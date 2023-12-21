@@ -48,7 +48,8 @@
                     </div>
                     <div class="col-md-4 likes-block">
                         <?php session_start();
-                        if ($_SESSION['user']['id']): ?>
+                        //Запрет на лайки своих публикакий и без авторизации
+                        if ($_SESSION['user']['id'] && $_SESSION['user']['id'] != $user_id): ?>
                             <i class='fa fa-heart<?= $is_liked ? '' : '-o' ?> pointer'
                                data-id="<?= $publication_id ?>"
                                data-user="<?= $_SESSION['user']['id'] ?>"

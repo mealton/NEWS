@@ -34,7 +34,7 @@
                         &nbsp;<span class="badge bg-danger">Жалоба!</span>
                     </span>
 
-                    &nbsp;<?php if ($_SESSION['user']['id']): ?>
+                    &nbsp;<?php if ($_SESSION['user']['id'] && $_SESSION['user']['id'] != $user_id): ?>
                         <i class='fa fa-heart<?= $commet_is_liked ? '' : '-o' ?> pointer'
                            data-id="<?= $id ?>"
                            data-user="<?= $_SESSION['user']['id'] ?>"
