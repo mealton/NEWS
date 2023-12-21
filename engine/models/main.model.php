@@ -35,7 +35,7 @@ class MainModel
 
         $no_children = $no_children ? " AND `c`.`parent_id` = 0" : "";
         $sql = <<<SQL
-SELECT `c`.*, COUNT(`p`.`id`) as `p_counter`
+SELECT `c`.*
 FROM `categories` as `c`
 LEFT JOIN `categories` as `c_`
 	ON `c`.`id` = `c_`.`parent_id`
