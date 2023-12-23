@@ -630,9 +630,32 @@ footer {
     max-width: 100%;
   }
 }
+.custom-modal img.static {
+  position: static !important;
+}
+.custom-modal img.draggable {
+  max-width: inherit;
+  max-height: inherit;
+  cursor: grab;
+}
+.custom-modal img.draggable:active {
+  cursor: grabbing;
+}
 .custom-modal p.lead.clickable {
   max-width: 70%;
   margin: auto;
+}
+
+.custom-modal-wrapper {
+  position: relative;
+}
+.custom-modal-wrapper .fa-search-plus, .custom-modal-wrapper .fa-search-minus {
+  position: absolute;
+  top: 10px;
+  font-size: 36px;
+  cursor: pointer;
+  left: calc(50% - 16px);
+  z-index: 99999;
 }
 
 .modal-control {

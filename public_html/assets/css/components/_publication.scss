@@ -155,11 +155,39 @@
     @media screen and (max-width: 599px) {
       max-width: 100%;
     }
+
+    &.static{
+      position: static !important;
+    }
+
+    &.draggable {
+      max-width: inherit;
+      max-height: inherit;
+      //margin: 0;
+      cursor: grab;
+
+      &:active{
+        cursor: grabbing;
+      }
+    }
   }
 
   p.lead.clickable {
     max-width: 70%;
     margin: auto;
+  }
+}
+
+.custom-modal-wrapper {
+  position: relative;
+
+  .fa-search-plus, .fa-search-minus {
+    position: absolute;
+    top: 10px;
+    font-size: 36px;
+    cursor: pointer;
+    left: calc(50% - 16px);
+    z-index: 99999;
   }
 }
 

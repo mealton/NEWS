@@ -692,7 +692,7 @@ const publication = {
                     return  true;
                 }*/
 
-                if(response.action !== 'update'){
+                if (response.action !== 'update') {
                     form.reset();
                     $('#publication_body').html(`<p class="lead start-text">Здесь будет отображена ваша публикация...</p>`);
                 }
@@ -815,6 +815,8 @@ const publication = {
         if (!prevImage.length)
             return this.closeModal();
 
+        prevImage[0].scrollIntoView({block: "center", behavior: "smooth"});
+
         return this.showModal(prevImage[0]);
 
     },
@@ -822,12 +824,14 @@ const publication = {
     nextModal() {
         let customModal = $('.custom-modal');
         let imgSrc = customModal.find('.custom-modal-img')[0].getAttribute('src');
-        let currentImg = $(`#publication-body img.publication-image-item[src="${imgSrc}"]`);
-        let nextImage = $(currentImg).closest('figure').nextAll('figure').first().find('img');
+        let currentImg = $(`#publication-content img.publication-image-item[src="${imgSrc}"]`);
+        let nextImage = $(currentImg).closest('figure').nextAll('figure').first().find('img.publication-image-item');
 
         customModal.remove();
         if (!nextImage.length)
             return this.closeModal();
+
+        nextImage[0].scrollIntoView({block: "center", behavior: "smooth"});
 
         return this.showModal(nextImage[0]);
 
@@ -842,7 +846,34 @@ const publication = {
 
     swipeStart: 0,
 
+    nodraggable(icon){
+        let img = icon.nextElementSibling;
+        img.classList.remove('draggable');
+        img.classList.add('static');
+        icon.className = 'fa fa-search-plus clickable';
+        icon.onclick = () => this.draggable(icon);
+    },
+
+    draggable(icon) {
+        let img = icon.nextElementSibling;
+        img.classList.add('draggable');
+        img.classList.remove('static');
+        $(img).draggable({
+            drag: function (event, ui) {
+                if (!this.classList.contains('draggable'))
+                    return false;
+            }
+        });
+        icon.className = 'fa fa-search-minus clickable';
+        icon.onclick = () => this.nodraggable(icon);
+    },
+
     showModal(img) {
+
+        let plus = '';
+
+        if (img.offsetWidth < img.naturalWidth)
+            plus = `<i class='fa fa-search-plus clickable' onclick="publication.draggable(this)" aria-hidden='true'></i>`;
 
         let src = img.src;
         let previous = $(img).closest('figure').prev('p');
@@ -866,8 +897,9 @@ const publication = {
         let modal =
             `<div class="custom-modal">
                 <i class='fa fa-times close-modal modal-control clickable' onclick="publication.closeModal()" aria-hidden='true'></i>
-                <div>
-                    <img src="${src}" alt="${description}" class="clickable img-fluid custom-modal-img" onclick="publication.nextModal()" />
+                <div class="custom-modal-wrapper">
+                    ${plus}
+                    <img src="${src}" alt="${description}" class="clickable img-fluid custom-modal-img"  />
                     ${description ? "<hr>" : ""}
                     <p class="lead clickable">${description}</p>
                 </div>
@@ -876,10 +908,10 @@ const publication = {
 
         $(document.body)
             .on('click', e => {
-            if (!$(e.target).closest('.clickable, .publication-image-item').length)
-                this.closeModal()
-        })
-            .on('keyup', e => e.keyCode === 27 ? this.closeModal() : false );
+                if (!$(e.target).closest('.clickable, .publication-image-item').length)
+                    this.closeModal()
+            })
+            .on('keyup', e => e.keyCode === 27 ? this.closeModal() : false);
 
         $(document.body).append(modal);
 

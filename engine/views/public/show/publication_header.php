@@ -4,7 +4,7 @@
         <h1 itemprop="headline" class="fw-bolder mb-1"><?= $title ?></h1>
 
         <!--schema.org-->
-        <div style="display: none" itemscope itemtype="https://schema.org/Article">
+        <div id="meta-data" style="display: none" itemscope itemtype="https://schema.org/Article">
             <link itemprop="mainEntityOfPage" href="<?= get_current_url() ?>" />
             <link itemprop="image" href="<?= $data_image ?>">
             <meta itemprop="headline name" content="<?= $title ?>">

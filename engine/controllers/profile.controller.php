@@ -170,15 +170,15 @@ class Profile extends Main
             }
 
             $liked_publics = $user[0]['liked_publics'];
+
             if($liked_publics){
                 $liked_publics = (array)unserialize($liked_publics);
                 $liked_publics = array_keys($liked_publics);
+                $liked_publics = $this->get_publications(['filter' => 'liked', 'value' => $liked_publics], 1);
+                $user[0]['liked_publics'] = render('profile/user', 'publications_history_item', $liked_publics);
             }else
-                $liked_publics = [];
+                $user[0]['liked_publics'] = "";
 
-            $liked_publics = $this->get_publications(['filter' => 'liked', 'value' => $liked_publics], 1);
-
-            $user[0]['liked_publics'] = render('profile/user', 'publications_history_item', $liked_publics);
 
             if ($_GET['publication_id']) {
                 $publication_id = (int)$_GET['publication_id'];

@@ -4,7 +4,7 @@
     <!-- Preview image figure-->
 
     <!-- Post content-->
-    <section class="mb-5">
+    <section class="mb-5" id="publication-content">
         <?= $publication_content ?>
     </section>
 

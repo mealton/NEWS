@@ -109,6 +109,7 @@
 
 
 <script src="/vendors/jquery/jquery-3.2.1.min.js"></script>
+<script src="/vendors/jquery/jquery-ui.min.js"></script>
 <script src="/vendors/bootstrap-5.3.0-alpha3-dist/js/bootstrap.bundle.js"></script>
 <script src="/vendors/bootstrap-4.0.0/js/bootstrap.min.js"></script>
 <script src="/assets/js/lib.js"></script>
