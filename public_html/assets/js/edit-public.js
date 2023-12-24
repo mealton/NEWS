@@ -858,6 +858,8 @@ const publication = {
         let img = icon.nextElementSibling;
         img.classList.add('draggable');
         img.classList.remove('static');
+        img.style.left = 0;
+        img.style.top = 0;
         $(img).draggable({
             drag: function (event, ui) {
                 if (!this.classList.contains('draggable'))
@@ -872,11 +874,11 @@ const publication = {
 
         let plus = '';
 
-        if (img.offsetWidth < img.naturalWidth)
+        if (+img.clientWidth < +img.naturalWidth - 100)
             plus = `<i class='fa fa-search-plus clickable' onclick="publication.draggable(this)" aria-hidden='true'></i>`;
 
         let src = img.src;
-        let previous = $(img).closest('figure').prev('p');
+        let previous = $(img).closest('figure').prev('p, h3');
         let descriptionPrevious;
         if (!previous.length)
             descriptionPrevious = "";
@@ -900,8 +902,7 @@ const publication = {
                 <div class="custom-modal-wrapper">
                     ${plus}
                     <img src="${src}" alt="${description}" class="clickable img-fluid custom-modal-img"  />
-                    ${description ? "<hr>" : ""}
-                    <p class="lead clickable">${description}</p>
+                    ${description ? `<p class="lead clickable">${description}</p>` : ""}                    
                 </div>
                 ${faPrev} ${faNext}                
             </div>`;

@@ -257,6 +257,7 @@ LIKES;
 
     private function prepare_publication($data)
     {
+        session_start();
         require_once dirname(__DIR__) . '/models/publication.model.php';
         $publication = new PublicationModel();
         $public = pre_insert($data['publication']['head']);
@@ -273,6 +274,7 @@ LIKES;
         }
 
         $public['alias'] = translit($public['title']);
+        $public['moderated'] = $_SESSION['user']['is_admin'];
         return $public;
     }
 
@@ -309,7 +311,7 @@ LIKES;
     //изменение публикации
     protected function update($data)
     {
-
+        session_start();
         if (!(int)$data['publication']['head']['id']) {
             json(['result' => false, 'message' => 'Не передан id публикации!!!', 'data' => $data]);
             return false;
@@ -321,7 +323,8 @@ LIKES;
         $public = $this->prepare_publication($data);
         $public['token'] = md5(generateRandomString(100));
         $public['published_date'] = date('Y-m-d H:i:s');
-        $public['moderated'] = 0;
+        if(!$_SESSION['user']['is_admin'])
+            $public['moderated'] = 0;
 
         //Изменяем шапку
         $head_update_result = $publication->update('publications', $public, $public['id']);

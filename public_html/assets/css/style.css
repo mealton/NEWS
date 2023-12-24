@@ -602,12 +602,12 @@ footer {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.85);
+  background-color: rgba(0, 0, 0, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  padding: 50px 15px;
+  padding: 20px 15px;
   z-index: 9999;
   text-align: center;
   color: #FFF;
@@ -621,8 +621,8 @@ footer {
   width: 0;
 }
 .custom-modal img {
-  max-width: calc(100vw - 200px);
-  max-height: 80vh;
+  max-width: calc(100vw - 60px);
+  max-height: 85vh;
   margin: 0 auto 30px;
 }
 @media screen and (max-width: 599px) {
@@ -641,9 +641,21 @@ footer {
 .custom-modal img.draggable:active {
   cursor: grabbing;
 }
+.custom-modal img.draggable + p.lead {
+  display: none;
+}
 .custom-modal p.lead.clickable {
-  max-width: 70%;
-  margin: auto;
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: justify;
+  color: #FFF !important;
+  padding: 1rem 0;
+  color: rgba(255, 255, 255, 0.25);
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  position: fixed;
+  left: 2.5%;
+  bottom: 0;
+  width: 95%;
 }
 
 .custom-modal-wrapper {
