@@ -34,10 +34,10 @@
         </div>
         <div class="row">
             <div class="col-md-12 publication__item-content">
-                <?php if ($description): ?>
+                <?php //if ($description): ?>
                     <br>
                     <p class="img-description"><em><?= $description ?></em></p>
-                <?php endif; ?>
+                <?php// endif; ?>
                 <?= $content ?>
             </div>
         </div>

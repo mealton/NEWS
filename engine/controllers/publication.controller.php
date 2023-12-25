@@ -157,7 +157,6 @@ class Publication extends Main
         $history[$publication_id] = time();
         $PublicationModel->update('users', ['history' => serialize($history)], $_SESSION['user']['id']);
 
-        //pre($publication);
         $this->publication_author_id = $publication[0]['user_id'];
 
         if (empty($publication))
@@ -170,6 +169,10 @@ class Publication extends Main
             $liked_publics = [];
 
         $publication[0]['is_liked'] = in_array($publication[0]['publication_id'], array_keys($liked_publics));
+
+        $publication[0]['media_title'] = $this->convert_title_2($publication[0]['title'], $publication[0]['img_counter'], $publication[0]['video_counter']);
+
+        //pre($publication);
 
         $publication = pre_show($publication);
         $this->components['title'] = $publication[0]['title'];

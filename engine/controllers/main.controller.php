@@ -87,9 +87,9 @@ class Main
         $result = [];
 
         foreach ($xml->Valute as $item) {
-            if (in_array($item['ID'], array_keys($general_currencies))){
+            if (in_array($item['ID'], array_keys($general_currencies))) {
                 $json = json_encode($item);
-                $array = json_decode($json,TRUE);
+                $array = json_decode($json, TRUE);
                 $result[] = ['name' => $array['Name'], 'value' => $array['Value'], 'icon' => $array['CharCode']];
             }
 
@@ -190,15 +190,15 @@ DROPDOWN;
         $currency = $this->get_currency();
         $currencyHTML = '';
         foreach ($currency as $item)
-            $currencyHTML .= "<i class='fa fa-" . strtolower($item['icon']) ."' aria-hidden='true' title='$item[name]'></i> " .
-                round((float) str_replace(',', '.', $item['value']), 2) . "&nbsp;&nbsp;";
+            $currencyHTML .= "<i class='fa fa-" . strtolower($item['icon']) . "' aria-hidden='true' title='$item[name]'></i> " .
+                round((float)str_replace(',', '.', $item['value']), 2) . "&nbsp;&nbsp;";
 
 
         $time = '<span id="time">' . date('H:i') . '</span>';
         $today_info =
             trim($currencyHTML, "&nbsp;") . '<br>' .
             $location['weather'] .
-            '<i class="fa fa-map-marker" aria-hidden="true"></i> ' . $location['country']. ' ' . $location['city'] .
+            '<i class="fa fa-map-marker" aria-hidden="true"></i> ' . $location['country'] . ' ' . $location['city'] .
             '<br>' . $workday . ', ' . date_rus_format(date('Y-m-d'), ['upper' => 1]) . ' ' . $time;
 
 
@@ -441,6 +441,26 @@ DROPDOWN;
             return $item;
 
         }, $publications);
+    }
+
+    protected function convert_title_2($title, $img_counter = 0, $video_counter = 0)
+    {
+        $media_counter = '';
+
+        if ($img_counter)
+            $media_counter_img = $img_counter . '&nbsp;фото';
+        if ($video_counter)
+            $media_counter_video = $video_counter . '&nbsp;видео';
+
+        if ($media_counter_img && $media_counter_video)
+            $media_counter = " ($media_counter_img и $media_counter_video)";
+        elseif (!$media_counter_img && $media_counter_video)
+            $media_counter = " ($media_counter_video)";
+        elseif ($media_counter_img && !$media_counter_video)
+            $media_counter = " ($media_counter_img)";
+
+        return $title . $media_counter;
+
     }
 
     protected function comment_builder($comments)

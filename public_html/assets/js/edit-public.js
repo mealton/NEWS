@@ -412,6 +412,7 @@ const publication = {
         let description = itemPrevious.find('.publication__item-content').text().trim();
         descriptionInput.val(description);
         imgDescription.html(description);
+        itemPrevious.remove();
     },
 
     acceptEdit(btn) {
@@ -904,11 +905,6 @@ const publication = {
 
     showModal(img) {
 
-        let plus = '';
-
-        if (+img.clientWidth < +img.naturalWidth - 100)
-            plus = `<i class='fa fa-search-plus clickable' onclick="publication.draggable(this)" aria-hidden='true'></i>`;
-
         let src = img.src;
         let previous = $(img).closest('figure').prev('p, h3');
         let descriptionPrevious;
@@ -932,7 +928,6 @@ const publication = {
             `<div class="custom-modal">
                 <i class='fa fa-times close-modal modal-control clickable' onclick="publication.closeModal()" aria-hidden='true'></i>
                 <div class="custom-modal-wrapper">
-                    ${plus}
                     <img src="${src}" alt="${description}" class="clickable img-fluid custom-modal-img"  />
                     ${description ? `<p class="lead clickable">${description}</p>` : ""}                    
                 </div>
@@ -947,6 +942,10 @@ const publication = {
             .on('keyup', e => e.keyCode === 27 ? this.closeModal() : false);
 
         $(document.body).append(modal);
+
+        let modalImg = $('.custom-modal-img')[0];
+        if (+modalImg.clientWidth < +modalImg.naturalWidth - 100)
+            $('.custom-modal-wrapper').prepend(`<i class='fa fa-search-plus clickable' onclick="publication.draggable(this)" aria-hidden='true'></i>`);
 
         window.addEventListener('wheel', this.scrollModalImages, {passive: false});
 

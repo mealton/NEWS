@@ -1,7 +1,7 @@
 <header class="mb-4">
     <article>
         <!-- Post title-->
-        <h1 itemprop="headline" class="fw-bolder mb-1"><?= $title ?></h1>
+        <h1 itemprop="headline" class="fw-bolder mb-1"><?= $media_title ?></h1>
 
         <!--schema.org-->
         <div id="meta-data" style="display: none" itemscope itemtype="https://schema.org/Article">

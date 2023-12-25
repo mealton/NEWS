@@ -101,8 +101,9 @@ SQL;
 
         $sql = <<<SQL
 SELECT 
-`p`.*, COUNT(`c1`.`id`) as `img_counter`, 
-COUNT(`c2`.`id`) as `video_counter`,
+`p`.*, 
+(SELECT COUNT(`id`) FROM `content` WHERE `p`.`id` = `content`.`publication_id` AND `content`.`tag` = 'image' AND `content`.`is_active` = 1 AND `content`.`is_hidden` = 0) as `img_counter`, 
+(SELECT COUNT(`id`) FROM `content` WHERE `p`.`id` = `content`.`publication_id` AND `content`.`tag` = 'video' AND `content`.`is_active` = 1) as `video_counter`,
 IF(`p`.`image_default` != "", `p`.`image_default`, (SELECT `content` FROM `content` WHERE `publication_id` = `p`.`id` AND `tag` = "image" AND `content` != "" AND `is_active` = 1 ORDER BY RAND() LIMIT 1)) as `public_img`,
 `cat`.`name` as `category`,
 `cat`.`is_hidden` as `special_content_category`,
@@ -110,8 +111,6 @@ IF(`p`.`image_default` != "", `p`.`image_default`, (SELECT `content` FROM `conte
 `u`.`profile_image` as `author_image`,
 (SELECT COUNT(`id`) FROM `comments` WHERE `publication_id` = `p`.`id` AND `is_active` = 1) as `comment_count`
 FROM `publications` as `p`
-LEFT JOIN `content` as `c1` ON `p`.`id` = `c1`.`publication_id` AND `c1`.`tag` = 'image' AND `c1`.`is_active` = 1 AND `c1`.`is_hidden` = 0
-LEFT JOIN `content` as `c2` ON `p`.`id` = `c2`.`publication_id` AND `c2`.`tag` = 'video' AND `c2`.`is_active` = 1
 RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1 $filter[categoryFilter]
 $filter[tagFilter]
 LEFT JOIN `users` as `u` ON `p`.`user_id` = `u`.`id`
@@ -122,12 +121,16 @@ $limit_sql
 
 SQL;
 
+        //pre($sql);
+
         $publications = db::getInstance()->Select($sql);
 
         foreach ($publications as $i => $item) {
             if (in_array(0, $this->category_checker($item['category_id'])))
                 unset($publications[$i]);
         }
+
+        //pre($publications);
 
         return $publications;
     }
@@ -176,6 +179,8 @@ SQL;
         $sql = <<<SQL
 SELECT 
 `p`.*, `c`.*, `p`.`id` as `publication_id`,
+(SELECT COUNT(`id`) FROM `content` WHERE `p`.`id` = `content`.`publication_id` AND `content`.`tag` = 'image' AND `content`.`is_active` = 1 AND `content`.`is_hidden` = 0) as `img_counter`, 
+(SELECT COUNT(`id`) FROM `content` WHERE `p`.`id` = `content`.`publication_id` AND `content`.`tag` = 'video' AND `content`.`is_active` = 1) as `video_counter`, 
 `cat`.`name` as `category`,
 `u`.`username` as `author`,
 `u`.`profile_image` as `author_image`,
@@ -184,9 +189,11 @@ SELECT
 FROM `publications` as `p`
 LEFT JOIN `content` as `c` ON `p`.`id` = `c`.`publication_id` AND  `c`.`is_active` = 1
 RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1
+        
 LEFT JOIN `users` as `u` ON `p`.`user_id` = `u`.`id`
 WHERE 1 $unpublihed AND `p`.`id` = $id $alias_where
 SQL;
+
         return db::getInstance()->Select($sql);
     }
 
