@@ -8,9 +8,8 @@
     <h3>Метки публикаций <sup><?= $hashtags_counter ?></sup>:</h3>
     <br>
     <br>
-    <div class="col">
-        <?= $hashtags ?>
-    </div>
+    <br>
+    <?= $hashtags ?>
 </div>
 <br><br>
 <hr>

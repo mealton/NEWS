@@ -792,6 +792,7 @@ LIKES;
 
     protected function categories()
     {
+        $_SESSION['p-counter'] = 0;
         $this->components['title'] = 'Все рубрики';
         require_once dirname(__DIR__) . '/models/publication.model.php';
         $publication = new PublicationModel();
