@@ -12,11 +12,17 @@
                 <input class="form-check-input" name="is_hidden" type="checkbox"
                        value="" <?= $is_hidden ? 'checked' : '' ?> >
             </label>
-            <label class="form-check-label">
+            <label class="form-check-label" style="margin-right: 10px;">
                 <small>Выделить</small>
                 <input class="form-check-input" name="multi-select" type="checkbox" value=""
                        onchange="publication.multiSelectPublicItems(this)"
                        title="Выделятся все блоки, начиная с данного и заканчивая следующим выделенным">
+            </label>
+            <label class="form-check-label" >
+                <small>Взять описание из предыдущего блока</small>
+                <input class="form-check-input" name="set-description" type="checkbox" value=""
+                       onchange="publication.setDescription(this)"
+                       title="Взять описание из предыдущего блока">
             </label>
         </p>
         <div class="editor" style="display: <?= $editor_hide ? 'none' : 'block' ?>">

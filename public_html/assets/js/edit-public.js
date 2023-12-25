@@ -367,19 +367,51 @@ const publication = {
         ffetch(this.action, callback, data);
     },
 
-    setStyleToAll(checkbox) {
-        let item = $(checkbox).closest('.publication__item');
+    setStyleToAll(button) {
+        let item = $(button).closest('.publication__item');
         let content = item.find('.publication__item-content')[0];
         let style = content.getAttribute('style');
+
+        console.log(style)
 
         let tag = item.find('select.change-tag').val();
         $('.publication__item').each((i, item) => {
             let select = item.querySelector('select.change-tag');
-            select.value = tag;
-            this.changeTag(select);
+
+            if(['text', 'subtitle'].includes(select.value) && select.value !== tag)
+                select.value = tag;
+            //this.changeTag(select);
         });
 
         $('.publication__item-content').attr('style', style);
+    },
+
+    setDescription(checkbox){
+        let item = $(checkbox).closest('.publication__item');
+        let itemPrevious= item.prev();
+        let descriptionInput = item.find('input[name="description"]');
+        let imgDescription = item.find('p.img-description em');
+
+        if(!checkbox.checked){
+            descriptionInput.val('');
+            imgDescription.html('');
+            return false;
+        }
+
+        if(!itemPrevious.length || !['text', 'subtitle'].includes(itemPrevious[0].dataset.tag)){
+            console.log('Не найден предыдущий текст...');
+            let label = checkbox.parentElement.querySelector('small');
+            let labelTextDefault = label.innerHTML;
+            label.innerHTML = `<span style="color: red;">Описание не найдено...</span>`;
+            setTimeout(() => label.innerHTML = labelTextDefault, 2500);
+            checkbox.checked = false;
+            return false;
+        }
+
+
+        let description = itemPrevious.find('.publication__item-content').text().trim();
+        descriptionInput.val(description);
+        imgDescription.html(description);
     },
 
     acceptEdit(btn) {

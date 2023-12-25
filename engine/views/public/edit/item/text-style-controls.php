@@ -65,8 +65,8 @@
                     </select>
                 </div>
                 <div class="col-md-6">
-                    <button class="btn btn-light set-style-to-all" onclick="publication.setStyleToAll(this)">Применить
-                        ко всем
+                    <button type="button" class="btn btn-light set-style-to-all" onclick="publication.setStyleToAll(this)">
+                        Применить  ко всем
                     </button>
                 </div>
             </div>

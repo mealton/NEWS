@@ -621,8 +621,8 @@ footer {
   width: 0;
 }
 .custom-modal img {
-  max-width: calc(100vw - 60px);
-  max-height: 85vh;
+  max-width: calc(100vw - 50px);
+  max-height: 95vh;
   margin: 0 auto 30px;
 }
 @media screen and (max-width: 599px) {
@@ -641,9 +641,6 @@ footer {
 .custom-modal img.draggable:active {
   cursor: grabbing;
 }
-.custom-modal img.draggable + p.lead {
-  display: none;
-}
 .custom-modal p.lead.clickable {
   font-size: 16px;
   line-height: 1.4;
@@ -656,6 +653,7 @@ footer {
   left: 2.5%;
   bottom: 0;
   width: 95%;
+  text-shadow: 1px 0 1px #000, 0 1px 1px #000, -1px 0 1px #000, 0 -1px 1px #000;
 }
 
 .custom-modal-wrapper {
@@ -668,6 +666,11 @@ footer {
   cursor: pointer;
   left: calc(50% - 16px);
   z-index: 99999;
+}
+@media screen and (max-width: 999px) {
+  .custom-modal-wrapper .fa-search-plus, .custom-modal-wrapper .fa-search-minus {
+    display: none;
+  }
 }
 
 .modal-control {
