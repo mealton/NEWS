@@ -421,4 +421,30 @@ SQL;
         return db::getInstance()->Select($sql);
     }
 
+
+    public function get_all_hashtags()
+    {
+        $erotic_filter = $_SESSION['user']['show_erotic']
+            ? ""
+            : " AND `c`.`is_hidden` != 1";
+$sql = <<<SQL
+SELECT `h`.`name`, COUNT(`p`.`id`) as `counter`
+FROM `hashtags` as `h`
+RIGHT JOIN `publications` as `p` ON `h`.`publication_id` = `p`.`id` 
+RIGHT JOIN `categories` as `c` ON `c`.`id` = `p`.`category_id`
+WHERE 
+      `h`.`name` != "" AND 
+      `p`.`is_published` = 1 AND 
+      `p`.`is_deleted` = 0 AND 
+      `p`.`moderated` = 1 AND 
+      `c`.`is_active` = 1 
+       $erotic_filter 
+GROUP BY `h`.`name`
+ORDER BY `h`.`name`
+SQL;
+
+        return db::getInstance()->Select($sql);
+
+    }
+
 }

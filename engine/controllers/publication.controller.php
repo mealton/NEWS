@@ -326,7 +326,7 @@ LIKES;
         $public = $this->prepare_publication($data);
         $public['token'] = md5(generateRandomString(100));
         $public['published_date'] = date('Y-m-d H:i:s');
-        if(!$_SESSION['user']['is_admin'])
+        if (!$_SESSION['user']['is_admin'])
             $public['moderated'] = 0;
 
         //Изменяем шапку
@@ -797,9 +797,18 @@ LIKES;
         $publication = new PublicationModel();
         $categories = $publication->get_categories();
 
+        $hashtags_data = (array)$publication->get_all_hashtags();
+        $hashtags = render('public/show', 'hashtag', $hashtags_data);
+
         $sitemap = $this->get_categories_tree($categories);
         $categories_cards = render('public/show', 'category-card', $categories);
-        $content = render('sitemap', 'content', ['categories_cards' => $categories_cards, 'sitemap' => $sitemap]);
+        $content = render('sitemap', 'content',
+            [
+                'categories_cards' => $categories_cards,
+                'hashtags_counter' => count($hashtags_data),
+                'hashtags' => $hashtags,
+                'sitemap' => $sitemap
+            ]);
         page($content, $this->components);
 
     }

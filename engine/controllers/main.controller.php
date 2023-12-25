@@ -175,6 +175,9 @@ DROPDOWN;
         if ($action == "date") {
             $date_from = trim($query[2]);
             $date_to = trim($query[3]);
+        } elseif ($action == "show") {
+            $publication_data = $query[2];
+            $publication_id = (int)current(explode("::", $publication_data));
         }
 
 
@@ -221,8 +224,7 @@ DROPDOWN;
         $this->components['categories_left'] = render('public/show', 'li_link_element', $categories[0]);
         $this->components['categories_right'] = render('public/show', 'li_link_element', $categories[1]);
 
-
-        $sidebar_publics = $model->get_sidebar_publics();
+        $sidebar_publics = $model->get_sidebar_publics($publication_id);
 
 
         $this->components['sidebar-publics'] = !empty($sidebar_publics) && in_array(get_called_class(), ["Publication"])
