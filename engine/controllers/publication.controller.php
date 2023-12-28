@@ -325,7 +325,10 @@ LIKES;
 
         $public = $this->prepare_publication($data);
         $public['token'] = md5(generateRandomString(100));
-        $public['published_date'] = date('Y-m-d H:i:s');
+
+        if((int)$public['update-date'])
+            $public['published_date'] = date('Y-m-d H:i:s');
+
         if (!$_SESSION['user']['is_admin'])
             $public['moderated'] = 0;
 

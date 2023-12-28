@@ -235,16 +235,19 @@ class Profile extends Main
                 })))
                     $user[0]['trash_cleaner'] = "<i class='fa fa-trash-o pointer' onclick='publication.trash_cleaner(this)'  aria-hidden='true'></i>";
 
-                $user_comments = $PublicationModel->get_user_comments($id);
-                if (!empty($user_comments))
-                    $user[0]['comments'] = render('profile/user', 'comment-item', $this->comment_builder($user_comments));
-                else
-                    $user[0]['comments'] = "<p class='lead'>Комментарии осутствут...</p>";
-
                 $user[0]['publications'] = !empty($publications)
                     ? render('public/edit', 'preview', $this->convert_title($publications)) . $this->pagination_constructor(['filter' => 'author', 'value' => $id])
                     : '<p class="lead">Публикации отсутствуют...</p>';
             }
+
+            $user_comments = $PublicationModel->get_user_comments($id);
+            //pre($user_comments);
+            if (!empty($user_comments))
+                $user[0]['user_comments'] = render('profile/user', 'comment-item', $this->comment_builder($user_comments));
+            else
+                $user[0]['user_comments'] = "<p class='lead'>Комментарии осутствут...</p>";
+
+            //pre($user[0]['comments']);
 
             $content = render('profile/user', 'user-page', $user[0]);
         } else

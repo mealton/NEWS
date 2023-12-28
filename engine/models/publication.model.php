@@ -86,11 +86,18 @@ SQL;
     {
 
         if (!$filter['manager-zone']) {
-            $erotic_filter = in_array($filter['filter'], ['date', 'search', 'category', 'tag', 'author']) ? '' : ' AND `cat`.`is_hidden` != 1';
-            $unpublihed = !$filter['user-zone'] ? 'AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0 AND `p`.`moderated` = 1' . $erotic_filter : '';
-            $filter = $this->get_filter_string($filter);
-            $limit = $GLOBALS['config']['publications']['pagination-limit'];
-            $limit_sql = $slider ? " ORDER BY RAND() LIMIT 20" : " ORDER BY `p`.`published_date` DESC LIMIT $limit OFFSET $offset";
+
+            if ($filter['filter'] == "liked") {
+                $filter = $this->get_filter_string($filter);
+                $limit_sql = " ORDER BY `p`.`published_date` DESC";
+            }else{
+                $erotic_filter = in_array($filter['filter'], ['date', 'search', 'category', 'tag', 'author']) ? '' : ' AND `cat`.`is_hidden` != 1';
+                $unpublihed = !$filter['user-zone'] ? 'AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0 AND `p`.`moderated` = 1' . $erotic_filter : '';
+                $filter = $this->get_filter_string($filter);
+                $limit = $GLOBALS['config']['publications']['pagination-limit'];
+                $limit_sql = $slider ? " ORDER BY RAND() LIMIT 20" : " ORDER BY `p`.`published_date` DESC LIMIT $limit OFFSET $offset";
+            }
+
         } else {
             $filter['managerZone'] = "AND `p`.`moderated` = 0 ";
             $limit_sql = " ORDER BY `p`.`published_date` DESC";
@@ -310,6 +317,9 @@ LEFT JOIN `users` as `u_` ON `com_`.`user_id` = `u_`.`id`
 WHERE `com`.`publication_id` = $publication_id $comment_where_id
 ORDER BY `com`.`date` DESC, `com_`.`date` DESC
 SQL;
+
+        //pre(get_called_class());
+
         return db::getInstance()->Select($sql);
 
     }

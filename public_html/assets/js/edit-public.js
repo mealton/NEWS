@@ -629,8 +629,10 @@ const publication = {
             body: []
         };
 
-        if (form.dataset.method === 'update')
+        if (form.dataset.method === 'update'){
             publication.head.id = parseInt(form.elements.id.value);
+            publication.head['update-date'] = form.elements['update-date'].checked;
+        }
 
         publication.head.user_id = form.elements.user_id.value.trim();
         publication.head.is_published = form.elements.publish.checked;

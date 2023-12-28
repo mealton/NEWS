@@ -16,9 +16,13 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-check">
-                    <label class="form-check-label">
+                    <label class="form-check-label" style="margin-right: 40px">
                         <input class="form-check-input" name="publish" type="checkbox" value="1" <?= $is_published ? 'checked' : '' ?> >
                         Опубликовать
+                    </label>
+                    <label class="form-check-label">
+                        <input class="form-check-input" name="update-date" type="checkbox">
+                        Обновить дату публикации
                     </label>
                 </div>
             </div>
