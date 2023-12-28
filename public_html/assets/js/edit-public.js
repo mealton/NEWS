@@ -946,8 +946,27 @@ const publication = {
         $(document.body).append(modal);
 
         let modalImg = $('.custom-modal-img')[0];
-        if (+modalImg.clientWidth < +modalImg.naturalWidth - 100)
+        if (+modalImg.clientWidth < +modalImg.naturalWidth - 100) {
             $('.custom-modal-wrapper').prepend(`<i class='fa fa-search-plus clickable' onclick="publication.draggable(this)" aria-hidden='true'></i>`);
+            modalImg.ondblclick = () => {
+                let icon = modalImg.previousElementSibling;
+
+                if(icon === null)
+                    return false;
+
+                if(modalImg.classList.contains('draggable'))
+                    return this.nodraggable(icon);
+                else
+                    return this.draggable(icon);
+            };
+        }
+
+        document.addEventListener("keydown", (keyboardEvent) => {
+            if (keyboardEvent.key === "Control")
+                modalImg.dispatchEvent(new MouseEvent("dblclick"))
+        });
+
+
 
         window.addEventListener('wheel', this.scrollModalImages, {passive: false});
 
