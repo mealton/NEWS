@@ -3,6 +3,8 @@
         <!-- Post title-->
         <h1 itemprop="headline" class="fw-bolder mb-1"><?= $media_title ?></h1>
 
+        <br>
+
         <!--schema.org-->
         <div id="meta-data" style="display: none" itemscope itemtype="https://schema.org/Article">
             <link itemprop="mainEntityOfPage" href="<?= get_current_url() ?>" />
