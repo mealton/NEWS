@@ -63,8 +63,7 @@
             <?php if (!$is_active && $is_complained): ?>
                 <p class="lead">Комментарий удалён модератором.....</p>
             <?php else: ?>
-                <p class="mb-0"><?= $comment ?></p>
-                <br>
+                <p class="mb-0 comment-text" style="margin-bottom: 20px;"><?= $comment ?></p>
                 <?= $image ?>
             <?php endif; ?>
 

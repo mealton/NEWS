@@ -295,11 +295,11 @@ SQL;
         $sql = <<<SQL
 SELECT 
 `com`.*, 
-IF(`c`.`content` = "", "", CONCAT('<img src="', `c`.`content`, '" class="img-fluid" alt="">')) as `image`, 
+IF(`c`.`content` = "", "", CONCAT('<img src="', `c`.`content`, '"  onclick="publication.showModal(this)" class="img-fluid comment-img clickable" alt="">')) as `image`, 
 `com_`.`user_id` as `reply_user_id`, 
 `com_`.`comment` as `reply_comment`,
 `com_`.`date` as `reply_date`,
-IF(`c_`.`content` = "", "", CONCAT('<img src="', `c_`.`content`, '" class="img-fluid" alt="">')) as `reply_image`,
+IF(`c_`.`content` = "", "", CONCAT('<img src="', `c_`.`content`, '"  onclick="publication.showModal(this)" class="img-fluid comment-img clickable" alt="">')) as `reply_image`,
 `u`.`username` as `username`,
 `u`.`profile_image` as `profile_image`,
 `u`.`gender` as `gender`,

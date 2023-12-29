@@ -909,51 +909,10 @@ const publication = {
         //$('.custom-modal').css({flexWrap: 'nowrap'});
     },
 
-    showModal(img) {
-
-        let src = img.src;
-        let previous = $(img).closest('figure').prev('p, h3');
-        let descriptionPrevious;
-        if (!previous.length)
-            descriptionPrevious = "";
-        else
-            descriptionPrevious = previous.text();
-        let description = img.getAttribute('alt').trim() ? img.alt : descriptionPrevious;
-
-        let prevImage = $(img).closest('figure').prevAll('figure').first().find('img');
-        let nextImage = $(img).closest('figure').nextAll('figure').first().find('img');
-
-        let faPrev = prevImage.length
-            ? `<i class='fa fa-chevron-left prev-next modal-control clickable' onclick="publication.prevModal()" aria-hidden='true'></i>`
-            : "";
-        let faNext = nextImage.length
-            ? `<i class='fa fa-chevron-right prev-next modal-control clickable' onclick="publication.nextModal()" aria-hidden='true'></i>`
-            : "";
-
-        let modal =
-            `<div class="custom-modal">
-                <i class='fa fa-times close-modal modal-control clickable' onclick="publication.closeModal()" aria-hidden='true'></i>
-                <div class="custom-modal-wrapper">
-                    <img src="${src}" alt="${description}" class="clickable img-fluid custom-modal-img"  />
-                    ${description ? `<p class="lead clickable">${description}</p>` : ""}                    
-                </div>
-                ${faPrev} ${faNext}                
-            </div>`;
-
-        $(document.body)
-            .on('click', e => {
-                if (!$(e.target).closest('.clickable, .publication-image-item').length)
-                    this.closeModal()
-            })
-            .on('keyup', e => e.keyCode === 27 ? this.closeModal() : false);
-
-        $(document.body).append(modal);
-
-        let modalImg = $('.custom-modal-img')[0];
+    modalImgPlus(modalImg){
         if (+modalImg.clientWidth < +modalImg.naturalWidth - 100) {
             $('.custom-modal-wrapper').prepend(`<i class='fa fa-search-plus clickable' title="Кликните по значку, либо двочйной щелчок мыши по изображению для изменения масштаба картинки" onclick="publication.draggable(this)" aria-hidden='true'></i>`);
 
-            //modalImg.title = ``;
 
             modalImg.ondblclick = () => {
                 let icon = modalImg.previousElementSibling;
@@ -972,7 +931,56 @@ const publication = {
             if (keyboardEvent.key === "Control")
                 modalImg.dispatchEvent(new MouseEvent("dblclick"))
         });
+    },
 
+    showModal(img) {
+
+        let src = img.src;
+        let previous = $(img).closest('figure').prev('p, h3');
+        let descriptionPrevious;
+        if (!previous.length)
+            descriptionPrevious = "";
+        else
+            descriptionPrevious = previous.text();
+
+        let description = img.getAttribute('alt').trim() ? img.alt : descriptionPrevious;
+
+        let prevImage = $(img).closest('figure').prevAll('figure').first().find('img');
+        let nextImage = $(img).closest('figure').nextAll('figure').first().find('img');
+
+        let faPrev = prevImage.length
+            ? `<i class='fa fa-chevron-left prev-next modal-control clickable' onclick="publication.prevModal()" aria-hidden='true'></i>`
+            : "";
+        let faNext = nextImage.length
+            ? `<i class='fa fa-chevron-right prev-next modal-control clickable' onclick="publication.nextModal()" aria-hidden='true'></i>`
+            : "";
+
+
+        if (img.classList.contains('comment-img')) {
+            faPrev = faNext = "";
+            description = img.previousElementSibling.innerHTML;
+        }
+
+        let modal =
+            `<div class="custom-modal">
+                <i class='fa fa-times close-modal modal-control clickable' onclick="publication.closeModal()" aria-hidden='true'></i>
+                <div class="custom-modal-wrapper">
+                    <img src="${src}" alt="${description}" class="clickable img-fluid custom-modal-img" onload="publication.modalImgPlus(this)"  />
+                    ${description ? `<p class="lead clickable">${description}</p>` : ""}                    
+                </div>
+                ${faPrev} ${faNext}                
+            </div>`;
+
+        $(document.body)
+            .on('click', e => {
+                if (!$(e.target).closest('.clickable, .publication-image-item').length)
+                    this.closeModal()
+            })
+            .on('keyup', e => e.keyCode === 27 ? this.closeModal() : false);
+
+        $(document.body).append(modal);
+
+        //let modalImg = $('.custom-modal-img')[0];
 
         window.addEventListener('wheel', this.scrollModalImages, {passive: false});
 
