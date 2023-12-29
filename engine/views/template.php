@@ -112,6 +112,11 @@
 <script src="/vendors/jquery/jquery-ui.min.js"></script>
 <script src="/vendors/bootstrap-5.3.0-alpha3-dist/js/bootstrap.bundle.js"></script>
 <script src="/vendors/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+
+<?php foreach ((array)$components['extra-vendors'] as $folder => $script): ?>
+    <script src="/vendors/<?= $folder ?>/<?= $script ?>.js"></script>
+<?php endforeach; ?>
+
 <script src="/assets/js/lib.js"></script>
 <script src="/assets/js/cookie.js"></script>
 <script src="/assets/js/uploader.js"></script>

@@ -611,7 +611,6 @@ footer {
   z-index: 9999;
   text-align: center;
   color: #FFF;
-  flex-wrap: wrap;
   overflow: auto;
   -ms-overflow-style: none;
   overflow: -moz-scrollbars-none;
@@ -623,7 +622,7 @@ footer {
 .custom-modal img {
   max-width: calc(100vw - 50px);
   max-height: 95vh;
-  margin: 0 auto 30px;
+  margin: auto;
 }
 @media screen and (max-width: 599px) {
   .custom-modal img {
@@ -667,8 +666,8 @@ footer {
   position: relative;
 }
 .custom-modal-wrapper .fa-search-plus, .custom-modal-wrapper .fa-search-minus {
-  position: absolute;
-  top: 10px;
+  position: fixed;
+  top: 20px;
   font-size: 36px;
   cursor: pointer;
   left: calc(50% - 16px);

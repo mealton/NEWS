@@ -177,7 +177,8 @@ class Publication extends Main
         $publication = pre_show($publication);
         $this->components['title'] = $publication[0]['title'];
         $this->components['description'] = $publication[0]['introtext'];
-        $this->components['extra-scripts'] = 'edit-public';
+        $this->components['extra-vendors'] = ['giffer' => 'javascript-giffer'];
+        $this->components['extra-scripts'] = ['edit-public'];
 
         $publication[0]['hashtags'] = array_map(function ($hashtag) {
             return trim($hashtag);

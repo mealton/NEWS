@@ -378,7 +378,7 @@ const publication = {
         $('.publication__item').each((i, item) => {
             let select = item.querySelector('select.change-tag');
 
-            if(['text', 'subtitle'].includes(select.value) && select.value !== tag)
+            if (['text', 'subtitle'].includes(select.value) && select.value !== tag)
                 select.value = tag;
             //this.changeTag(select);
         });
@@ -386,19 +386,19 @@ const publication = {
         $('.publication__item-content').attr('style', style);
     },
 
-    setDescription(checkbox){
+    setDescription(checkbox) {
         let item = $(checkbox).closest('.publication__item');
-        let itemPrevious= item.prev();
+        let itemPrevious = item.prev();
         let descriptionInput = item.find('input[name="description"]');
         let imgDescription = item.find('p.img-description em');
 
-        if(!checkbox.checked){
+        if (!checkbox.checked) {
             descriptionInput.val('');
             imgDescription.html('');
             return false;
         }
 
-        if(!itemPrevious.length || !['text', 'subtitle'].includes(itemPrevious[0].dataset.tag)){
+        if (!itemPrevious.length || !['text', 'subtitle'].includes(itemPrevious[0].dataset.tag)) {
             console.log('Не найден предыдущий текст...');
             let label = checkbox.parentElement.querySelector('small');
             let labelTextDefault = label.innerHTML;
@@ -629,7 +629,7 @@ const publication = {
             body: []
         };
 
-        if (form.dataset.method === 'update'){
+        if (form.dataset.method === 'update') {
             publication.head.id = parseInt(form.elements.id.value);
             publication.head['update-date'] = form.elements['update-date'].checked;
         }
@@ -881,12 +881,14 @@ const publication = {
 
     swipeStart: 0,
 
-    nodraggable(icon){
+    nodraggable(icon) {
         let img = icon.nextElementSibling;
         img.classList.remove('draggable');
         img.classList.add('static');
         icon.className = 'fa fa-search-plus clickable';
         icon.onclick = () => this.draggable(icon);
+
+        // $('.custom-modal').css({flexWrap: 'wrap'});
     },
 
     draggable(icon) {
@@ -903,6 +905,8 @@ const publication = {
         });
         icon.className = 'fa fa-search-minus clickable';
         icon.onclick = () => this.nodraggable(icon);
+
+        //$('.custom-modal').css({flexWrap: 'nowrap'});
     },
 
     showModal(img) {
@@ -947,14 +951,17 @@ const publication = {
 
         let modalImg = $('.custom-modal-img')[0];
         if (+modalImg.clientWidth < +modalImg.naturalWidth - 100) {
-            $('.custom-modal-wrapper').prepend(`<i class='fa fa-search-plus clickable' onclick="publication.draggable(this)" aria-hidden='true'></i>`);
+            $('.custom-modal-wrapper').prepend(`<i class='fa fa-search-plus clickable' title="Кликните по значку, либо двочйной щелчок мыши по изображению для изменения масштаба картинки" onclick="publication.draggable(this)" aria-hidden='true'></i>`);
+
+            //modalImg.title = ``;
+
             modalImg.ondblclick = () => {
                 let icon = modalImg.previousElementSibling;
 
-                if(icon === null)
+                if (icon === null)
                     return false;
 
-                if(modalImg.classList.contains('draggable'))
+                if (modalImg.classList.contains('draggable'))
                     return this.nodraggable(icon);
                 else
                     return this.draggable(icon);
@@ -965,7 +972,6 @@ const publication = {
             if (keyboardEvent.key === "Control")
                 modalImg.dispatchEvent(new MouseEvent("dblclick"))
         });
-
 
 
         window.addEventListener('wheel', this.scrollModalImages, {passive: false});
@@ -1015,6 +1021,21 @@ const publication = {
 };
 
 $(document).ready(() => {
+
+    document.querySelectorAll('img').forEach(img => {
+
+        let callback = isGif => {
+            if (isGif) {
+                img.setAttribute('data-gifffer', img.getAttribute('src'));
+                img.removeAttribute('src');
+                Gifffer();
+            }
+        };
+
+        isAnimatedGif(img.src, callback);
+
+    });
+
 
     publication.setLikeWidth();
 
