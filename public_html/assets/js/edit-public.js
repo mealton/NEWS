@@ -1047,6 +1047,9 @@ $(document).ready(() => {
 
         let callback = isGif => {
             if (isGif) {
+                let hiddenImg = img.cloneNode(1);
+                hiddenImg.style.display = "none";
+                img.parentElement.append(hiddenImg);
                 img.setAttribute('data-gifffer', img.getAttribute('src'));
                 img.removeAttribute('src');
                 Gifffer();
