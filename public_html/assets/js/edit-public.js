@@ -909,7 +909,7 @@ const publication = {
         //$('.custom-modal').css({flexWrap: 'nowrap'});
     },
 
-    modalImgPlus(modalImg){
+    modalImgPlus(modalImg) {
 
         $('.custom-modal-img-preloader').hide();
 
@@ -929,7 +929,7 @@ const publication = {
             };
         }
 
-        if(screen.width < 1000)
+        if (screen.width < 1000)
             return false;
 
         document.addEventListener("keydown", (keyboardEvent) => {
@@ -998,12 +998,12 @@ const publication = {
 
         let modalIsOpen = document.querySelector('.custom-modal') !== null;
 
-        if(modalIsOpen){
+        if (modalIsOpen) {
             if (swipeX < this.swipeStart - distance)
                 return publication.nextModal();
             else if (swipeX > this.swipeStart + distance)
                 return publication.prevModal();
-        }else{
+        } else {
             let sideBar = document.querySelector('aside');
             if (swipeX < this.swipeStart - distance)
                 return sideBar.classList.add('visible');
@@ -1017,9 +1017,15 @@ const publication = {
         this.swipeStart = e.targetTouches[0].clientX;
     },
 
+    scrollBlock: false,
+
     scrollModalImages(e) {
         e.preventDefault();
-        return e.deltaY < 0 ? publication.prevModal() : publication.nextModal();
+        if (this.scrollBlock)
+            return false;
+        e.deltaY < 0 ? publication.prevModal() : publication.nextModal();
+        this.scrollBlock = true;
+        setTimeout(() => this.scrollBlock = false, 500);
     },
 
     complain(icon) {
