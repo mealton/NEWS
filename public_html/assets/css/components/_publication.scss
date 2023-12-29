@@ -215,6 +215,16 @@
   }
 }
 
+.custom-modal-img-preloader{
+  position: absolute;
+  left: calc(50% - 30px);
+  top: calc(50% - 30px);
+  width: 60px;
+  height: 60px;
+  z-index: 99999;
+  color: #FFF;
+}
+
 .modal-control {
   position: absolute;
   color: #FFF;
@@ -240,7 +250,8 @@
   }
 
   @media screen and (max-width: 599px) {
-    display: none;
+    transform: scale(.4);
+    //display: none;
   }
 }
 

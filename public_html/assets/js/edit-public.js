@@ -875,8 +875,8 @@ const publication = {
     closeModal() {
         $('.custom-modal').remove();
         window.removeEventListener('wheel', this.scrollModalImages);
-        window.removeEventListener('touchstart', this.swipeInit);
-        window.removeEventListener('touchmove', this.swipe);
+        // window.removeEventListener('touchstart', this.swipeInit);
+        // window.removeEventListener('touchmove', this.swipe);
     },
 
     swipeStart: 0,
@@ -910,9 +910,11 @@ const publication = {
     },
 
     modalImgPlus(modalImg){
+
+        $('.custom-modal-img-preloader').hide();
+
         if (+modalImg.clientWidth < +modalImg.naturalWidth - 100) {
             $('.custom-modal-wrapper').prepend(`<i class='fa fa-search-plus clickable' title="Кликните по значку, либо двочйной щелчок мыши по изображению для изменения масштаба картинки" onclick="publication.draggable(this)" aria-hidden='true'></i>`);
-
 
             modalImg.ondblclick = () => {
                 let icon = modalImg.previousElementSibling;
@@ -926,6 +928,9 @@ const publication = {
                     return this.draggable(icon);
             };
         }
+
+        if(screen.width < 1000)
+            return false;
 
         document.addEventListener("keydown", (keyboardEvent) => {
             if (keyboardEvent.key === "Control")
@@ -965,6 +970,7 @@ const publication = {
             `<div class="custom-modal">
                 <i class='fa fa-times close-modal modal-control clickable' onclick="publication.closeModal()" aria-hidden='true'></i>
                 <div class="custom-modal-wrapper">
+                    <div class="custom-modal-img-preloader preloader"></div>
                     <img src="${src}" alt="${description}" class="clickable img-fluid custom-modal-img" onload="publication.modalImgPlus(this)"  />
                     ${description ? `<p class="lead clickable">${description}</p>` : ""}                    
                 </div>
@@ -984,20 +990,27 @@ const publication = {
 
         window.addEventListener('wheel', this.scrollModalImages, {passive: false});
 
-        if (screen.width < 768) {
-            window.addEventListener('touchstart', this.swipeInit, {passive: false});
-            window.addEventListener('touchmove', this.swipe, {passive: false});
-        }
-
     },
 
     swipe(e) {
         let swipeX = e.targetTouches[0].clientX;
         let distance = 50;
-        if (swipeX < this.swipeStart - distance)
-            return publication.nextModal();
-        else if (swipeX > this.swipeStart + distance)
-            return publication.prevModal();
+
+        let modalIsOpen = document.querySelector('.custom-modal') !== null;
+
+        if(modalIsOpen){
+            if (swipeX < this.swipeStart - distance)
+                return publication.nextModal();
+            else if (swipeX > this.swipeStart + distance)
+                return publication.prevModal();
+        }else{
+            let sideBar = document.querySelector('aside');
+            if (swipeX < this.swipeStart - distance)
+                return sideBar.classList.add('visible');
+            else if (swipeX > this.swipeStart + distance)
+                return sideBar.classList.remove('visible');
+        }
+
     },
 
     swipeInit(e) {
@@ -1043,6 +1056,11 @@ $(document).ready(() => {
         isAnimatedGif(img.src, callback);
 
     });
+
+    if (screen.width < 768) {
+        window.addEventListener('touchstart', publication.swipeInit, {passive: false});
+        window.addEventListener('touchmove', publication.swipe, {passive: false});
+    }
 
 
     publication.setLikeWidth();
