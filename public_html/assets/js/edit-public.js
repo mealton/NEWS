@@ -970,8 +970,8 @@ const publication = {
             `<div class="custom-modal">
                 <i class='fa fa-times close-modal modal-control clickable' onclick="publication.closeModal()" aria-hidden='true'></i>
                 <div class="custom-modal-wrapper">
-                    <div class="custom-modal-img-preloader preloader"></div>
                     <img src="${src}" alt="${description}" class="clickable img-fluid custom-modal-img" onload="publication.modalImgPlus(this)"  />
+                    <div class="custom-modal-img-preloader preloader"></div>
                     ${description ? `<p class="lead clickable">${description}</p>` : ""}                    
                 </div>
                 ${faPrev} ${faNext}                
