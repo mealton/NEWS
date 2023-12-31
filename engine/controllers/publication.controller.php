@@ -113,9 +113,9 @@ class Publication extends Main
         $date_from = trim($query[2]);
         $date_to = trim($query[3]);
         if ($date_from == $date_to)
-            $title = "Новости за " . date_rus_format($date_from);
+            $title = "Публикации за " . date_rus_format($date_from);
         else
-            $title = "Новости от " . date_rus_format($date_from) . " до " . date_rus_format($date_to);
+            $title = "Публикации от " . date_rus_format($date_from) . " до " . date_rus_format($date_to);
 
         $this->components['breadcrumb'] = $this->breadcrumb(false, $title);
         $this->components['title'] = $title;

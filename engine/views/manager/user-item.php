@@ -1,3 +1,5 @@
+<?php $disabled = $_SESSION['user']['id'] == $id ? 'disabled' : ''; ?>
+
 <div class="accordion-item user-item" data-id="<?= $id ?>" data-username="<?= $username ?>">
     <div class="accordion-header">
         <table class="table" style="margin: 0;">
@@ -15,6 +17,7 @@
                         <label>
                         <input class="form-check-input" type="checkbox" name="is_active"
                                onchange="manager.updateUser(this)"
+                               <?= $disabled  ?>
                                <?= $is_active ? 'checked' : '' ?> />
                             Активен
                         </label>
@@ -43,13 +46,14 @@
                             <label>
                             <input class="form-check-input" type="checkbox" name="is_admin"
                                    onchange="manager.updateUser(this)"
+                                   <?= $disabled ?>
                                    <?= $is_admin ? 'checked' : '' ?> />
                                 Права администратора
                             </label>
                         </div>
                     </td>
                     <td>
-                        <select name="banned_period" class="form-control" onchange="manager.updateUser(this)">
+                        <select name="banned_period" class="form-control" onchange="manager.updateUser(this)" <?= $disabled ?>>
                             <option value="" selected disabled>Заблокировать</option>
                             <option value="86400">На сутки</option>
                             <option value="604800">На неделю</option>
@@ -59,7 +63,7 @@
                 </tr>
                 <tr>
                     <td colspan="5" align="center">
-                        <button class="btn btn-danger" onclick="manager.removeUser(this)">Удалить пользователя</button>
+                        <button class="btn btn-danger" <?= $disabled ?> onclick="manager.removeUser(this)">Удалить пользователя</button>
                     </td>
                 </tr>
                 </tbody>

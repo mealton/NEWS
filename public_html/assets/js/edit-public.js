@@ -1017,6 +1017,7 @@ const publication = {
         this.swipeStart = e.targetTouches[0].clientX;
     },
 
+    //Блокиратор скролла колесом мыши
     scrollBlock: false,
 
     scrollModalImages(e) {
@@ -1024,6 +1025,7 @@ const publication = {
         if (this.scrollBlock)
             return false;
         e.deltaY < 0 ? publication.prevModal() : publication.nextModal();
+        //Блокируем скролл на пол секунды
         this.scrollBlock = true;
         setTimeout(() => this.scrollBlock = false, 500);
     },
