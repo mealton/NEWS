@@ -615,6 +615,7 @@ footer {
   -ms-overflow-style: none;
   overflow: -moz-scrollbars-none;
   scrollbar-width: none;
+  transition: all 0.5s ease-in-out;
 }
 .custom-modal::-webkit-scrollbar {
   width: 0;
@@ -660,6 +661,14 @@ footer {
   content: "";
   border-top: 1px solid rgba(255, 255, 255, 0.25);
   margin-bottom: 1.5rem;
+}
+.custom-modal.disappearing {
+  opacity: 0;
+}
+.custom-modal.disappearing .custom-modal-img {
+  transition: all 0.5s ease-in-out;
+  transform: translateY(-50px);
+  opacity: 0;
 }
 
 .custom-modal-wrapper {

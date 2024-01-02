@@ -195,6 +195,20 @@
       margin-bottom: 1.5rem;
     }
   }
+
+
+  transition: all .5s ease-in-out;
+
+  &.disappearing {
+    opacity: 0;
+
+    .custom-modal-img {
+      transition: all .5s ease-in-out;
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+  }
+
 }
 
 .custom-modal-wrapper {
@@ -215,7 +229,8 @@
   }
 }
 
-.custom-modal-img-preloader{
+
+.custom-modal-img-preloader {
   position: absolute;
   left: calc(50% - 30px);
   top: calc(50% - 30px);

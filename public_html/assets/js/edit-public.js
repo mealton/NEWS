@@ -873,13 +873,24 @@ const publication = {
     },
 
     closeModal() {
-        $('.custom-modal').remove();
-        window.removeEventListener('wheel', this.scrollModalImages);
+
+        let customModal = $('.custom-modal');
+
+        customModal.addClass('disappearing');
+
+        setTimeout(() => {
+            customModal.remove();
+            window.removeEventListener('wheel', this.scrollModalImages);
+            document.body.style.overflow = 'inherit';
+        }, 500);
+
+
         // window.removeEventListener('touchstart', this.swipeInit);
         // window.removeEventListener('touchmove', this.swipe);
     },
 
     swipeStart: 0,
+    swipeStartY: 0,
 
     nodraggable(icon) {
         let img = icon.nextElementSibling;
@@ -978,6 +989,7 @@ const publication = {
             </div>`;
 
         $(document.body)
+            .css({overflow:'hidden'})
             .on('click', e => {
                 if (!$(e.target).closest('.clickable, .publication-image-item').length)
                     this.closeModal()
@@ -994,20 +1006,23 @@ const publication = {
 
     swipe(e) {
         let swipeX = e.targetTouches[0].clientX;
+        let swipeY = e.targetTouches[0].clientY;
         let distance = 50;
 
         let modalIsOpen = document.querySelector('.custom-modal') !== null;
 
         if (modalIsOpen) {
-            if (swipeX < this.swipeStart - distance)
+            if (swipeX < this.swipeStart - distance && Math.abs(swipeY - this.swipeStartY) < distance / 2)
                 return publication.nextModal();
-            else if (swipeX > this.swipeStart + distance)
+            else if (swipeX > this.swipeStart + distance && Math.abs(swipeY - this.swipeStartY) < distance / 2)
                 return publication.prevModal();
+            else if (swipeY < this.swipeStartY - distance)
+                return publication.closeModal();
         } else {
             let sideBar = document.querySelector('aside');
-            if (swipeX < this.swipeStart - distance)
+            if (swipeX < this.swipeStart - distance && Math.abs(swipeY - this.swipeStartY) < distance / 2)
                 return sideBar.classList.add('visible');
-            else if (swipeX > this.swipeStart + distance)
+            else if (swipeX > this.swipeStart + distance && Math.abs(swipeY - this.swipeStartY) < distance / 2)
                 return sideBar.classList.remove('visible');
         }
 
@@ -1015,6 +1030,7 @@ const publication = {
 
     swipeInit(e) {
         this.swipeStart = e.targetTouches[0].clientX;
+        this.swipeStartY = e.targetTouches[0].clientY;
     },
 
     //Блокиратор скролла колесом мыши
