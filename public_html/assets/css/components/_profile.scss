@@ -10,6 +10,10 @@
     padding-left: 10px;
     display: block;
 
+    @media screen and (max-width: 599px) {
+      padding-left: 0;
+    }
+
     .fa {
       cursor: pointer;
     }
@@ -28,6 +32,14 @@
     }
   }
 }
+
+@media screen and (max-width: 1199px) {
+  #registration-form{
+    padding-bottom: 50px;
+  }
+}
+
+
 
 .fa.fa-trash-o.disabled {
   cursor: default;

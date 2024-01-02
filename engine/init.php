@@ -6,7 +6,14 @@ require_once __DIR__ . '/controllers/main.controller.php';
 require_once __DIR__ . '/models/main.model.php';
 
 $query = explode("/", trim($_GET['q'], '/'));
+
+if(strpos(trim($_GET['q']), ".html") && end(explode(".html", trim($_GET['q']))))
+    exit404($query);
+
 $controller_name = current(explode(".html", $query[0]));
+
+
+
 if(!$controller_name)
     $controller_name = 'publication';
 elseif ($controller_name == "sitemap.xml")

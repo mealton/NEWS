@@ -16,8 +16,12 @@ class Publication extends Main
     }
 
     //action для поиска публикаций
-    protected function search()
+    protected function search($query)
     {
+
+        if(count($query) > 2)
+            exit404($query);
+
         $search = trim(urldecode($_GET['search']));
         if (!$search) {
             page("<p>Не задан критерий поиска...</p>", $this->components);
@@ -74,7 +78,8 @@ class Publication extends Main
     //action для вывода топа публикаций
     protected function top($query = [], $async = false)
     {
-
+        if(count($query) > 2)
+            exit404($query);
         $this->components['title'] = 'Топ';
         $this->components['breadcrumb'] = $this->breadcrumb('', 'Топ');
         $filter = ['filter' => 'top', 'value' => $this->top];
@@ -84,6 +89,10 @@ class Publication extends Main
     //action для вывода публикаций по категориям
     protected function category($query = [], $async = false)
     {
+
+        if(count($query) > 4)
+            exit404($query);
+
         $category_id = intval($query[2]);
         if (!$category_id)
             exit404($query);
@@ -97,6 +106,10 @@ class Publication extends Main
         require_once dirname(__DIR__) . '/models/publication.model.php';
         $model = new PublicationModel();
         $category_data = $model->getter('categories', ['id' => $category_id]);
+
+        if($category_data[0]['name'] != $category)
+            exit404($query);
+
         $this->components['keywords'] = $category_data[0]['keywords'];
         $this->components['extra-scripts'] = ['edit-public'];
 
@@ -522,6 +535,8 @@ LIKES;
     //action для вывода недавних публикаций
     protected function recent($query = [], $async = false)
     {
+        if(count($query) > 2)
+            exit404($query);
         $this->components['breadcrumb'] = $this->breadcrumb('', 'Последние добавленные публикации');
         $this->components['title'] = 'Последние добавленные публикации';
         $filter = ['filter' => 'recent', 'value' => 1];
@@ -531,6 +546,8 @@ LIKES;
     //action для вывода публикаций определенного автора
     protected function authors($query = [], $async = false)
     {
+        if(count($query) > 3)
+            exit404($query);
         $author = trim($query[2]);
         if (!$author) {
             //$author
@@ -798,8 +815,12 @@ LIKES;
 
     }
 
-    protected function categories()
+    protected function categories($query)
     {
+
+        if(count($query) > 2)
+            exit404($query);
+
         $_SESSION['p-counter'] = 0;
         $this->components['title'] = 'Все рубрики';
         require_once dirname(__DIR__) . '/models/publication.model.php';

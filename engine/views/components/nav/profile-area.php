@@ -26,7 +26,7 @@
             <?php endif; ?>
         </div>
     <?php else: ?>
-        <img class="nav-link dropdown-toggle" src="/assets/uploads/icons/profile/log-in.jpg" alt=""
+        <img class="nav-link dropdown-toggle" style="display: inline-block" src="/assets/uploads/icons/profile/log-in.jpg" alt=""
              id="navbarDropdown-profile" role="button"
              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
              width="32" title="Авторизация / Регистрация">

@@ -392,6 +392,11 @@ footer {
   padding-left: 10px;
   display: block;
 }
+@media screen and (max-width: 599px) {
+  .field-item .password-extras {
+    padding-left: 0;
+  }
+}
 .field-item .password-extras .fa {
   cursor: pointer;
 }
@@ -405,6 +410,11 @@ footer {
   justify-content: center;
 }
 
+@media screen and (max-width: 1199px) {
+  #registration-form {
+    padding-bottom: 50px;
+  }
+}
 .fa.fa-trash-o.disabled {
   cursor: default;
   opacity: 0.7;

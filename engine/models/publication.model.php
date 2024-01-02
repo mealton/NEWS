@@ -45,7 +45,7 @@ SQL;
                 $tagFilter = "RIGHT JOIN `hashtags` as `t` ON `p`.`id` = `t`.`publication_id` AND `t`.`name` = \"$filter[value]\"";
                 break;
             case ('category'):
-                $categoryFilter = "AND `cat`.`id` = \"$filter[value]\"";
+                $categoryFilter = "AND `cat`.`id` = $filter[value]";
                 break;
             case ('search'):
                 $searchFilter = "AND `p`.`title` LIKE \"%$filter[value]%\"";

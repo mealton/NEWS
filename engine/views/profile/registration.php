@@ -15,10 +15,10 @@
                         <div class="row align-items-center">
                             <div class="col mt-4 field-item">
 
-                                <?php if($item['name'] == "password") include_once __DIR__ . '/password-extras.php'?>
+                                <?php if ($item['name'] == "password") include_once __DIR__ . '/password-extras.php' ?>
 
                                 <input type="<?= $item['type'] ?>" name="<?= $item['name'] ?>" class="form-control"
-                                       placeholder="<?= $item['placeholder'] . ($item['required'] ? '*' : '')?>" <?= $item['required'] ? 'required' : '' ?> />
+                                       placeholder="<?= $item['placeholder'] . ($item['required'] ? '*' : '') ?>" <?= $item['required'] ? 'required' : '' ?> />
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -50,8 +50,8 @@
                             <div class="form-check">
                                 <label class="form-check-label">
                                     <input type="checkbox" class="form-check-input" required>
-                                    Я прочитал(а) и принимаю с <a href="/politics.html" target="_blank">политику
-                                        конциденциальности*</a>
+                                    Я прочитал(а) и принимаю
+                                    <a href="/politics.html" target="_blank"><ins>политику конциденциальности</ins>*</a>
                                 </label>
                             </div>
 
