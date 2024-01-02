@@ -126,8 +126,17 @@ class Publication extends Main
     //action для вывода публикаций за определенный день
     protected function date($query = [], $async = false)
     {
+
+        if(count($query) > 4)
+            exit404($query);
+
         $date_from = trim($query[2]);
         $date_to = trim($query[3]);
+
+        $pattern  = "/\d{4}-\d{2}-\d{2}/";
+        if(!preg_match($pattern, $date_from) || !preg_match($pattern, $date_from))
+            exit404($query);
+
         if ($date_from == $date_to)
             $title = "Публикации за " . date_rus_format($date_from);
         else
