@@ -207,6 +207,16 @@
       transform: translateY(-50px);
       opacity: 0;
     }
+
+    &-down {
+      opacity: 0;
+
+      .custom-modal-img {
+        transition: all .5s ease-in-out;
+        transform: translateY(50px);
+        opacity: 0;
+      }
+    }
   }
 
 }
@@ -227,6 +237,12 @@
     }
 
   }
+}
+
+
+.fa.fa-heart-o.disabled {
+  pointer-events: none;
+  opacity: .35;
 }
 
 

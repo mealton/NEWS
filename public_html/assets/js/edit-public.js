@@ -872,11 +872,11 @@ const publication = {
 
     },
 
-    closeModal() {
+    closeModal(toDown = false) {
 
         let customModal = $('.custom-modal');
 
-        customModal.addClass('disappearing');
+        customModal.addClass(`disappearing${toDown ? "-down" : ""}`);
 
         setTimeout(() => {
             customModal.remove();
@@ -889,8 +889,6 @@ const publication = {
         // window.removeEventListener('touchmove', this.swipe);
     },
 
-    swipeStart: 0,
-    swipeStartY: 0,
 
     nodraggable(icon) {
         let img = icon.nextElementSibling;
@@ -1004,34 +1002,6 @@ const publication = {
 
     },
 
-    swipe(e) {
-        let swipeX = e.targetTouches[0].clientX;
-        let swipeY = e.targetTouches[0].clientY;
-        let distance = 50;
-
-        let modalIsOpen = document.querySelector('.custom-modal') !== null;
-
-        if (modalIsOpen) {
-            if (swipeX < this.swipeStart - distance && Math.abs(swipeY - this.swipeStartY) < distance / 2)
-                return publication.nextModal();
-            else if (swipeX > this.swipeStart + distance && Math.abs(swipeY - this.swipeStartY) < distance / 2)
-                return publication.prevModal();
-            else if (swipeY < this.swipeStartY - distance)
-                return publication.closeModal();
-        } else {
-            let sideBar = document.querySelector('aside');
-            if (swipeX < this.swipeStart - distance && Math.abs(swipeY - this.swipeStartY) < distance / 2)
-                return sideBar.classList.add('visible');
-            else if (swipeX > this.swipeStart + distance && Math.abs(swipeY - this.swipeStartY) < distance / 2)
-                return sideBar.classList.remove('visible');
-        }
-
-    },
-
-    swipeInit(e) {
-        this.swipeStart = e.targetTouches[0].clientX;
-        this.swipeStartY = e.targetTouches[0].clientY;
-    },
 
     //Блокиратор скролла колесом мыши
     scrollBlock: false,
@@ -1084,10 +1054,6 @@ $(document).ready(() => {
 
     });
 
-    if (screen.width < 768) {
-        window.addEventListener('touchstart', publication.swipeInit, {passive: false});
-        window.addEventListener('touchmove', publication.swipe, {passive: false});
-    }
 
 
     publication.setLikeWidth();

@@ -1,4 +1,50 @@
+let main = {
+    swipeStartX: 0,
+    swipeStartY: 0,
+
+    swipe(e) {
+        let swipeX = e.targetTouches[0].clientX;
+        let swipeY = e.targetTouches[0].clientY;
+        let distance = 50;
+
+        let modalIsOpen = document.querySelector('.custom-modal') !== null;
+
+        if (modalIsOpen) {
+            if (swipeX < this.swipeStartX - distance && Math.abs(swipeY - this.swipeStartY) < distance / 2)
+                return publication.nextModal();
+            else if (swipeX > this.swipeStartX + distance && Math.abs(swipeY - this.swipeStartY) < distance / 2)
+                return publication.prevModal();
+            else if (swipeY < this.swipeStartY - distance)
+                return publication.closeModal();
+            else if (swipeY > this.swipeStartY + distance)
+                return publication.closeModal(true);
+        } else {
+            let sideBar = document.querySelector('aside');
+            if (swipeX < this.swipeStartX - distance && Math.abs(swipeY - this.swipeStartY) < distance / 2)
+                return sideBar.classList.add('visible');
+            else if (swipeX > this.swipeStartX + distance && Math.abs(swipeY - this.swipeStartY) < distance / 2)
+                return sideBar.classList.remove('visible');
+        }
+
+    },
+
+    swipeInit(e) {
+        this.swipeStartX = e.targetTouches[0].clientX;
+        this.swipeStartY = e.targetTouches[0].clientY;
+    },
+};
+
+
+
 $(document).ready(() => {
+
+
+    if (screen.width < 768) {
+        window.addEventListener('touchstart', main.swipeInit, {passive: false});
+        window.addEventListener('touchmove', main.swipe, {passive: false});
+    }
+
+
 
     $(document).on('click', function (e) {
         if(!$(e).closest('button, input[type="submit"]').length){

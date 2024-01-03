@@ -229,7 +229,7 @@ class Profile extends Main
 
                 //<i class='fa fa-trash-o' aria-hidden='true'></i>
                 //Если есть удаленные публикации, добавляем иконку очистки корзины
-                $publications = $this->get_publications(['filter' => 'author', 'value' => $id], true);
+                $publications = $this->get_publications(['filter' => 'author-profile', 'value' => $id], true);
 
                 if (!empty(array_filter((array)$publications, function ($item) {
                     return $item['is_deleted'] == 1;

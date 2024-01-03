@@ -87,6 +87,9 @@ SQL;
 
         if (!$filter['manager-zone']) {
 
+            //Фильтр на показ эротики
+            $erotic_user_filter = $_SESSION['user']['show_erotic'] || $filter['user-zone'] ? "" : "HAVING `cat`.`is_hidden` != 1";
+
             if ($filter['filter'] == "liked") {
                 $filter = $this->get_filter_string($filter);
                 $limit_sql = " ORDER BY `p`.`published_date` DESC";
@@ -102,9 +105,6 @@ SQL;
             $filter['managerZone'] = "AND `p`.`moderated` = 0 ";
             $limit_sql = " ORDER BY `p`.`published_date` DESC";
         }
-
-        //Фильтр на показ эротики
-        $erotic_user_filter = $_SESSION['user']['show_erotic'] ? "" : "HAVING `cat`.`is_hidden` != 1";
 
         $sql = <<<SQL
 SELECT 

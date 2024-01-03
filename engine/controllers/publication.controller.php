@@ -54,7 +54,7 @@ class Publication extends Main
     public function __construct($query = [], $async = false)
     {
         parent::__construct($query, $async);//авторизация, вывод основных компонентов страницы
-        $this->components['extra-scripts'] = ['edit-public'];
+        //$this->components['extra-scripts'] = ['edit-public'];
         $this->get_publications();
     }
 
@@ -66,7 +66,7 @@ class Publication extends Main
             exit404($query);
 
         $this->components['title'] = '#' . $tag;
-        $this->components['extra-scripts'] = ['edit-public'];
+        //$this->components['extra-scripts'] = ['edit-public'];
         $this->components['breadcrumb'] = $this->breadcrumb('', $tag);
         $filter = ['filter' => 'tag', 'value' => $tag];
         $this->get_publications($filter);
@@ -111,7 +111,7 @@ class Publication extends Main
             exit404($query);
 
         $this->components['keywords'] = $category_data[0]['keywords'];
-        $this->components['extra-scripts'] = ['edit-public'];
+        //$this->components['extra-scripts'] = ['edit-public'];
 
         //вывод подкатегорий, если такие имеются
         $subcategories = $this->get_subcategories($category_id);
@@ -144,7 +144,7 @@ class Publication extends Main
 
         $this->components['breadcrumb'] = $this->breadcrumb(false, $title);
         $this->components['title'] = $title;
-        $this->components['extra-scripts'] = ['edit-public'];
+       // $this->components['extra-scripts'] = ['edit-public'];
         $filter = ['filter' => 'date', 'value' => $date_from . "::" . $date_to];
         $this->get_publications($filter);
     }
@@ -581,7 +581,7 @@ LIKES;
 
         $this->components['breadcrumb'] = $this->breadcrumb('', $author_name);
         $this->components['title'] = 'Публикации пользователя ' . $author_name;
-        $this->components['extra-scripts'][] = 'manager';
+        //$this->components['extra-scripts'][] = 'manager';
         $filter = ['filter' => 'author', 'value' => $author_id];
         $this->get_publications($filter);
         return true;

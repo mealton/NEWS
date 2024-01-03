@@ -680,6 +680,14 @@ footer {
   transform: translateY(-50px);
   opacity: 0;
 }
+.custom-modal.disappearing-down {
+  opacity: 0;
+}
+.custom-modal.disappearing-down .custom-modal-img {
+  transition: all 0.5s ease-in-out;
+  transform: translateY(50px);
+  opacity: 0;
+}
 
 .custom-modal-wrapper {
   position: relative;
@@ -696,6 +704,11 @@ footer {
   .custom-modal-wrapper .fa-search-plus, .custom-modal-wrapper .fa-search-minus {
     display: none;
   }
+}
+
+.fa.fa-heart-o.disabled {
+  pointer-events: none;
+  opacity: 0.35;
 }
 
 .custom-modal-img-preloader {
