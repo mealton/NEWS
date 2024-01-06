@@ -1,3 +1,11 @@
+<?php /**
+ * @var $is_hidden boolean
+ * @var $description string
+ * @var $content string
+ * @var $source string
+ *
+ */
+?>
 <?php if (!$is_hidden): ?>
     <figure class="mb-4 image-item-container" itemscope itemtype="http://schema.org/ImageObject">
         <?php if ($description): ?>
