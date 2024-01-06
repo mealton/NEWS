@@ -15,21 +15,20 @@
                         <br>
                         <br>
                     </h2>
-                    <img src="<?= $public_img ? $public_img : '/assets/uploads/img/not-available.jpg' ?>"
-                         class="publication-img-preview img-fluid <?= $special_content_category ? 'is-erotic' : '' ?>"/>
+                    <img src="<?= $public_img ? $public_img : '/assets/uploads/img/not-available.jpg' ?>" alt="#"
+                         class="publication-img-preview img-fluid <?= $special_content_category ? 'is-erotic' : '' ?>">
                 </a>
-                <a class="public-author-preview">
+                <div class="public-author-preview">
                     <div class="mask" style="background-color: rgba(0, 0, 0, .35);">
                         <div class="row align-items-center" style="color: #FFF;">
                             <div class="col-md-12">
-                                <table width="100%">
+                                <table style="width: 100%">
                                     <tr>
                                         <td>
                                             <?php if ($author_image): ?>
-                                                <a href="/publication/authors/<?= $user_id . '::' . $author ?>/">
-                                                    <img src="<?= $author_image ?>" class="user-circle-img"
-                                                         alt="Пользователь <?= $author ?>"
-                                                         title="Пользователь <?= $author ?>">
+                                                <a href="/publication/authors/<?= $user_id . '::' . $author ?>/"
+                                                   class="user-circle-img profile-public-img"
+                                                   style="background-image:url('<?= $author_image ?>');">
                                                 </a>
                                             <?php endif ?>
                                         </td>
@@ -59,13 +58,13 @@
                         </div>
 
                     </div>
-                </a>
+                </div>
             </div>
         </div>
 
         <div class="col-md-6 mb-4">
         <span class="badge bg-danger px-2 py-1 shadow-1-strong mb-3">
-            <a href="/publication/category/<?= $category_id ?>/<?= $category ?>/"><?= $category ?></a>
+            <a href="/publication/category/<?= $category_id ?>/<?= translit($category) ?>/"><?= $category ?></a>
         </span>
             <a href="/publication/show/<?= $id ?>::<?= $alias ?>.html" class="preview-title desktop-preview-title">
                 <h4><strong>

@@ -126,6 +126,22 @@ function translit($string)
     return preg_replace('/[^a-z\d+\-\']/', "", trim($translit, '-'));
 }
 
+function transrus($string)
+{
+    $abc = [
+        'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g', 'д' => 'd', 'е' => 'e', 'ё' => 'e', 'ж' => 'j', 'з' => 'z',
+        'и' => 'i', 'й' => 'y', 'к' => 'k', 'л' => 'l', 'м' => 'm', 'н' => 'n', 'о' => 'o', 'п' => 'p', 'р' => 'r',
+        'с' => 's', 'т' => 't', 'у' => 'u', 'ф' => 'f', 'х' => 'h', 'ц' => 'c', 'ч' => 'ch', 'ш' => 'sh', 'щ' => 'sch',
+        'ъ' => '\'', 'ы' => 'y', 'ь' => '\'', 'э' => 'e', 'ю' => 'ju', 'я' => 'ja'
+    ];
+
+    $string = str_replace("&nbsp;", "-", $string);
+    $string = html_entity_decode($string);
+    $string = htmlspecialchars_decode($string);
+
+    return str_replace(array_values($abc), array_keys($abc), $string);
+}
+
 function textCutter($string, $char_limit = 15)
 {
     $string = trim(strip_tags($string));

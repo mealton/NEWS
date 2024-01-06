@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
     <?php include_once __DIR__ . '/components/head.php' ?>
 </head>

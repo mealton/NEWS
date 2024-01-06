@@ -511,6 +511,13 @@ footer {
   box-sizing: border-box;
 }
 
+.profile-public-img {
+  background-size: cover;
+  display: block;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .is-erotic-container:after {
   position: absolute;
   content: "";

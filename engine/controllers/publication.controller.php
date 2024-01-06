@@ -101,13 +101,14 @@ class Publication extends Main
             exit404($query);
 
         $this->components['breadcrumb'] = $this->breadcrumb($category_id);
-        $this->components['title'] = $category;
 
         require_once dirname(__DIR__) . '/models/publication.model.php';
         $model = new PublicationModel();
         $category_data = $model->getter('categories', ['id' => $category_id]);
 
-        if($category_data[0]['name'] != $category)
+        $this->components['title'] = $category_data[0]['name'];
+
+        if(translit($category_data[0]['name']) != $category)
             exit404($query);
 
         $this->components['keywords'] = $category_data[0]['keywords'];

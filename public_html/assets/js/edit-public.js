@@ -942,7 +942,7 @@ const publication = {
             return false;
 
         document.addEventListener("keydown", (keyboardEvent) => {
-            if (keyboardEvent.key === "Control")
+            if (keyboardEvent.key === "Control" && screen.width > 999)
                 modalImg.dispatchEvent(new MouseEvent("dblclick"))
         });
     },

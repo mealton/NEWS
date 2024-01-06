@@ -9,10 +9,10 @@
         <?php if ($_SESSION['user']['profile_image']): ?>
             <img class="user-circle-img dropdown-toggle" src="<?= $_SESSION['user']['profile_image'] ?>"
                  id="navbarDropdown-profile" role="button"
-                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="" width="50"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="<?= $username ?>" width="50"
                  title="<?= $username ?>">
         <?php else: ?>
-            <img src="/assets/uploads/icons/profile/profile-<?= $_SESSION['user']['gender'] ?>-default.jpg" alt=""
+            <img src="/assets/uploads/icons/profile/profile-<?= $_SESSION['user']['gender'] ?>-default.jpg" alt="<?= $username ?>"
                  id="navbarDropdown-profile" role="button"
                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                  width="50" title="<?= $username ?>">
@@ -26,7 +26,7 @@
             <?php endif; ?>
         </div>
     <?php else: ?>
-        <img class="nav-link dropdown-toggle" style="display: inline-block" src="/assets/uploads/icons/profile/log-in.jpg" alt=""
+        <img class="nav-link dropdown-toggle" style="display: inline-block" src="/assets/uploads/icons/profile/log-in.jpg" alt="Иконка входа"
              id="navbarDropdown-profile" role="button"
              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
              width="32" title="Авторизация / Регистрация">

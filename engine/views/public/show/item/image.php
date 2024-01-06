@@ -5,12 +5,12 @@
                 <p><em itemprop="description"><?= $description ?></em></p>
             </blockquote>
         <?php endif ?>
-        <div style="display: inline-block;">
+        <figure style="display: inline-block;">
             <img itemprop="contentUrl" class="img-fluid rounded publication-image-item"
                  onclick="publication.showModal(this)" src="<?= $content ?>" alt="<?= htmlspecialchars($description) ?>">
             <?php if ($source): ?>
                 <figcaption>
-                    <p align="right">
+                    <p style="text-align: right">
                         <small>
                             Источник:
                             <cite title="Source Title">
@@ -20,6 +20,6 @@
                     </p>
                 </figcaption>
             <?php endif ?>
-        </div>
+        </figure>
     </figure>
 <?php endif ?>

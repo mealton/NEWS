@@ -1,30 +1,30 @@
 <!-- Post header-->
-<section itemscope itemtype="http://schema.org/Article" id="publication-body">
+<div itemscope itemtype="http://schema.org/Article" id="publication-body">
     <?= $publication_header ?>
     <!-- Preview image figure-->
 
     <!-- Post content-->
-    <section class="mb-5" id="publication-content">
+    <div class="mb-5" id="publication-content">
         <?= $publication_content ?>
-    </section>
+    </div>
 
     <?php if ($source): ?>
-        <section class="mb-5">
+        <div class="mb-5">
             <hr>
             <p><b>Источник:</b> <a href="<?= $source ?>" target="_blank"><?= get_from_url($source) ?></a></p>
-        </section>
+        </div>
     <?php endif; ?>
 
     <?php session_start();
     if ($user_id == $_SESSION['user']['id']): ?>
-        <section class="mb-5">
+        <div class="mb-5">
             <a href="/profile/user/<?= $_SESSION['user']['id'] ?>/profile-page.html?tab=publications&page=&publication_id=<?= $publication_id ?>">
                 <button class="btn btn-primary">Редактировать</button>
             </a>
-        </section>
+        </div>
     <?php endif; ?>
 
-</section>
+</div>
 <!-- Comments section-->
 <section class="mb-5">
     <div class="card bg-light">
@@ -32,7 +32,7 @@
             <!-- Comment form-->
             <?= $comment_form ?>
             <!-- Comment with nested comments-->
-            <section>
+            <div>
                 <div class="container my-5 py-5">
                     <div class="row d-flex justify-content-center">
                         <div class="col-md-12 col-lg-12">
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
 
 
         </div>

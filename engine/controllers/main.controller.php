@@ -151,7 +151,7 @@ class Main
             $GLOBALS['category'] = trim(end($query));
 
         $categories = array_map(function ($item) {
-            return ['name' => $item['name'], 'href' => '/publication/category/' . $item['id'] . '/' . $item['name'] . '/', 'is_current' => $GLOBALS['category'] == $item['name']];
+            return ['name' => $item['name'], 'href' => '/publication/category/' . $item['id'] . '/' . translit($item['name']) . '/', 'is_current' => $GLOBALS['category'] == $item['name']];
         }, (array)$categories);
 
         $categories_dropdown = array_map(function ($item) {

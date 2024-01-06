@@ -7,17 +7,18 @@
 
         <!--schema.org-->
         <div id="meta-data" style="display: none" itemscope itemtype="https://schema.org/Article">
-            <link itemprop="mainEntityOfPage" href="<?= get_current_url() ?>" />
+            <h3 style="display: none;">Подзаголовок для w3c</h3>
+            <link itemprop="mainEntityOfPage" href="<?= get_current_url() ?>" >
             <link itemprop="image" href="<?= $data_image ?>">
             <meta itemprop="headline name" content="<?= $title ?>">
             <meta itemprop="description" content="<?= $introtext ?>">
             <p itemprop="articleBody"><?= $introtext ?></p>
             <meta itemprop="author" content="<?= $author ?>">
-            <meta itemprop="datePublished" datetime="<?= $published_date ?>" content="<?= $published_date ?>">
-            <meta itemprop="dateModified" datetime="<?= $published_date ?>" content="<?= $published_date ?>">
+            <time itemprop="datePublished" datetime="<?= $published_date ?>" content="<?= $published_date ?>"></time>
+            <time itemprop="dateModified" datetime="<?= $published_date ?>" content="<?= $published_date ?>"></time>
             <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
                 <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
-                    <img itemprop="url image" src="https://mtuci.mealton.ru/assets/uploads/img/logo.png" alt="Описание картинки" title="Описание картинки" style="display:none;"/>
+                    <img itemprop="url image" src="https://mtuci.mealton.ru/assets/uploads/img/logo.png" alt="Описание картинки" title="Описание картинки" style="display:none;">
                 </div>
                 <meta itemprop="name" content="<?= $GLOBALS['config']['site']['sitename'] ?>">
                 <meta itemprop="telephone" content="">
@@ -80,5 +81,5 @@
                href="/publication/tags/<?= urlencode($hashtag) ?>"><?= $hashtag ?></a>
         <?php endforeach; ?>
 
-
+    </article>
 </header>
