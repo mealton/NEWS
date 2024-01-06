@@ -1,5 +1,5 @@
 <?php if (!$is_hidden): ?>
-    <figure class="mb-4" itemscope itemtype="http://schema.org/ImageObject">
+    <figure class="mb-4 image-item-container" itemscope itemtype="http://schema.org/ImageObject">
         <?php if ($description): ?>
             <blockquote class="blockquote">
                 <p><em itemprop="description"><?= $description ?></em></p>

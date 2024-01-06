@@ -844,7 +844,7 @@ const publication = {
         let customModal = $('.custom-modal');
         let imgSrc = customModal.find('.custom-modal-img')[0].getAttribute('src');
         let currentImg = $(`#publication-body img.publication-image-item[src="${imgSrc}"]`);
-        let prevImage = $(currentImg).closest('figure').prevAll('figure').first().find('img');
+        let prevImage = $(currentImg).closest('figure.image-item-container').prevAll('figure.image-item-container').first().find('img');
 
         customModal.remove();
         if (!prevImage.length)
@@ -860,7 +860,7 @@ const publication = {
         let customModal = $('.custom-modal');
         let imgSrc = customModal.find('.custom-modal-img')[0].getAttribute('src');
         let currentImg = $(`#publication-content img.publication-image-item[src="${imgSrc}"]`);
-        let nextImage = $(currentImg).closest('figure').nextAll('figure').first().find('img.publication-image-item');
+        let nextImage = $(currentImg).closest('figure.image-item-container').nextAll('figure.image-item-container').first().find('img.publication-image-item');
 
         customModal.remove();
         if (!nextImage.length)
@@ -959,8 +959,8 @@ const publication = {
 
         let description = img.getAttribute('alt').trim() ? img.alt : descriptionPrevious;
 
-        let prevImage = $(img).closest('figure').prevAll('figure').first().find('img');
-        let nextImage = $(img).closest('figure').nextAll('figure').first().find('img');
+        let prevImage = $(img).closest('figure.image-item-container').prevAll('figure.image-item-container').first().find('img');
+        let nextImage = $(img).closest('figure.image-item-container').nextAll('figure.image-item-container').first().find('img');
 
         let faPrev = prevImage.length
             ? `<i class='fa fa-chevron-left prev-next modal-control clickable' onclick="publication.prevModal()" aria-hidden='true'></i>`
