@@ -1,6 +1,9 @@
 <?php
 /**
  * Элемент хлебных крошек
+ * @var $is_active boolean
+ * @var $name string
+ * @var $id integer
  */
 session_start();
 ?>

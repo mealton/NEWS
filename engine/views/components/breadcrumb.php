@@ -1,6 +1,7 @@
 <?php
 /**
  * Хлебные крошки
+ * @var $breadcrumb string
  */
 ?>
 <nav aria-label="breadcrumb">

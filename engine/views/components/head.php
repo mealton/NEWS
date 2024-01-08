@@ -1,6 +1,7 @@
 <?php
 /**
  * Содержимое тега head
+ * @var $components array
  */
 ?>
 <meta charset="utf-8">

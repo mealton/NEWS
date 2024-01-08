@@ -1,6 +1,10 @@
 <?php
 /**
  * Загрузчик
+ * @var $upload_folder string
+ * @var $placeholder string
+ * @var $multiple boolean
+ * @var $previews string
  */
 ?>
 <div class="uploader-container">

@@ -1,6 +1,7 @@
 <?php
 /**
  * Элмент превью загрузчика
+ * @var $src string
  */
 ?>
 <div class="preview-item">

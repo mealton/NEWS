@@ -1,3 +1,19 @@
+<?php
+/**
+ * Элемент "Аккордеона" с категориями для редактирования
+ * @var $id integer
+ * @var $name string
+ * @var $breadcrumb string
+ * @var $parent_id integer
+ * @var $categories_list string
+ * @var $is_active boolean
+ * @var $is_hidden boolean
+ * @var $keywords string
+ * @var $description string
+ */
+
+?>
+
 <div class="accordion-item category-item" data-id="<?= $id ?>">
     <h2 class="accordion-header position-relative">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"

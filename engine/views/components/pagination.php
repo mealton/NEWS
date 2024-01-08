@@ -1,6 +1,12 @@
 <?php
 /**
  * Пагинация
+ * @var $PreviousDisabled string
+ * @var $href string
+ * @var $PreviousPage string
+ * @var $pages string
+ * @var $NextDisabled string
+ * @var $NextPage string
  */
 ?>
 <nav aria-label="Page navigation example">

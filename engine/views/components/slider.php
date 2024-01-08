@@ -1,4 +1,7 @@
 <?php
+/**
+ * Слайдер
+ */
 $active_slide = array_shift($publications_slider);
 ?>
 

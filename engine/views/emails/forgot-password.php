@@ -1,6 +1,8 @@
 <?php
 /**
  * Письмо при восстановлении доступа на сайте
+ * @var $user_id integer
+ * @var $token string
  */
 ?>
 <div>

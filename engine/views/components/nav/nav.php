@@ -1,6 +1,13 @@
 <?php
 /**
  * Навигация в шапке сайта
+ * @var $action string
+ * @var $categories_dropdown string
+ * @var $date_from string
+ * @var $published_date_start string
+ * @var $date_to string
+ * @var $today_info string
+ * @var $profile_area string
  */
 session_start();
 ?>

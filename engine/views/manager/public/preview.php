@@ -1,3 +1,18 @@
+<?php
+/**
+ * Предпросмотр публикации
+ * @var $classname string
+ * @var $id integer
+ * @var $moderated boolean
+ * @var $public_img string
+ * @var $author_image string
+ * @var $author string
+ * @var $published_date string
+ * @var $views integer
+ * @var $likes integer
+ * @var $comment_count integer
+ */
+?>
 <div class="row gx-5 public-item-preview <?= $classname ?>" data-id=<?= $id ?>>
     <div class="col-md-6 mb-4">
         <div class="bg-image hover-overlay ripple shadow-2-strong rounded-5 position-relative"
@@ -7,7 +22,7 @@
                 <p><b style="color: red;">На модерации!</b></p>
                 <?php endif?>
 
-                <img src="<?= $public_img ? $public_img : '/assets/uploads/img/not-available.jpg' ?>"
+                <img alt="" src="<?= $public_img ? $public_img : '/assets/uploads/img/not-available.jpg' ?>"
                      class="publication-img-preview img-fluid"/>
             <a class="public-author-preview">
                 <div class="mask" style="background-color: rgba(0, 0, 0, .35);">

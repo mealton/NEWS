@@ -1,6 +1,8 @@
 <?php
 /**
  * Отображение меню пользователя в навигации сайта
+ * @var $username string
+ * @var $id integer
  */
 ?>
 

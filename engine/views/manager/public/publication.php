@@ -1,8 +1,16 @@
-<!-- Post content-->
-<!-- Post header-->
+<?php
+/**
+ * Полный текст публикации
+ * @var $publication_header string
+ * @var $publication_content string
+ * @var $moderated boolean
+ * @var $publication_id integer
+ * @var $comment_form string
+ * @var $comments string
+ */
+?>
 <section>
     <?= $publication_header ?>
-    <!-- Preview image figure-->
 
     <!-- Post content-->
     <section class="mb-5">

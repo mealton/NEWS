@@ -1,6 +1,8 @@
 <?php
 /**
  * Письмо для завешения процесса регистрации на сайте
+ * @var $user_id integer
+ * @var $token string
  */
 ?>
 <div>
