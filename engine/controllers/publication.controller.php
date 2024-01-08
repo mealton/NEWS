@@ -869,4 +869,21 @@ LIKES;
         return true;
     }
 
+    protected function get_video_info($data)
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_USERAGENT, filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW));
+        curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, 'https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=' . $data['id'] . '&format=json');
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $details = json_decode($response, 1); //parse the JSON into an array
+        json(['title' => $details['title'], 'data' => $details]);
+    }
+
 }

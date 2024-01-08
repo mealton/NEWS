@@ -864,7 +864,7 @@ const publication = {
 
         customModal.remove();
         if (!nextImage.length)
-            return this.closeModal();
+            return this.closeModal(currentImg);
 
         nextImage[0].scrollIntoView({block: "center", behavior: "smooth"});
 
@@ -884,11 +884,9 @@ const publication = {
             document.body.style.overflow = 'inherit';
         }, 500);
 
-
         // window.removeEventListener('touchstart', this.swipeInit);
         // window.removeEventListener('touchmove', this.swipe);
     },
-
 
     nodraggable(icon) {
         let img = icon.nextElementSibling;
@@ -1002,6 +1000,32 @@ const publication = {
 
     },
 
+    getWidth() {
+        if (screen.width > 1000)
+            return .7 * screen.width;
+        if (screen.width <= 1000 && screen.width > 601)
+            return .9 * screen.width;
+        else
+            return screen.width;
+    },
+
+    titleDefault: '',
+
+    iframe(id, description) {
+        let width = this.getWidth();
+        let height = .58 * width;
+        //let description = $(item).closest('figure').next('.media').find('.item-description').text();
+        this.titleDefault = document.title;
+
+        $.fancybox
+            .open(`<div class="video-iframe-container">
+                        <iframe class="video-iframe" style="width: ${width}px; height: ${height}px" src="https://www.youtube.com/embed/${id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <p class="iframe-description" style="width: ${width}px">${description}</p></div>`);
+
+        ffetch(this.action, response => document.title = response.title, {method: 'get_video_info', id: id});
+
+    },
+
 
     //Блокиратор скролла колесом мыши
     scrollBlock: false,
@@ -1036,6 +1060,26 @@ const publication = {
 };
 
 $(document).ready(() => {
+
+
+    $(document).on('afterClose.fb', () => {
+        if(publication.titleDefault)
+            document.title = publication.titleDefault
+    });
+
+    window.onresize = e => {
+        let iframe = document.querySelector('.video-iframe');
+        if (iframe !== null) {
+            let width = publication.getWidth();
+            iframe.style.width = `${width}px`;
+            iframe.style.height = `${width * .58}px`;
+
+            //document.querySelector('.iframe-description').style.width = `${width}px`;
+        }
+
+    };
+
+
 
     document.querySelectorAll('img').forEach(img => {
 

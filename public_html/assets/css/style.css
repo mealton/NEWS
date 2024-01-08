@@ -632,15 +632,10 @@ footer {
   -ms-overflow-style: none;
   overflow: -moz-scrollbars-none;
   scrollbar-width: none;
-  transition: all 0.5s ease-in-out;
+  transition: all 1.5s ease-in-out;
 }
 .custom-modal::-webkit-scrollbar {
   width: 0;
-}
-.custom-modal img {
-  max-width: calc(100vw - 50px);
-  max-height: 95vh;
-  margin: auto;
 }
 @media screen and (max-width: 599px) {
   .custom-modal img {
@@ -678,6 +673,10 @@ footer {
   content: "";
   border-top: 1px solid rgba(255, 255, 255, 0.25);
   margin-bottom: 1.5rem;
+}
+.custom-modal .custom-modal-img {
+  max-width: calc(100vw - 50px);
+  max-height: 95vh;
 }
 .custom-modal.disappearing {
   opacity: 0;
@@ -862,6 +861,46 @@ ul.publications-list {
   text-decoration: underline;
 }
 
+.video-item {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+.video-item:hover:before {
+  transform: scale(1.1);
+}
+
+.video-item:before {
+  display: block;
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: url("/assets/uploads/icons/yt.png") center no-repeat;
+  background-size: auto;
+  transition: all 0.5s ease-in-out;
+}
+
+.fancybox-close-small {
+  outline: none !important;
+}
+
+.iframe-description {
+  color: #000;
+  font-size: 14px;
+  padding: 15px 15px 0;
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: 600;
+}
+
+.video-iframe-container {
+  margin: 0;
+  padding: 15px;
+}
+
 .preview-title.mobile-preview-title {
   display: none;
 }
@@ -874,6 +913,14 @@ ul.publications-list {
   }
 }
 
+@media screen and (max-width: 576px) {
+  .fancybox-slide .video-iframe-container {
+    padding: 0;
+  }
+  .iframe-description {
+    margin-bottom: 15px;
+  }
+}
 .search-helper {
   position: absolute;
   left: 0;

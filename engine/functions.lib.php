@@ -152,6 +152,36 @@ function textCutter($string, $char_limit = 15)
 }
 
 
+function get_youtube_video_id($url)
+{
+    if (stristr($url, 'youtu.be/')) {
+        preg_match('/(https:|http:|)(\/\/www\.|\/\/|)(.*?)\/(.{11})/i', $url, $final_ID);
+        return $final_ID[4];
+    } else {
+        @preg_match('/(https:|http:|):(\/\/www\.|\/\/|)(.*?)\/(embed\/|watch.*?v=|)([a-z_A-Z0-9\-]{11})/i', $url, $IDD);
+        return $IDD[5];
+    }
+
+    /*$url_parse = parse_url($url);
+    $query = $url_parse['query'];
+    $query_parse = explode("&", $query);
+    $query_result = [];
+
+    foreach ($query_parse as $item){
+        $item = explode("=", $item);
+        $query_result[$item[0]] = $item[1];
+    }
+
+    if($query_result['v'])
+        return $query_result['v'];
+    else{
+        $path = $url_parse['path'];
+        $path_parse = trim($path, "/");
+        return $path_parse;
+    }*/
+}
+
+
 function mailSender($to, $subject, $message)
 {
     $headers = "MIME-Version: 1.0\r\n";
