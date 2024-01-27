@@ -13,7 +13,8 @@ class Profile extends Main
     public function __construct($query = [], $async = false)
     {
         $this->components['extra-vendors'] = ['giffer' => 'javascript-giffer'];
-        $this->uploader = render('components', 'uploader', ['upload_folder' => 'img/profile/', 'multiple' => 0, 'placeholder' => 'Изображение пользователя']);
+        $this->uploader = render('components', 'uploader',
+            ['upload_folder' => 'img/profile/', 'multiple' => 0, 'placeholder' => 'Изображение пользователя']);
         parent::__construct($query, $async);
     }
 

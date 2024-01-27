@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Class Uploader
+ * Класс для автоматической генерации файла simemap.xml
+ */
 
 class Sitemap
 {
@@ -14,7 +18,8 @@ class Sitemap
             return ['url' => $GLOBALS['site-url'] . "/profile/user/$item[id]/profile-page.html"];
         }, (array)$users);
 
-        $publications = $model->getter('publications', ['is_published' => 1, 'is_deleted' => 0, 'moderated' => 1]);
+        $publications = $model->getter('publications',
+            ['is_published' => 1, 'is_deleted' => 0, 'moderated' => 1]);
         $publications = array_map(function ($item) {
             return $GLOBALS['site-url'] . "publication/show/$item[id]::" . urlencode($item['alias']);
         }, (array)$publications);

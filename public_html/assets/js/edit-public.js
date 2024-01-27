@@ -1017,12 +1017,14 @@ const publication = {
         //let description = $(item).closest('figure').next('.media').find('.item-description').text();
         this.titleDefault = document.title;
 
-        $.fancybox
-            .open(`<div class="video-iframe-container">
+        ffetch(this.action, response => {
+            document.title = response.title;
+            $.fancybox
+                .open(`<div class="video-iframe-container">
                         <iframe class="video-iframe" style="width: ${width}px; height: ${height}px" src="https://www.youtube.com/embed/${id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                        <p class="iframe-description" style="width: ${width}px">${description}</p></div>`);
+                        <p class="iframe-description" style="width: ${width}px">${description ? description : response.title}</p></div>`);
 
-        ffetch(this.action, response => document.title = response.title, {method: 'get_video_info', id: id});
+        }, {method: 'get_video_info', id: id});
 
     },
 
@@ -1060,6 +1062,11 @@ const publication = {
 };
 
 $(document).ready(() => {
+
+    $('.video-item .img-fluid').each( (i, img) => {
+        if(img.offsetWidth < 300)
+            img.src = img.src.replace ('maxresdefault', 'sddefault');
+    });
 
 
     $(document).on('afterClose.fb', () => {

@@ -516,6 +516,7 @@ LIKES;
                 $content = '<h2>' . $subtitle . '</h2>';
             } elseif (in_array($element->tag, ['video', 'iframe'])) {
                 $tag = 'video';
+                $poster = $element->poster;
                 $content = $element->outertext;
             } else {
                 $tag = 'text';
@@ -523,7 +524,7 @@ LIKES;
                     continue;
                 $content = '<p>' . $element->plaintext . '</p>';
             }
-            $media[] = ['tag' => $tag, 'content' => $content, 'source' => $element->src, 'description' => '', 'item_folder' => 'edit'];
+            $media[] = ['tag' => $tag, 'content' => $content, 'source' => $element->src, 'description' => '', 'item_folder' => 'edit', 'poster' => $poster];
         }
 
         $publication = [

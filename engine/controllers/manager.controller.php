@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class Uploader
+ * Класс для обеспечения работы администратора сайта
+ */
+
 
 class Manager extends Main
 {
@@ -29,7 +34,8 @@ class Manager extends Main
                 if ($categories_item['id'] != $item['id'])
                     $item['categories_list'][] = $categories_item;//Добавяем в список потенциальных родителей всех, кроме самой себя
             }
-            $categories[$i]['categories_list'] = render('manager/categories', 'category-item-option', $item['categories_list']);
+            $categories[$i]['categories_list'] = render('manager/categories',
+                'category-item-option', $item['categories_list']);
             $breadcrumb = $this->breadcrumb_string($item['id']);
             $breadcrumb = fetch_to_array($breadcrumb, 'name');
             $categories[$i]['breadcrumb'] = implode(" / ", array_reverse($breadcrumb));
