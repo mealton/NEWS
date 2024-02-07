@@ -24,6 +24,29 @@ const uploader = {
         reader.readAsDataURL(file);
     },
 
+    uploadPoster(input) {
+        let file = input['files'][0];
+        let reader = new FileReader();
+        reader.onload = () => {
+            let data = {
+                method: 'upload',
+                url: reader.result,
+                folder: "posters"
+            };
+            let callback = response => {
+                let video = $(input).closest('.uploader-container').next('.uploader-previews').find('video');
+                console.log(response, video[0]);
+
+                if(video[0] === undefined)
+                    video = $(input).closest('.publication__item').find('video');
+
+                video.prop({poster: response.src});
+            };
+            ffetch(this.action, callback, data);
+        };
+        reader.readAsDataURL(file);
+    },
+
     uploadVideo(input, base64) {
         let data = {
             method: 'upload_video_file',
@@ -36,6 +59,9 @@ const uploader = {
             if (response.result) {
                 this.previews.html(response.preview);
                 $(input).closest('.uploader-container').find('input[name="url"]').val(response.src);
+                // $(input).closest('.uploader-container').find('.poster-uploader')
+                //     .removeClass('disabled')
+                //     .prop({title: 'Загрузить постер'});
             } else
                 this.previews.html(`<p class="preview-item">Ошибка загрузки</p>`);
 

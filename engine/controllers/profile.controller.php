@@ -150,10 +150,10 @@ class Profile extends Main
                 $publications_history = $PublicationModel->get_history($history);
                 $history_group = [];
 
-                foreach ($publications_history as $item){
+                foreach ($publications_history as $item) {
                     $date = $item['visited_date'];
                     $item['breadcrumbs'] = $this->breadcrumb($item['category_id'], $item['title']);
-                    if($history_group[$date])
+                    if ($history_group[$date])
                         $history_group[$date][] = $item;
                     else
                         $history_group[$date] = [$item];
@@ -162,7 +162,7 @@ class Profile extends Main
                 //pre($history_group);
                 $user[0]['publications_history'] = "";
 
-                foreach ($history_group as $date => $item){
+                foreach ($history_group as $date => $item) {
                     $user[0]['publications_history'] .= "<h5 style='text-align: center; margin: 30px 0; font-weight: 700'>" . date_converter($date) . "</h5>";
                     $user[0]['publications_history'] .= render('profile/user', 'publications_history_item', $item);
                 }
@@ -173,12 +173,12 @@ class Profile extends Main
 
             $liked_publics = $user[0]['liked_publics'];
 
-            if($liked_publics){
+            if ($liked_publics) {
                 $liked_publics = (array)unserialize($liked_publics);
                 $liked_publics = array_keys($liked_publics);
                 $liked_publics = $this->get_publications(['filter' => 'liked', 'value' => $liked_publics], 1);
                 $user[0]['liked_publics'] = render('profile/user', 'publications_history_item', $liked_publics);
-            }else
+            } else
                 $user[0]['liked_publics'] = "";
 
 
@@ -269,7 +269,7 @@ class Profile extends Main
                 break;
             case ('video'):
                 return !strpos($item['content'], "youtube")
-                    ? "<video src='$item[content]' controls='controls' class='img-fluid'></video>"
+                    ? "<video src='$item[content]' controls='controls' class='img-fluid' " . (strpos($item['poster'], ".jpg") ? "poster='$item[poster]'" : '') . "></video>"
                     : "<iframe style='max-width: 100%' width='640' height='360' src='$item[content]' title='' frameborder='0'
                     allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
                     allowfullscreen></iframe>";

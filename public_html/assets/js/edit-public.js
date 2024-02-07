@@ -660,7 +660,7 @@ const publication = {
 
         form.querySelectorAll('.publication__item').forEach(item => {
             let tag = item.dataset.tag;
-            let content, description, source, is_hidden, style;
+            let content, description, source, is_hidden, style, poster;
 
             if (['text', 'subtitle'].includes(tag)) {
                 content = item.querySelector('.publication__item-content').innerText;
@@ -677,6 +677,8 @@ const publication = {
                         source = source[0];
                 } else if (tag === 'video') {
                     let video = item.querySelector('video, iframe');
+                    description = $(item).find('.img-description').text();
+                    poster = video.poster;
                     if (video.src)
                         content = video.src;
                     else
@@ -692,6 +694,7 @@ const publication = {
                 source: source,
                 is_hidden: is_hidden,
                 style: style,
+                poster: poster,
             });
         });
 
@@ -1056,6 +1059,19 @@ const publication = {
                 return alert('Ошибка...');
         };
         ffetch(this.action, callback, data);
+    },
+
+    playNext(video){
+
+        video.webkitExitFullScreen();
+
+        let nextVideo = $(video).closest('.public-video-item').next('.public-video-item').find('video');
+        if(!nextVideo.length)
+            return false;
+
+        nextVideo[0].play();
+        nextVideo[0].scrollIntoView({block: "center", behavior: "smooth"});
+
     }
 
 
@@ -1071,7 +1087,7 @@ $(document).ready(() => {
 
     $(document).on('afterClose.fb', () => {
         if(publication.titleDefault)
-            document.title = publication.titleDefault
+            document.title = publication.titleDefault;
     });
 
     window.onresize = e => {

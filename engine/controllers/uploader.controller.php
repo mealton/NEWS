@@ -62,7 +62,7 @@ class Uploader
 
         if (getimagesize($upload_dir)) {
             $preview = render('components', 'uploader-preview-item', ['src' => $this->upload_dir . $folder]);
-            json(['result' => true, 'preview' => $preview]);
+            json(['result' => true, 'preview' => $preview, 'src' => $this->upload_dir . $folder]);
         } else {
             json(['result' => false, 'warning' => 'Файл не загружен', 'data' => $data]);
         }

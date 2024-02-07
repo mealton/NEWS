@@ -17,6 +17,7 @@
         </div>
         <div class="row">
             <div class="col-md-12 publication__item-content">
+                <p class="img-description"><em><?= $description ?></em></p>
                 <?= $content ?>
             </div>
         </div>
@@ -32,6 +33,9 @@
                         title="Загрузить URL"></button>
                 <label class="btn btn-primary upload-video-file" title="Загрузить с устройства">
                     <input type="file" class="file_upload" accept="video/mp4" onchange="uploader.uploadVideoFile(this)">
+                </label>
+                <label class="btn btn-primary upload-file poster-uploader" style="margin-left: 5px;" title="Загрузить постер">
+                    <input type="file" class="file_upload" accept="image/*" name="poster" onchange="uploader.uploadPoster(this)" >
                 </label>
             </div>
             <div class="uploader-previews">
