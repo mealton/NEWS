@@ -177,6 +177,8 @@ class Publication extends Main
         $PublicationModel = new PublicationModel();
         $publication = $PublicationModel->get_publication($publication_id, $alias);
 
+        //pre($publication);
+
         //История
         $history = $PublicationModel->getter('users', ['id' => $_SESSION['user']['id']], 'history');
         $history = unserialize($history[0]['history']);
@@ -198,8 +200,9 @@ class Publication extends Main
         $publication[0]['is_liked'] = in_array($publication[0]['publication_id'], array_keys($liked_publics));
 
         $publication[0]['media_title'] = $this->convert_title_2($publication[0]['title'], $publication[0]['img_counter'], $publication[0]['video_counter']);
+        $hashtagsCount = $publication[0]['hashtagsCount'];
 
-        //pre($publication);
+        //pre();
 
         $publication = pre_show($publication);
         $this->components['title'] = $publication[0]['title'];
@@ -243,6 +246,8 @@ LIKES;
 
         $publication[0]['publication_content'] = $publication_content;
         $publication[0]['data_image'] = $this->components['data_image'];
+
+        $publication[0]['hashtagsCount'] = $hashtagsCount;
 
         $publication_header = render('public/show', 'publication_header', $publication[0]);
 

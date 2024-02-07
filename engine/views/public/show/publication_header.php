@@ -1,3 +1,23 @@
+<?php
+/**
+ * @var $media_title string
+ * @var $data_image string
+ * @var $title string
+ * @var $data_image string
+ * @var $introtext string
+ * @var $author string
+ * @var $published_date string
+ * @var $publication_content string
+ * @var $user_id integer
+ * @var $views integer
+ * @var $is_liked boolean
+ * @var $publication_id integer
+ * @var $likes integer
+ * @var $comment_count integer
+ * @var $hashtagsCount array
+ */
+?>
+
 <header class="mb-4">
     <article>
         <!-- Post title-->
@@ -75,10 +95,13 @@
         </div>
 
         <!-- Post categories-->
-        <?php // echo $tags ?>
-        <?php foreach ((array)$hashtags as $hashtag): ?>
-            <a class="badge bg-secondary text-decoration-none link-light"
-               href="/publication/tags/<?= urlencode($hashtag) ?>"><?= $hashtag ?></a>
+        <?php foreach ($hashtagsCount as $item): ?>
+            <a class="hashtag-item badge bg-secondary text-decoration-none link-light"
+               href="/publication/tags/<?= urlencode($item['name']) ?>">
+                <span class="wrapper">
+                    <?= $item['name'] ?> <span class="delimiter"></span> <?= $item['count'] ?>
+                </span>
+            </a>
         <?php endforeach; ?>
 
     </article>

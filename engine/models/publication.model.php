@@ -93,7 +93,7 @@ SQL;
             if ($filter['filter'] == "liked") {
                 $filter = $this->get_filter_string($filter);
                 $limit_sql = " ORDER BY `p`.`published_date` DESC";
-            }else{
+            } else {
                 $erotic_filter = in_array($filter['filter'], ['date', 'search', 'category', 'tag', 'author']) ? '' : ' AND `cat`.`is_hidden` != 1';
                 $unpublihed = !$filter['user-zone'] ? 'AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0 AND `p`.`moderated` = 1' . $erotic_filter : '';
                 $filter = $this->get_filter_string($filter);
@@ -201,7 +201,25 @@ LEFT JOIN `users` as `u` ON `p`.`user_id` = `u`.`id`
 WHERE 1 $unpublihed AND `p`.`id` = $id $alias_where
 SQL;
 
-        return db::getInstance()->Select($sql);
+        $publication = db::getInstance()->Select($sql);
+
+        $erotic_user_filter = $_SESSION['user']['show_erotic'] ? "" : "AND `c`.`is_hidden` = 0";
+
+        $sql = <<<SQL
+SELECT `t1`.`name`, COUNT(`t2`.`name`) as `count`
+FROM `hashtags` as `t1`
+LEFT JOIN `hashtags` as `t2` ON `t1`.`name` = `t2`.`name`
+RIGHT JOIN `publications` as `p` ON `t2`.`publication_id` = `p`.`id` AND `p`.`moderated` = 1 AND `p`.`is_deleted` = 0 AND `p`.`is_published` = 1
+RIGHT JOIN `categories` as `c` ON `p`.`category_id` = `c`.`id` AND `c`.`is_active` = 1 $erotic_user_filter
+WHERE `t1`.`publication_id` = $id
+GROUP BY `t1`.`name`
+SQL;
+
+        $hashtags = db::getInstance()->Select($sql);
+
+        $publication[0]['hashtagsCount'] = $hashtags;
+
+        return $publication;
     }
 
     //Подсчет количества страниц для вывода пагинации
@@ -389,6 +407,7 @@ SQL;
         $sql = <<<SQL
 SELECT 
 `p`.*,
+`cat`.`is_hidden`,
 IF(`p`.`image_default` != "", `p`.`image_default`, (SELECT `content` FROM `content` WHERE `publication_id` = `p`.`id` AND `tag` = "image" AND `content` != "" AND `is_active` = 1 ORDER BY RAND() LIMIT 1)) as `public_img`,
 (SELECT COUNT(*) FROM `hashtags` WHERE `name` IN ("$hashtags") AND `publication_id` = `p`.`id`) as `tags_counter`,
 (SELECT COUNT(`id`) FROM `comments` WHERE `publication_id` = `p`.`id` AND `is_active` = 1) as `comment_count`
@@ -439,7 +458,7 @@ SQL;
         $erotic_filter = $_SESSION['user']['show_erotic']
             ? ""
             : " AND `c`.`is_hidden` != 1";
-$sql = <<<SQL
+        $sql = <<<SQL
 SELECT `h`.`name`, COUNT(`p`.`id`) as `counter`
 FROM `hashtags` as `h`
 RIGHT JOIN `publications` as `p` ON `h`.`publication_id` = `p`.`id` 

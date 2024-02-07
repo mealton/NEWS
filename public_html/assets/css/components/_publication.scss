@@ -428,6 +428,29 @@ ul.publications-list {
   }
 }
 
+.hashtag-item {
+  overflow: hidden;
+  height: 20px;
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+  }
+
+  line-height: 1;
+
+  .delimiter {
+    display: inline-block;
+    width: 1px;
+    height: 100%;
+    background-color: #fff;
+    margin: 0 5px;
+    line-height: 1;
+  }
+}
+
 .video-item:before {
   display: block;
   content: "";
@@ -477,7 +500,7 @@ ul.publications-list {
 
 @media screen and (max-width: 576px) {
 
-  .fancybox-slide .video-iframe-container{
+  .fancybox-slide .video-iframe-container {
     padding: 0;
   }
 

@@ -1,3 +1,17 @@
+<?php
+/**
+ * Похожие публикации
+ * @var $title string
+ * @var $id integer
+ * @var $alias string
+ * @var $public_img string
+ * @var $category_id integer
+ * @var $views integer
+ * @var $likes integer
+ * @var $comment_count integer
+ */
+?>
+
 <p>
     <small><?= html_entity_decode($title) ?></small>
 </p>
@@ -5,7 +19,7 @@
      data-mdb-ripple-color="light">
     <a href="/publication/show/<?= $id ?>::<?= $alias ?>.html">
         <img src="<?= $public_img ? $public_img : '/assets/uploads/img/not-available.jpg' ?>" alt="#"
-             class="publication-img-preview img-fluid <?= $category_id == 3 ? 'is-erotic' : '' ?>">
+             class="publication-img-preview img-fluid <?= $is_hidden == 1 ? 'is-erotic' : '' ?>">
     </a>
     <div class="public-author-preview">
         <div class="mask" style="background-color: rgba(0, 0, 0, .35);">

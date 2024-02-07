@@ -870,6 +870,26 @@ ul.publications-list {
   transform: scale(1.1);
 }
 
+.hashtag-item {
+  overflow: hidden;
+  height: 20px;
+  line-height: 1;
+}
+.hashtag-item .wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+}
+.hashtag-item .delimiter {
+  display: inline-block;
+  width: 1px;
+  height: 100%;
+  background-color: #fff;
+  margin: 0 5px;
+  line-height: 1;
+}
+
 .video-item:before {
   display: block;
   content: "";
