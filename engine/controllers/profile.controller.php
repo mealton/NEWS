@@ -238,7 +238,7 @@ class Profile extends Main
                     $user[0]['trash_cleaner'] = "<i class='fa fa-trash-o pointer' onclick='publication.trash_cleaner(this)'  aria-hidden='true'></i>";
 
                 $user[0]['publications'] = !empty($publications)
-                    ? render('public/edit', 'preview', $this->convert_title($publications)) . $this->pagination_constructor(['filter' => 'author', 'value' => $id])
+                    ? render('public/edit', 'preview', $this->convert_title($publications)) . $this->pagination_constructor(['filter' => 'author-profile', 'value' => $id])
                     : '<p class="lead">Публикации отсутствуют...</p>';
             }
 

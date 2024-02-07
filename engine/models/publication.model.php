@@ -53,7 +53,7 @@ SQL;
             case ('recent'):
                 $recentFilter = "AND DATE(`p`.`published_date`) >= DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY)";
                 break;
-            case ('author'):
+            case ('author-profile'):
                 $authorFilter = "AND `p`.`user_id` = $filter[value]";
                 break;
             case ('top'):
@@ -210,6 +210,8 @@ SQL;
         $erotic_filter = $filter['filter'] == 'category' ? '' : ' AND `cat`.`is_hidden` != 1';
         $unpublihed = !$filter['user-zone'] ? 'AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0 AND `p`.`moderated` = 1' . $erotic_filter : '';
         $filter = $this->get_filter_string($filter);
+
+        //pre($filter);
 
         $sql = <<<SQL
 SELECT COUNT(`p`.`id`) as `publication_counter`
