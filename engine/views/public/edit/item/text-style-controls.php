@@ -68,7 +68,8 @@
                     <select name="all-fields" class="form-control field change-tag"
                             onchange="publication.changeTag(this)">
                         <option value="text">Текст</option>
-                        <option value="subtitle" <?= $selected ? 'selected' : '' ?>>Подзаголовок</option>
+                        <option value="subtitle" <?= $selected == "subtitle" ? 'selected' : '' ?>>Подзаголовок</option>
+                        <option value="quote" <?= $selected == "quote" ? 'selected' : '' ?>>Цитата</option>
                     </select>
                 </div>
                 <div class="col-md-6">

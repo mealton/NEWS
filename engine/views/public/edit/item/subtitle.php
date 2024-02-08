@@ -19,7 +19,7 @@
         </p>
         <div class="editor" style="display: <?= $editor_hide ? 'none' : 'block' ?>">
             <legend>Блок подзаголовок</legend>
-            <?= render('public/edit/item', 'text-style-controls', ['fontsize' => 30, 'selected' => 1]) ?>
+            <?= render('public/edit/item', 'text-style-controls', ['fontsize' => 30, 'selected' => 'subtitle']) ?>
         </div>
         <div class="row">
             <div class="col-md-12 publication__item-content" style="font-size: <?= $fontsize ?>px; <?= $style ?>">

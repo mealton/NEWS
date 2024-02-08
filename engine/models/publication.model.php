@@ -203,6 +203,11 @@ SQL;
 
         $publication = db::getInstance()->Select($sql);
 
+        if(empty($publication))
+            return false;
+
+        //pre($publication);
+
         $erotic_user_filter = $_SESSION['user']['show_erotic'] ? "" : "AND `c`.`is_hidden` = 0";
 
         $sql = <<<SQL

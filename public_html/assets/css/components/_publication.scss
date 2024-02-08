@@ -11,6 +11,18 @@
   }
 }
 
+.blockquotered {
+  background-color: #F9F9F9;
+  padding: 10px 10px 10px 15px;
+  border-left: 4px solid #55CA03;
+  font-size: 24px;
+  position: relative;
+  margin: 0 0 30px;
+  text-indent: 42px;
+  font-weight: 300;
+  font-style: italic;
+}
+
 .profile-public-img {
   background-size: cover;
   display: block;

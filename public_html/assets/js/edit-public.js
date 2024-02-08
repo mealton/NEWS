@@ -430,6 +430,15 @@ const publication = {
                         '<a href="$&" target="_blank">$&</a>');
                 content = `<p>${text}</p>`;
                 break;
+            case ('quote'):
+                let quote = item.find('textarea[name="quote-content"]').val();
+                quote = quote
+                    .replace(/\n/g, '</p><p>')
+                    .replace(
+                        /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi,
+                        '<a href="$&" target="_blank">$&</a>');
+                content = `<blockquote class="blockquotered">${quote}</blockquote>`;
+                break;
             case ('image'):
 
                 let description = `<br><p class="img-description"><em>${item.find('input[name="description"]').val()}</em></p>`;
@@ -662,7 +671,7 @@ const publication = {
             let tag = item.dataset.tag;
             let content, description, source, is_hidden, style, poster;
 
-            if (['text', 'subtitle'].includes(tag)) {
+            if (['text', 'subtitle', 'quote'].includes(tag)) {
                 content = item.querySelector('.publication__item-content').innerText;
                 style = item.querySelector('.publication__item-content').getAttribute('style');
             } else {
@@ -988,7 +997,7 @@ const publication = {
             </div>`;
 
         $(document.body)
-            .css({overflow:'hidden'})
+            .css({overflow: 'hidden'})
             .on('click', e => {
                 if (!$(e.target).closest('.clickable, .publication-image-item').length)
                     this.closeModal()
@@ -1061,12 +1070,12 @@ const publication = {
         ffetch(this.action, callback, data);
     },
 
-    playNext(video){
+    playNext(video) {
 
         video.webkitExitFullScreen();
 
         let nextVideo = $(video).closest('.public-video-item').next('.public-video-item').find('video');
-        if(!nextVideo.length)
+        if (!nextVideo.length)
             return false;
 
         nextVideo[0].play();
@@ -1079,14 +1088,14 @@ const publication = {
 
 $(document).ready(() => {
 
-    $('.video-item .img-fluid').each( (i, img) => {
-        if(img.offsetWidth < 300)
-            img.src = img.src.replace ('maxresdefault', 'sddefault');
+    $('.video-item .img-fluid').each((i, img) => {
+        if (img.offsetWidth < 300)
+            img.src = img.src.replace('maxresdefault', 'sddefault');
     });
 
 
     $(document).on('afterClose.fb', () => {
-        if(publication.titleDefault)
+        if (publication.titleDefault)
             document.title = publication.titleDefault;
     });
 
@@ -1101,7 +1110,6 @@ $(document).ready(() => {
         }
 
     };
-
 
 
     document.querySelectorAll('img').forEach(img => {
@@ -1120,7 +1128,6 @@ $(document).ready(() => {
         isAnimatedGif(img.src, callback);
 
     });
-
 
 
     publication.setLikeWidth();
