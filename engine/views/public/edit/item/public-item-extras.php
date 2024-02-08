@@ -1,3 +1,9 @@
+<?php
+/**
+ * Элменты управления элеменнтом контента публикации
+ * @var $editor_hide boolean
+ */
+?>
 <div class="public-item-extras">
     <i class='fa fa-times remove-public-item' aria-hidden='true' title="Удалить блок" onclick="publication.removeItem(this)"></i>
     <i title="Редактор" class='fa fa-pencil-square-o editor-icon <?= $editor_hide ? 'non-active' : '' ?>'  onclick="publication.editor(this)" aria-hidden='true'></i>

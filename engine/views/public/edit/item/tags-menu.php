@@ -1,13 +1,24 @@
+<?php
+/**
+ * Элементы добавления новых элментов контента
+ * @var $buttons boolean
+ * @var $editor_hide boolean
+ * @var $after string
+ */
+?>
 <div class="row tags-menu">
     <div class="col-md-9 buttons">
-        <?php if($buttons):?>
-        <button type="button" style="display: <?= $editor_hide ? 'none' : 'block' ?>" class="btn btn-primary accept-btn editor" onclick="publication.acceptEdit(this)">ОК</button>
-        <?php endif;?>
+        <?php if ($buttons): ?>
+            <button type="button" style="display: <?= $editor_hide ? 'none' : 'block' ?>"
+                    class="btn btn-primary accept-btn editor" onclick="publication.acceptEdit(this)">ОК
+            </button>
+        <?php endif; ?>
     </div>
     <div class="col-md-3 tag-controls">
         <div class="row tags-controls-container fs-3 text">
             <div class="col-md-3">
-                <i class="tags-controls__item fa fa-picture-o" aria-hidden="true" title="Добавить <?= $after ?> картинку"
+                <i class="tags-controls__item fa fa-picture-o" aria-hidden="true"
+                   title="Добавить <?= $after ?> картинку"
                    onclick="publication.addItem(this)"
                    data-tag="image"></i>
             </div>

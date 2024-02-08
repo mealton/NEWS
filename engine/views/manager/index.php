@@ -1,3 +1,8 @@
+<?php
+/**
+ * Выбор вкладки на странице администрирования
+ */
+?>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
 
     <? foreach ($GLOBALS['config']['manager']['tabs'] as $tab => $title): ?>

@@ -1,3 +1,22 @@
+<?php
+/**
+ * Ответ на комментарий
+ * @var $user_id integer
+ * @var $is_complained boolean
+ * @var $id integer
+ * @var $username string
+ * @var $profile_image string
+ * @var $gender string
+ * @var $is_author boolean
+ * @var $date string
+ * @var $is_active boolean
+ * @var $commet_is_liked boolean
+ * @var $likes integer
+ * @var $publication_id integer
+ * @var $comment string
+ * @var $image string
+ */
+?>
 <div class="card-body p-4 position-relative comment-item-container comment-reply">
     <?php session_start();
     if (($user_id == $_SESSION['user']['id'] && !$is_complained) || $_SESSION['user']['is_admin']): ?>

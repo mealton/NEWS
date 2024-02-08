@@ -1,3 +1,11 @@
+<?php
+/**
+ * Элемент контента Видео (старое)
+ * @var $description string
+ * @var $content string
+ * @var $source string
+ */
+?>
 <figure class="mb-4" itemscope itemtype="http://schema.org/ImageObject">
     <?php if ($description): ?>
         <blockquote class="blockquote">

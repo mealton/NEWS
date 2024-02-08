@@ -1,3 +1,11 @@
+<?php
+/**
+ * Страница создания нового пароля
+ * @var $registration_token string
+ * @var $id integer
+ * @var $registration_fields array
+ */
+?>
 <section>
     <form action="/profile/recovery_user.html" method="post" id="recovery-form">
         <div class="container">
@@ -17,9 +25,9 @@
                     <?php foreach ($registration_fields as $item): ?>
                         <div class="row align-items-center">
                             <div class="col mt-4 field-item">
-                                <?php include_once __DIR__ . '/password-extras.php'?>
+                                <?php include_once __DIR__ . '/password-extras.php' ?>
                                 <input type="<?= $item['type'] ?>" name="<?= $item['name'] ?>" class="form-control"
-                                       placeholder="<?= $item['placeholder'] . ($item['required'] ? '*' : '')?>" <?= $item['required'] ? 'required' : '' ?> />
+                                       placeholder="<?= $item['placeholder'] . ($item['required'] ? '*' : '') ?>" <?= $item['required'] ? 'required' : '' ?> />
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>

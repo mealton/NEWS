@@ -1,3 +1,9 @@
+<?php
+/**
+ * Форма добавления новой публикации
+ * @var $categories array
+ */
+?>
 <div class="container rounded bg-white mt-5 mb-5">
     <form action="/publication/add" id="new-public-form" method="post" class="publication-form" data-method="add">
         <?= render('public/edit', 'publication', ['start_text' => 1, 'categories' => $categories])?>

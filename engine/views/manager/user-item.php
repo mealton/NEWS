@@ -1,4 +1,16 @@
-<?php $disabled = $_SESSION['user']['id'] == $id ? 'disabled' : ''; ?>
+<?php
+/**
+ * Элемент управления правами пользователя на странице администрирования
+ * @var $id integer
+ * @var $username string
+ * @var $profile_image string
+ * @var $gender string
+ * @var $is_active boolean
+ * @var $email string
+ * @var $about string
+ * @var $is_admin boolean
+ */
+$disabled = $_SESSION['user']['id'] == $id ? 'disabled' : ''; ?>
 
 <div class="accordion-item user-item" data-id="<?= $id ?>" data-username="<?= $username ?>">
     <div class="accordion-header">

@@ -1,4 +1,27 @@
 <?php
+/**
+ * Карточка публикации в режиме редактирования
+ * @var $is_deleted boolean
+ * @var $is_published boolean
+ * @var $moderated boolean
+ * @var $id integer
+ * @var $alias string
+ * @var $public_img string
+ * @var $user_id integer
+ * @var $author string
+ * @var $author_image string
+ * @var $published_date string
+ * @var $published_date string
+ * @var $views integer
+ * @var $likes integer
+ * @var $category_id integer
+ * @var $category integer
+ * @var $category string
+ * @var $title string
+ * @var $introtext string
+ */
+
+
 $classname = '';
 if ($is_deleted)
     $classname = 'is-deleted';
@@ -35,7 +58,7 @@ else {
                     </div>
                 </div>
                 <a href="/publication/show/<?= $id ?>::<?= $alias ?>.html">
-                    <img src="<?= $public_img ? $public_img : '/assets/uploads/img/not-available.jpg' ?>"
+                    <img src="<?= $public_img ? $public_img : '/assets/uploads/img/not-available.jpg' ?>" alt=""
                          class="publication-img-preview img-fluid"/>
                 </a>
                 <a href="/publication/authors/<?= $user_id . '::' . $author ?>/" class="public-author-preview">

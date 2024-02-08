@@ -1,3 +1,12 @@
+<?php
+/**
+ * Информация об авторе в карточке
+ * @var $id integer
+ * @var $profile_image string
+ * @var $username string
+ * @var $p_count integer
+ */
+?>
 <div class="card subcategory-card" style="width: 18rem;">
     <a href="/publication/authors/<?= $id ?>::<?= $username ?>/" class="card-link">
         <div class="card-body">

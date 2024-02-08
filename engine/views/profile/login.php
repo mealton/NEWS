@@ -1,3 +1,8 @@
+<?php
+/**
+ * Страница авторизации
+ */
+?>
 <section>
     <form action="/profile/auth/" method="post">
         <div class="container">

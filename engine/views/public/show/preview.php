@@ -1,3 +1,23 @@
+<?php
+/**
+ * Карточка с названием, описанием публикации
+ * @var $special_content_category boolean
+ * @var $id integer
+ * @var $alias string
+ * @var $title string
+ * @var $public_img string
+ * @var $author_image string
+ * @var $user_id integer
+ * @var $author string
+ * @var $published_date string
+ * @var $views integer
+ * @var $likes integer
+ * @var $comment_count integer
+ * @var $category_id integer
+ * @var $category string
+ * @var $introtext string
+ */
+?>
 <article>
     <div class="row gx-5 public-item-preview">
         <div class="col-md-6 mb-4">

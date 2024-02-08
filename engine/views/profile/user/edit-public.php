@@ -1,6 +1,21 @@
+<?php
+/**
+ * Форма редактирования публикации
+ * @var $publication_id integer
+ * @var $publication_content string
+ * @var $categories array
+ * @var $public_header array
+ * @var $import_containers array
+ * @var $image_default string
+ * @var $is_published boolean
+ * @var $comment_form string
+ * @var $comments string
+ */
+?>
 <div class="container rounded bg-white mt-5 mb-5">
-    <form action="/publication/update" id="edit-public-form" method="post" class="publication-form" data-method="update">
-        <input type="hidden" name="id" value="<?= $publication_id ?>" />
+    <form action="/publication/update" id="edit-public-form" method="post" class="publication-form"
+          data-method="update">
+        <input type="hidden" name="id" value="<?= $publication_id ?>"/>
         <?= render('public/edit', 'publication', [
             'publication_content' => $publication_content,
             'categories' => $categories,
@@ -17,7 +32,8 @@
             <div class="col-md-12">
                 <div class="form-check">
                     <label class="form-check-label" style="margin-right: 40px">
-                        <input class="form-check-input" name="publish" type="checkbox" value="1" <?= $is_published ? 'checked' : '' ?> >
+                        <input class="form-check-input" name="publish" type="checkbox"
+                               value="1" <?= $is_published ? 'checked' : '' ?> >
                         Опубликовать
                     </label>
                     <label class="form-check-label">

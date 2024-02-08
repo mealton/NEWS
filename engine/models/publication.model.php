@@ -51,13 +51,13 @@ SQL;
                 $searchFilter = "AND `p`.`title` LIKE \"%$filter[value]%\"";
                 break;
             case ('recent'):
-                $recentFilter = "AND DATE(`p`.`published_date`) >= DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY)";
+                $recentFilter = " AND DATE(`p`.`published_date`) >= DATE_SUB(CURRENT_DATE, INTERVAL 14 DAY)";
                 break;
             case ('author-profile'):
                 $authorFilter = "AND `p`.`user_id` = $filter[value]";
                 break;
             case ('top'):
-                $topFilter = "AND `p`.`likes` >= $filter[value] AND DATE(`p`.`published_date`) >= DATE_SUB(CURRENT_DATE, INTERVAL 1 WEEK)";
+                $topFilter = "AND `p`.`likes` >= $filter[value] ";
                 break;
             case ('liked'):
                 $likedFilter = "AND `p`.`id` IN(" . implode(', ', $filter['value']) . ") ";

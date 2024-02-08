@@ -1,3 +1,8 @@
+<?php
+/**
+ * Страницца 404
+ */
+?>
 <div class="page-wrap d-flex flex-row align-items-center">
     <div class="container">
         <div class="row justify-content-center">

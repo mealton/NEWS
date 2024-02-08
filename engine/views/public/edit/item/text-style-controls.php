@@ -1,3 +1,10 @@
+<?php
+/**
+ * Элементы стилизации текстовых элементов
+ * @var $fontsize string
+ * @var $selected boolean
+ */
+?>
 <div class="text-style-controls">
     <hr>
     <div class="row">

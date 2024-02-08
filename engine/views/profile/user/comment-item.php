@@ -1,3 +1,21 @@
+<?php
+/**
+ * Элемент комментария на странице пользователя
+ * @var $publication_id integer
+ * @var $alias string
+ * @var $title string
+ * @var $public_img string
+ * @var $id integer
+ * @var $user_id integer
+ * @var $username string
+ * @var $date string
+ * @var $commet_is_liked boolean
+ * @var $likes integer
+ * @var $comment string
+ * @var $image string
+ * @var $replies string
+ */
+?>
 <div class="card-body p-4 comment-item-container">
     <div class="row">
         <div class="col-md-6">

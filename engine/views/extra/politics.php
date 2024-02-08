@@ -1,4 +1,10 @@
-<?php $site_address = get_protocol() . "://" . $_SERVER['HTTP_HOST'] ?>
+<?php
+
+/**
+ * Страницца Политика конфиденциальности
+ */
+
+$site_address = get_protocol() . "://" . $_SERVER['HTTP_HOST'] ?>
 
 <style>
     .sub {

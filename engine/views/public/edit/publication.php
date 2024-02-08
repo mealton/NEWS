@@ -1,3 +1,20 @@
+<?php
+/**
+ * Публикация в режиме редактирования
+ * @var $image_default string
+ * @var $categories array
+ * @var $category_id integer
+ * @var $category_id integer
+ * @var $url_import string
+ * @var $import_containers array
+ * @var $title string
+ * @var $introtext string
+ * @var $hashtags string
+ * @var $comment string
+ * @var $start_text string
+ * @var $publication_content string
+ */
+?>
 <!--Выбор категории-->
 <fieldset>
     <input type="hidden" name="user_id" value="<?php session_start();

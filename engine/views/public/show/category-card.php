@@ -1,3 +1,12 @@
+<?php
+/**
+ * Карточка с названием и описанием категории
+ * @var $id integer
+ * @var $name string
+ * @var $description string
+ * @var $is_hidden boolean
+ */
+?>
 <div class="card subcategory-card" style="width: 18rem; margin: 0 10px 10px">
     <a href="/publication/category/<?= $id ?>/<?= translit($name) ?>/" class="card-link">
         <div class="card-body">

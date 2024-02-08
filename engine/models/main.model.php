@@ -253,6 +253,7 @@ SQL;
     {
 
         $publication_id = (int)$publication_id;
+        //AND DATE(`p`.`published_date`) >= DATE_SUB(CURRENT_DATE, INTERVAL 3 DAY)
 
         $sql = <<<SQL
 SELECT 
@@ -266,11 +267,10 @@ IF(
 FROM `publications` as `p`
 INNER JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1 AND `cat`.`is_hidden` = 0
 WHERE `p`.`is_deleted` != 1 AND `p`.`is_published` = 1 AND `p`.`moderated` = 1 AND `cat`.`is_active` = 1
-  AND `p`.`id` != $publication_id
-    AND DATE(`p`.`published_date`) >= DATE_SUB(CURRENT_DATE, INTERVAL 3 DAY)
+  AND `p`.`id` != $publication_id    
 GROUP BY `p`.`published_date`
-ORDER BY `p`.`views` DESC, `p`.`likes` DESC, `p`.`published_date` DESC
-LIMIT 3
+ORDER BY `p`.`likes` DESC, `p`.`views` DESC, `p`.`published_date` DESC
+LIMIT 4
 SQL;
         return db::getInstance()->Select($sql);
     }

@@ -1,3 +1,12 @@
+<?php
+/**
+ * Элемент Подзаголовок в режиме редактирования
+ * @var $editor_hide boolean
+ * @var $fontsize string
+ * @var $style string
+ * @var $content string
+ */
+?>
 <div class="publication__item" data-tag="subtitle">
     <fieldset>
         <p class="lead d-flex align-items-center fw-bold">

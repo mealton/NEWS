@@ -1,4 +1,5 @@
 <?php /**
+ * Элемент контента Изображение
  * @var $is_hidden boolean
  * @var $description string
  * @var $content string

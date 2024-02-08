@@ -1,3 +1,8 @@
+<?php
+/**
+ * Страница для восстановления пароля
+ */
+?>
 <form method="post" id="forgot-form">
 
     <div class="form-outline mb-4">

@@ -1,3 +1,12 @@
+<?php
+/**
+ * Элемент Видео в режиме редактирования
+ * @var $editor_hide boolean
+ * @var $description string
+ * @var $content string
+ * @var $previews string
+ */
+?>
 <div class="publication__item" data-tag="video">
     <fieldset>
         <p class="lead d-flex align-items-center fw-bold">

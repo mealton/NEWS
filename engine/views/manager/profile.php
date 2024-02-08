@@ -1,3 +1,18 @@
+<?php
+/**
+ * Информация о пользователе на странице администрирования
+ * @var $username string
+ * @var $registration_date string
+ * @var $profile_image string
+ * @var $uploader string
+ * @var $fullname string
+ * @var $id integer
+ * @var $registration_token string
+ * @var $email string
+ * @var $about string
+ * @var $gender string
+ */
+?>
 <p><b><?= $username ?></b> Зарегистрирован: <?= date_rus_format($registration_date) ?> года</p>
 <form id="update-profile-form" action="/profile/update">
     <div class="row">

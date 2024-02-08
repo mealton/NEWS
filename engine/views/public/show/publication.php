@@ -1,3 +1,16 @@
+<?php
+/**
+ * Полный текст публикации
+ * @var $publication_header string
+ * @var $publication_content string
+ * @var $source string
+ * @var $user_id integer
+ * @var $publication_id integer
+ * @var $comment_form string
+ * @var $comments string
+
+ */
+?>
 <!-- Post header-->
 <div itemscope itemtype="http://schema.org/Article" id="publication-body">
     <?= $publication_header ?>
@@ -48,9 +61,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 </section>
-

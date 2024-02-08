@@ -1,3 +1,8 @@
+<?php
+/**
+ * Личный кабинет пользователя (вкладки)
+ */
+?>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
 
     <? foreach ($GLOBALS['config']['profile']['profile-tabs'] as $tab => $title): ?>

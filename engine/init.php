@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * Файл инициализации системы
+ */
+
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/functions.lib.php';
 require_once __DIR__ . '/models/db.php';
@@ -11,8 +16,6 @@ if(strpos(trim($_GET['q']), ".html") && end(explode(".html", trim($_GET['q']))))
     exit404($query);
 
 $controller_name = current(explode(".html", $query[0]));
-
-
 
 if(!$controller_name)
     $controller_name = 'publication';

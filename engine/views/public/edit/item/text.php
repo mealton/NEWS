@@ -1,3 +1,12 @@
+<?php
+/**
+ * Элемент Текст в режиме редактирования
+ * @var $fontsize string
+ * @var $style string
+ * @var $editor_hide boolean
+ * @var $content string
+ */
+?>
 <div class="publication__item" data-tag="text">
     <fieldset>
         <p class="lead d-flex align-items-center fw-bold">
@@ -14,7 +23,7 @@
         </div>
         <div class="row">
             <div class="col-md-12 publication__item-content" style="font-size: <?= $fontsize ?>px; <?= $style ?>">
-                <?= str_replace(["\n", "<br><br>"], ["<br>", "<br>"], $content)  ?>
+                <?= str_replace(["\n", "<br><br>"], ["<br>", "<br>"], $content) ?>
             </div>
         </div>
         <?php include __DIR__ . '/public-item-extras.php' ?>

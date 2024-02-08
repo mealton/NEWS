@@ -1,3 +1,10 @@
+<?php
+/**
+ * Главный шаблон сайта
+ * @var $components array
+ * @var $content string
+ */
+?>
 <!doctype html>
 <html lang="ru">
 <head>

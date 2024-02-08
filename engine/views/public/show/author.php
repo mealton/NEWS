@@ -1,3 +1,14 @@
+<?php
+/**
+ * Информация об авторе
+ * @var $user_id integer
+ * @var $profile_image string
+ * @var $registration_date string
+ * @var $publication_count integer
+* @var $about string
+* @var $manager_controls string
+*/
+?>
 <div class="author" data-id="<?= $user_id ?>">
     <div class="row">
         <div class="col-md-4">

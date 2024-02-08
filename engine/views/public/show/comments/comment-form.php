@@ -1,4 +1,14 @@
-<?php session_start(); if($_SESSION['user']['id']): ?>
+<?php
+/**
+ * Форма отправки комментариев
+ * @var $publication_id integer
+ * @var $user_id integer
+ * @var $is_reply boolean
+ * @var $parent_id integer
+ * @var $show_cancel boolean
+ */
+
+session_start(); if($_SESSION['user']['id']): ?>
 <form class="mb-4 comment-form" onsubmit="publication.comment(this); return false;">
     <div class="row">
         <div class="col-md-1">

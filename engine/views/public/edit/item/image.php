@@ -1,3 +1,13 @@
+<?php
+/**
+ * Элемент Изображение в режиме редактирования
+ * @var $checkImgDefault boolean
+ * @var $is_hidden boolean
+ * @var $editor_hide boolean
+ * @var $description string
+ * @var $content string
+ */
+?>
 <div class="publication__item" data-tag="image">
     <fieldset>
         <p class="lead d-flex align-items-center fw-bold">

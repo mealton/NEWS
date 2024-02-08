@@ -1,3 +1,10 @@
+<?php
+/**
+ * Страница Регистарции
+ * @var $registration_fields array
+ * @var $uploader string
+ */
+?>
 <section>
     <form action="/profile/create.html" method="post" id="registration-form">
         <div class="container">

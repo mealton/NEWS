@@ -73,7 +73,7 @@ class Publication extends Main
     }
 
     //Минимум лайков для вывода публикации в топ
-    private $top = 1;
+    private $top = 3;
 
     //action для вывода топа публикаций
     protected function top($query = [], $async = false)
