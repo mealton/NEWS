@@ -85,6 +85,7 @@ SQL;
     public function get_publications($offset, $filter = [], $slider = false)
     {
 
+
         if (!$filter['manager-zone']) {
 
             //Фильтр на показ эротики
@@ -105,6 +106,7 @@ SQL;
             $filter['managerZone'] = "AND `p`.`moderated` = 0 ";
             $limit_sql = " ORDER BY `p`.`published_date` DESC";
         }
+
 
         $sql = <<<SQL
 SELECT 

@@ -317,6 +317,14 @@ DROPDOWN;
                     'moderated' => 1,
                     'is_deleted' => 0
                 ]));
+
+            $publications = $publication->get_publications($this->offset, ['filter' => 'author-profile', 'value' => $filter['value']]);
+
+            $content = !empty($publications)
+                ? render('public/show', 'preview', $this->convert_title($publications)) . $this->pagination_constructor(['filter' => 'author-profile', 'value' => $filter['value']])
+                : '<p class="lead">Публикации отсутствуют...</p>';
+
+
             $content = render('public/show', 'author', $author_data[0]) . "<hr>" . $content;
         }
 
