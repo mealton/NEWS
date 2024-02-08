@@ -8,6 +8,12 @@ function ffetch(action, callback, data, callback_error = () => false) {
         .catch(error => callback_error(error));
 }
 
+function get_selected_text() {
+    if (window.getSelection()) {
+        let select = window.getSelection();
+        return select.toString();
+    }
+}
 
 function formExecute(form) {
     const fields = form.elements;

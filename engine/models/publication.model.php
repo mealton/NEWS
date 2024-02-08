@@ -407,9 +407,14 @@ SQL;
     public function get_similar($id)
     {
 
+        session_start();
+
         $hashtags = $this->get_hashtags($id);
         if ($hashtags)
             $hashtags = implode('", "', $hashtags);
+
+        //Фильтр на показ эротики
+        $erotic_user_filter = $_SESSION['user']['show_erotic'] ? "" : "AND `cat`.`is_hidden` != 1";
 
         $sql = <<<SQL
 SELECT 
@@ -423,7 +428,7 @@ RIGHT JOIN `hashtags` as `h` ON  `p`.`id` = `h`.`publication_id` AND `h`.`name` 
 RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1
 WHERE `p`.`id` != $id AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0 AND `p`.`moderated` = 1
 GROUP BY `p`.`id`
-HAVING `tags_counter` > 2
+HAVING `tags_counter` > 2 $erotic_user_filter
 ORDER BY `tags_counter` DESC
 LIMIT 20
 SQL;

@@ -243,6 +243,18 @@
 
 }
 
+.link-modal-inner{
+  width: 500px;
+  max-width: 95%;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 10px;
+  input{
+    display: block;
+    margin-bottom: 15px;
+  }
+}
+
 .custom-modal-wrapper {
   position: relative;
 

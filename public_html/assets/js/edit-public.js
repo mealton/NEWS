@@ -78,6 +78,44 @@ const publication = {
         content: {},
     },
 
+    textLink(item) {
+        $('.link-modal.custom-modal').remove();
+
+        let selectedText = get_selected_text();
+        if (!selectedText)
+            return alert("Вы ничего не выделели");
+
+        let linkModal = `
+<div class="link-modal custom-modal">
+    <div class="link-modal-inner">
+        <form>
+            <input type="text" class="form-control" name="link" placeholder="Адрес ссылки">
+            <button type="submit" class="btn btn-primary">Преобразовать</button>
+            <button type="button" class="btn btn-secondary" onclick="$('.link-modal').remove();">Отмена</button>
+        </form>
+    </div>
+</div>`;
+
+        $(document.body).append(linkModal);
+
+        $('.link-modal form').on('submit', function (e) {
+            e.preventDefault();
+            let replacementText = `<a href="${this.elements.link.value.trim()}" target="_blank">${selectedText}</a>`;
+            //$(item).closest('.publication__item').find('.accept-btn').click();
+            $('.link-modal.custom-modal').remove();
+            //return replaceSelectedText(replacementText)
+             let textarea = $(item).closest('.publication__item').find('textarea[name="text-content"]');
+             let link = this.elements.link.value.trim();
+             console.log(link);
+             const re = new RegExp(`${selectedText}`, 'g');
+             let text = textarea.val().replace(re, `<a href="${link}" target="_blank"><ins>${selectedText}</ins></a>`);
+             textarea.val(text);
+             $(item).closest('.publication__item').find('.accept-btn').click();
+        })
+
+
+    },
+
     trash_cleaner(icon) {
         if (!confirm('Вы действительно хотите очистить корзину?'))
             return false;
@@ -425,9 +463,9 @@ const publication = {
                 let text = item.find('textarea[name="text-content"]').val();
                 text = text
                     .replace(/\n/g, '</p><p>')
-                    .replace(
-                        /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi,
-                        '<a href="$&" target="_blank">$&</a>');
+                    // .replace(
+                    //     /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi,
+                    //     '<a href="$&" target="_blank">$&</a>');
                 content = `<p>${text}</p>`;
                 break;
             case ('quote'):
@@ -672,7 +710,7 @@ const publication = {
             let content, description, source, is_hidden, style, poster;
 
             if (['text', 'subtitle', 'quote'].includes(tag)) {
-                content = item.querySelector('.publication__item-content').innerText;
+                content = item.querySelector('.publication__item-content').innerHTML;
                 style = item.querySelector('.publication__item-content').getAttribute('style');
             } else {
                 if (tag === 'image') {

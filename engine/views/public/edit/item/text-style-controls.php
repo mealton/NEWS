@@ -31,18 +31,23 @@
         </div>
         <div class="col-md-2 fs-5 text border-end text-center">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <i data-prop="font-weight" onclick="publication.textStyle(this)" data-style="bold"
                        class="btn fa fa-bold" aria-hidden="true"></i>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <i data-prop="font-style" onclick="publication.textStyle(this)" data-style="italic"
                        class="btn fa fa-italic" aria-hidden="true"></i>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <i data-prop="text-decoration" onclick="publication.textStyle(this)" data-style="underline"
                        class="btn fa fa-underline"
                        aria-hidden="true"></i>
+                </div>
+                <div class="col-md-3">
+                    <a href="#" onclick="publication.textLink(this); return false;">
+                        <i class='fa fa-link' aria-hidden='true'></i>
+                    </a>
                 </div>
             </div>
         </div>
