@@ -587,6 +587,9 @@ LIKES;
             exit404($query);
 
         $this->components['breadcrumb'] = $this->breadcrumb('', $author_name);
+
+
+
         $this->components['title'] = 'Публикации пользователя ' . $author_name;
         //$this->components['extra-scripts'][] = 'manager';
         $filter = ['filter' => 'author', 'value' => $author_id];

@@ -134,6 +134,10 @@ footer {
   width: 50% !important;
 }
 
+.card.subcategory-card {
+  margin-bottom: 15px;
+}
+
 #today-informer .fa {
   color: #0d6efd;
 }

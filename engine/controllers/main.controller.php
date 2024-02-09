@@ -521,6 +521,16 @@ DROPDOWN;
             }
         }
 
+        //Искусственно добавляем дополнительную хлебную крошку на Всех авторов
+        if (debug_backtrace()[1]['function'] == "authors" && $active_name != "Все авторы") {
+            $breadcrumb = '<li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+            <a href="/publication/authors" itemprop="item">
+                <span itemprop="name">Все авторы</span>
+                <meta itemprop="position" content="1">
+            </a>
+        </li>' . str_replace('content="1"', 'content="2"', $breadcrumb);
+        }
+
         return render('components', 'breadcrumb', ['breadcrumb' => $breadcrumb]);
     }
 
