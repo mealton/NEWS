@@ -77,7 +77,7 @@ const uploader = {
         };
         console.log(input, data);
         let callback = response => {
-            //console.log(input);
+            console.log(response);
             $('.upload-url, .upload-file').removeClass('preloader');
             if (response.result) {
                 this.previews.append(response.preview);

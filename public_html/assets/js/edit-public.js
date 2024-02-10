@@ -710,7 +710,8 @@ const publication = {
             let content, description, source, is_hidden, style, poster;
 
             if (['text', 'subtitle', 'quote'].includes(tag)) {
-                content = item.querySelector('.publication__item-content').innerHTML;
+                let contentContainer = item.querySelector('.publication__item-content');
+                content = contentContainer.querySelector('p, h2, blockquote').innerHTML;
                 style = item.querySelector('.publication__item-content').getAttribute('style');
             } else {
                 if (tag === 'image') {

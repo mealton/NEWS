@@ -23,7 +23,7 @@
         </div>
         <div class="row">
             <div class="col-md-12 publication__item-content" style="font-size: <?= $fontsize ?>px; <?= $style ?>">
-                <?= $content ?>
+                <h2><?= $content ?></h2>
             </div>
         </div>
         <?php include __DIR__ . '/public-item-extras.php' ?>
@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <input name="subtitle" class="form-control" placeholder="Введите подзаголовок"
-                           value="<?= strip_tags($content) ?>"/>
+                           value="<?= $content ?>"/>
                 </div>
             </div>
         </div>

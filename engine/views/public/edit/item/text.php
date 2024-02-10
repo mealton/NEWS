@@ -23,7 +23,7 @@
         </div>
         <div class="row">
             <div class="col-md-12 publication__item-content" style="font-size: <?= $fontsize ?>px; <?= $style ?>">
-                <?= str_replace(["\n", "<br><br>"], ["<br>", "<br>"], $content) ?>
+                <?= str_replace(["\n", "<br><br>"], ["<br>", "<br>"], html_entity_decode( $content)) ?>
             </div>
         </div>
         <?php include __DIR__ . '/public-item-extras.php' ?>
@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <textarea name="text-content" class="form-control" rows="3"
-                              placeholder="Введите текст"><?= strip_tags($content) ?></textarea>
+                              placeholder="Введите текст"><?= $content ?></textarea>
                 </div>
             </div>
         </div>

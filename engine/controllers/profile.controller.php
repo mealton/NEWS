@@ -199,7 +199,7 @@ class Profile extends Main
                     $item['checkImgDefault'] = end(explode("/", $item['content'])) == end(explode("/", $GLOBALS['image_default']));
                     $item['content'] = $this->convert_content_by_tagname($item);
                     return $item;
-                }, $publication);
+                }, (array)$publication);
                 //pre($publication);
                 //
                 $publication_content = render('public', 'switch_tag', $publication);
@@ -264,9 +264,6 @@ class Profile extends Main
             case ('image'):
                 return "<img src='$item[content]' data-source='$item[source]' alt='' class='publication-image-item img-fluid d-block' />";
                 break;
-            case ('subtitle'):
-                return "<h2>$item[content]</h2>";
-                break;
             case ('video'):
                 return !strpos($item['content'], "youtube")
                     ? "<video src='$item[content]' controls='controls' class='img-fluid' " . (strpos($item['poster'], ".jpg") ? "poster='$item[poster]'" : '') . "></video>"
@@ -275,7 +272,7 @@ class Profile extends Main
                     allowfullscreen></iframe>";
                 break;
             default:
-                return "<p>$item[content]</p>";
+                return $item['content'];
         }
     }
 
