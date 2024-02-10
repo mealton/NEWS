@@ -48,6 +48,9 @@
         <a href="?tab=publications&page=<?= $_GET['page'] ?>">
             <button type="button" class="btn btn-secondary">Выйти</button>
         </a>
+        <a href="/publication/show/<?= $publication_id . "::" . $public_header['alias'] ?>.html" target="_blank">
+            <button type="button" class="btn btn-success">Перейти к публикации</button>
+        </a>
     </form>
 
     <br>

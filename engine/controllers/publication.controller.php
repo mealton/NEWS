@@ -450,6 +450,7 @@ LIKES;
         $folder = '/assets/uploads/img/public/' . $fileName;
         $upload_dir = $_SERVER['DOCUMENT_ROOT'] . $folder;
         file_put_contents($upload_dir, $image);
+        watermark($upload_dir);
         return getimagesize($upload_dir) ? $folder : false;
     }
 

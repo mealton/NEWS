@@ -439,8 +439,13 @@ footer {
 #main_tag_menu {
   background-color: #fff;
   position: sticky;
-  top: 0;
+  top: 76px;
   z-index: 99;
+}
+
+#publication-content li {
+  margin-bottom: 5px;
+  line-height: 1.4;
 }
 
 .publication__item .fa, .tags-menu .fa {

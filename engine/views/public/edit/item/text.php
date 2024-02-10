@@ -16,6 +16,13 @@
                        onchange="publication.multiSelectPublicItems(this)"
                        title="Выделятся все блоки, начиная с данного и заканчивая следующим выделенным">
             </label>
+            &nbsp;&nbsp;&nbsp;
+            <label class="form-check-label">
+                <small>Элeмент списка</small>
+                <input class="form-check-input" name="multi-select" type="checkbox" value=""
+                       onchange="publication.toList(this)"
+                       title="Выделятся все блоки, начиная с данного и заканчивая следующим выделенным">
+            </label>
         </p>
         <div class="editor" style="display: <?= $editor_hide ? 'none' : 'block' ?>">
             <legend>Блок текст</legend>
@@ -31,7 +38,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <textarea name="text-content" class="form-control" rows="3"
-                              placeholder="Введите текст"><?= $content ?></textarea>
+                              placeholder="Введите текст"><?= strip_tags($content) ?></textarea>
                 </div>
             </div>
         </div>

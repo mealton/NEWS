@@ -214,7 +214,7 @@ LIKES;
         $publication[0]['publication_content'] = $publication_content;
         $publication[0]['data_image'] = $this->components['data_image'];
 
-        $publication_header = render('public/show', 'publication_header', $publication[0]);
+        $publication_header = render('manager', 'publication_header', $publication[0]);
 
 
         //Форма добавления комментариев

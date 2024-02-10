@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <input name="subtitle" class="form-control" placeholder="Введите подзаголовок"
-                           value="<?= $content ?>"/>
+                           value="<?= strip_tags($content) ?>"/>
                 </div>
             </div>
         </div>

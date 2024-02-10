@@ -104,13 +104,13 @@ const publication = {
             //$(item).closest('.publication__item').find('.accept-btn').click();
             $('.link-modal.custom-modal').remove();
             //return replaceSelectedText(replacementText)
-             let textarea = $(item).closest('.publication__item').find('textarea[name="text-content"]');
-             let link = this.elements.link.value.trim();
-             console.log(link);
-             const re = new RegExp(`${selectedText}`, 'g');
-             let text = textarea.val().replace(re, `<a href="${link}" target="_blank"><ins>${selectedText}</ins></a>`);
-             textarea.val(text);
-             $(item).closest('.publication__item').find('.accept-btn').click();
+            let textarea = $(item).closest('.publication__item').find('textarea[name="text-content"]');
+            let link = this.elements.link.value.trim();
+            console.log(link);
+            const re = new RegExp(`${selectedText}`, 'g');
+            let text = textarea.val().replace(re, `<a href="${link}" target="_blank"><ins>${selectedText}</ins></a>`);
+            textarea.val(text);
+            $(item).closest('.publication__item').find('.accept-btn').click();
         })
 
 
@@ -461,20 +461,20 @@ const publication = {
         switch (item[0].dataset.tag) {
             case ('text'):
                 let text = item.find('textarea[name="text-content"]').val();
-                text = text
-                    .replace(/\n/g, '</p><p>')
-                    // .replace(
-                    //     /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi,
-                    //     '<a href="$&" target="_blank">$&</a>');
-                content = `<p>${text}</p>`;
+                //text = text
+                //    .replace(/\n/g, '</p><p>')
+                // .replace(
+                //     /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi,
+                //     '<a href="$&" target="_blank">$&</a>');
+                content = `${text}`;
                 break;
             case ('quote'):
                 let quote = item.find('textarea[name="quote-content"]').val();
-                quote = quote
+                /*quote = quote
                     .replace(/\n/g, '</p><p>')
                     .replace(
                         /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi,
-                        '<a href="$&" target="_blank">$&</a>');
+                        '<a href="$&" target="_blank">$&</a>');*/
                 content = `<blockquote class="blockquotered">${quote}</blockquote>`;
                 break;
             case ('image'):
@@ -612,6 +612,47 @@ const publication = {
 
     },
 
+    toList(checkbox) {
+
+        let items = $('.publication__item');
+
+        if (checkbox.checked)
+            $(checkbox).closest('.publication__item').addClass('selected');
+        else
+            $(checkbox).closest('.publication__item').removeClass('selected');
+
+        if (items.find('input[name="multi-select"]:checked').length < 2)
+            return false;
+
+        let startSelect = $('input[name="multi-select"]:checked').first().closest('.publication__item.selected').index();
+        let finishSelect = $(checkbox).closest('.publication__item.selected').index();
+
+        items.each((i, item) => {
+            if (i > startSelect && i < finishSelect)
+                item.classList.add('selected');
+        });
+
+        setTimeout(() => {
+            if (confirm('Преобразовать все выделенные элементы в список?')) {
+                let selected = $('.publication__item.selected');
+                window.scrollTo({
+                    top: selected.first().offset().top,
+                    behavior: 'smooth'
+                });
+                let list = '<ul class="fs-5 mb-4">';
+                selected.each( (i, item) => list += `<li>${item.querySelector('.publication__item-content').innerHTML.trim()}</li>`);
+                list += '</ul>';
+                let selectedFirst = selected.first();
+                selectedFirst.removeClass('selected');
+                selectedFirst.find('.publication__item-content').html(list);
+                selectedFirst.find('textarea[name="text-content"]').val(list);
+                $('.publication__item.selected:not(:first-child)').remove();
+            }
+        }, 200);
+
+
+    },
+
     removeItem(icon) {
         let item = $(icon).closest('.publication__item');
         if (['image', 'video'].includes(item[0].dataset.tag)) {
@@ -709,10 +750,16 @@ const publication = {
             let tag = item.dataset.tag;
             let content, description, source, is_hidden, style, poster;
 
-            if (['text', 'subtitle', 'quote'].includes(tag)) {
+            if (tag === "text") {
                 let contentContainer = item.querySelector('.publication__item-content');
-                content = contentContainer.querySelector('p, h2, blockquote').innerHTML;
+                content = contentContainer.innerHTML;
                 style = item.querySelector('.publication__item-content').getAttribute('style');
+            } else if (tag === "subtitle") {
+                let contentContainer = item.querySelector('.publication__item-content h2');
+                content = contentContainer.innerText
+            } else if (tag === "quote") {
+                let contentContainer = item.querySelector('.publication__item-content blockquote');
+                content = contentContainer.innerHTML
             } else {
                 if (tag === 'image') {
                     content = Object.values($(item).find('img.publication-image-item')).slice(0, -2).map(img => img.src);

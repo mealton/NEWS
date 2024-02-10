@@ -38,76 +38,6 @@ class Uploader
         return $result;
     }
 
-
-    private function watermark($image, $text = "mealton.ru")
-    {
-        header('Content-type: image/*');
-
-        $fontName = dirname(dirname(__DIR__)) . "/public_html/assets/fonts/arial.ttf"; // Ссылка на шрифт
-        $fontSise = 14; // Размер шрифта
-
-        $image_info = getimagesize($image);
-        $type = $image_info['mime'];
-
-        switch ($type){
-            case "image/gif":
-                $img = imagecreatefromgif($image);
-                break;
-            case "image/bmp":
-                $image = imagecreatefrombmp($image);
-                break;
-            case "image/png":
-                $img = imagecreatefrompng($image);
-                break;
-            default:
-                $img = imagecreatefromjpeg($image); // Функция создания изображения
-        }
-
-        $img_w = imagesx($img);
-        $img_h = imagesy($img);
-
-        $y = $img_h - 10; // Смещение сверху (координата y)
-        $x = $img_w - 100; // Смещение слева (координата x)
-
-        $textColor = imagecolorallocate($img, 255, 255, 255); // Функция выделения цвета для текста
-        $aroundColor = imagecolorallocate($img, 0, 0, 0); // Функция выделения цвета для обводки текста
-
-        imagettftext($img, $fontSise, 0, $x + 2, $y, $aroundColor, $fontName, $text);
-        // смещение влево
-        imagettftext($img, $fontSise, 0, $x - 2, $y, $aroundColor, $fontName, $text);
-        // смещение вниз
-        imagettftext($img, $fontSise, 0, $x, $y + 2, $aroundColor, $fontName, $text);
-        // смещение вверх
-        imagettftext($img, $fontSise, 0, $x, $y - 2, $aroundColor, $fontName, $text);
-        // смещение вправо и вниз
-        imagettftext($img, $fontSise, 0, $x + 1, $y + 1, $aroundColor, $fontName, $text);
-        // смещение вправо и вверх
-        imagettftext($img, $fontSise, 0, $x + 1, $y - 1, $aroundColor, $fontName, $text);
-        // смещение влево и вверх
-        imagettftext($img, $fontSise, 0, $x - 1, $y - 1, $aroundColor, $fontName, $text);
-        // смещение влево и вниз
-        imagettftext($img, $fontSise, 0, $x - 1, $y + 1, $aroundColor, $fontName, $text);
-        // вывод самого текста
-        imagettftext($img, $fontSise, 0, $x, $y, $textColor, $fontName, $text);
-
-        switch ($type){
-            case "image/gif":
-                imagegif($img, $image);
-                break;
-            case "image/bmp":
-                imagebmp($img, $image);
-                break;
-            case "image/png":
-                imagepng($img, $image);
-                break;
-            default:
-                imagejpeg($img, $image); // Сохранение рисунка
-        }
-
-        imagedestroy($img); // Освобождение памяти и закрытие рисунка
-    }
-
-
     //Загрузка
     protected function upload($data)
     {
@@ -132,9 +62,9 @@ class Uploader
         file_put_contents($upload_dir, $image);
 
         if (getimagesize($upload_dir)) {
-            $ext = $this->watermark($upload_dir);
+            watermark($upload_dir);
             $preview = render('components', 'uploader-preview-item', ['src' => $this->upload_dir . $folder]);
-            json(['result' => true, 'preview' => $preview, 'src' => $this->upload_dir . $folder, '$ext' => $ext]);
+            json(['result' => true, 'preview' => $preview, 'src' => $this->upload_dir . $folder]);
         } else {
             json(['result' => false, 'warning' => 'Файл не загружен', 'data' => $data]);
         }
