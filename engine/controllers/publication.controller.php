@@ -55,6 +55,14 @@ class Publication extends Main
     {
         parent::__construct($query, $async);//авторизация, вывод основных компонентов страницы
         //$this->components['extra-scripts'] = ['edit-public'];
+        //$this->get_publications();
+        $this->top();
+    }
+
+    public function all()
+    {
+        $this->components['title'] = 'Все публикации';
+        //$this->components['breadcrumb'] = $this->breadcrumb('', 'Топ');
         $this->get_publications();
     }
 
@@ -73,15 +81,15 @@ class Publication extends Main
     }
 
     //Минимум лайков для вывода публикации в топ
-    private $top = 3;
+    private $top = 2;
 
     //action для вывода топа публикаций
     protected function top($query = [], $async = false)
     {
         if(count($query) > 2)
             exit404($query);
-        $this->components['title'] = 'Топ';
-        $this->components['breadcrumb'] = $this->breadcrumb('', 'Топ');
+        //$this->components['title'] = 'Топ';
+        //$this->components['breadcrumb'] = $this->breadcrumb('', 'Топ');
         $filter = ['filter' => 'top', 'value' => $this->top];
         $this->get_publications($filter);
     }
