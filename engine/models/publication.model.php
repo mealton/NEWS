@@ -48,7 +48,7 @@ SQL;
                 $categoryFilter = "AND `cat`.`id` = $filter[value]";
                 break;
             case ('search'):
-                $searchFilter = "AND `p`.`title` LIKE \"%$filter[value]%\" OR `cnt`.`content` LIKE \"%$filter[value]%\"";
+                $searchFilter = "AND (`p`.`title` LIKE \"%$filter[value]%\" OR `cnt`.`content` LIKE \"%$filter[value]%\")";
                 break;
             case ('recent'):
                 $recentFilter = " AND DATE(`p`.`published_date`) >= DATE_SUB(CURRENT_DATE, INTERVAL 14 DAY)";
@@ -251,15 +251,13 @@ SQL;
         //pre($filter);
 
         $sql = <<<SQL
-SELECT COUNT(`p`.`id`) as `publication_counter`
+SELECT COUNT(DISTINCT `p`.`id`) as `publication_counter`
 FROM `publications` as `p`
 RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1 $filter[categoryFilter]
 $searchJoinContent
 $filter[tagFilter]
 WHERE 1 $unpublihed $filter[searchFilter] $filter[recentFilter] $filter[topFilter] $filter[authorFilter] $filter[dateFilter] $filter[managerZone]
 SQL;
-
-        //pre($sql);
 
         $query = db::getInstance()->Select($sql);
         $publication_counter = $query[0]['publication_counter'];

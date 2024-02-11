@@ -21,6 +21,8 @@ class Main
 
     private $calledClassName;
 
+    private $filter;
+
     protected function get_liked_publics($user_id)
     {
         require_once dirname(__DIR__) . '/models/main.model.php';
@@ -343,6 +345,7 @@ DROPDOWN;
             $filter['user-zone'] = 1;
 
         $publication_total_count = $publication->get_total_count($filter);
+
         $this->pages = ceil($publication_total_count / $this->pagination_limit);
 
         $this->calledClassName = get_called_class();
@@ -352,12 +355,16 @@ DROPDOWN;
         elseif ($this->page > $this->pages)
             $this->page = $this->pages;
 
+        $this->filter = $filter;
+
         if ($this->pages > 1) {
             $pages_array = range(1, $this->pages);
             $PreviousDisabled = $this->page == 1 ? 'disabled' : '';
             $pages = implode("", array_map(function ($page) {
                 //Разные ссылки для страницы публикаций и для страницы пользователя
                 $href = $this->calledClassName == 'Profile' ? '?tab=publications&page=' . $page : '?page=' . $page;
+                if($this->filter['filter'] == "search")
+                    $href = '?search=' . $this->filter['value'] . '&page=' . $page;
                 return $page == $this->page
                     ? "<li class='page-item active'><span class='page-link'>$page<span class='sr-only'>(current)</span></span></li>"
                     : "<li class='page-item'><a class='page-link' href='$href'>$page</a></li>";
@@ -366,6 +373,10 @@ DROPDOWN;
             $PreviousPage = $this->page - 1;
             $NextPage = $this->page + 1;
             $href = $this->calledClassName == 'Profile' ? '?tab=publications&' : '?';
+
+            if($filter['filter'] == "search")
+                $href = '?search=' . $filter['value'] . '&';
+
             return render('components', 'pagination',
                 [
                     'pages' => $pages,
