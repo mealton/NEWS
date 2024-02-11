@@ -55,8 +55,11 @@ class Uploader
         if (preg_match('/data\:/', $url)) {
             $url = end(explode(',', $url));
             $image = base64_decode($url);
-        } else
+        } else{
+            $url = preg_replace('/\.(jpg|png|gif)(.*)/', '.$1', $url);
             $image = curl($url);
+        }
+
 
         $fileName = time() . rand(0, 100000) . time() . '.jpg';
         $folder = trim($data['folder'], "/") . '/' . $fileName;
@@ -69,7 +72,7 @@ class Uploader
             $preview = render('components', 'uploader-preview-item', ['src' => $this->upload_dir . $folder]);
             json(['result' => true, 'preview' => $preview, 'src' => $this->upload_dir . $folder]);
         } else {
-            json(['result' => false, 'warning' => 'Файл не загружен', 'data' => $data]);
+            json(['result' => false, 'warning' => 'Файл не загружен', 'data' => $data, 'url' => $url]);
         }
         return true;
     }

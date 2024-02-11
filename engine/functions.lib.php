@@ -31,6 +31,14 @@ function watermark($image, $text = "mealton.ru")
     $y = $img_h - 10; // Смещение сверху (координата y)
     $x = $img_w - 100; // Смещение слева (координата x)
 
+
+//    imagealphablending($img, true);
+//    imagesavealpha($img, true);
+//    imagealphablending($img_cover, true);
+//    imagesavealpha($img_cover, true);
+//    imagecopy($img, $img_cover, 0, 0, 0, 0, imagesx($img_cover), imagesy($img_cover));
+
+
     $textColor = imagecolorallocate($img, 255, 255, 255); // Функция выделения цвета для текста
     $aroundColor = imagecolorallocate($img, 0, 0, 0); // Функция выделения цвета для обводки текста
 
