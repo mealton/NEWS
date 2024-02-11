@@ -96,7 +96,11 @@
                     </strong></h4>
             </a>
             <p class="text-muted">
-                <?= htmlspecialchars_decode($introtext) ?>
+                <? if ($_GET['search']): ?>
+                    <?= preg_replace('/(' . urldecode($_GET['search']) . ')/iu', '<mark>$1</mark>', htmlspecialchars_decode($introtext)) ?>
+                <?php else: ?>
+                    <?= htmlspecialchars_decode($introtext) ?>
+                <?php endif; ?>
             </p>
             <br>
             <br>

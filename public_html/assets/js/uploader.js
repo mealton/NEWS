@@ -104,7 +104,7 @@ const uploader = {
             $('#update-user').prop({disabled: 1});
             // }
         };
-        ffetch(this.action, callback, data);
+        ffetch(this.action, callback, data, () => console.log('Error'));
     },
 
     preUploadUrl(btn) {

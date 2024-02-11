@@ -5,6 +5,9 @@
  * Класс для загрузки файлов
  */
 
+ini_set('memory_limit','2048M');
+ini_set('time_limit','100');
+
 
 class Uploader
 {

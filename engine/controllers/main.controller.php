@@ -282,6 +282,8 @@ DROPDOWN;
         $this->offset = $this->offset >= 0 ? $this->offset : 0;
         $publications = $publication->get_publications($this->offset, $filter);
 
+        //pre($publications);
+
         $publications_content = array_filter($publications, function ($item) {
             return $item['public_img'] != "";
         });
@@ -300,7 +302,6 @@ DROPDOWN;
                 ? render('components', 'slider', ['publications_slider' => $publications_slider])
                 : "";
         }
-
 
         $content = !empty($publications)
             ? render('public/show', 'preview', $this->convert_title($publications)) . $this->pagination_constructor($filter)
@@ -431,6 +432,10 @@ DROPDOWN;
     //Подсчет фото/видео, содержащегося в конкретной публикации
     protected function convert_title($publications)
     {
+
+        //pre($publications);
+
+
         return array_map(function ($item) {
             $title = $item['title'];
             $media_counter = '';
@@ -448,6 +453,9 @@ DROPDOWN;
                 $media_counter = " ($media_counter_img)";
 
             $item['title'] = $title . $media_counter;
+
+            //pre($item);
+
             return $item;
 
         }, $publications);

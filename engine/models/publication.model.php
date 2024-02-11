@@ -48,7 +48,7 @@ SQL;
                 $categoryFilter = "AND `cat`.`id` = $filter[value]";
                 break;
             case ('search'):
-                $searchFilter = "AND `p`.`title` LIKE \"%$filter[value]%\"";
+                $searchFilter = "AND `p`.`title` LIKE \"%$filter[value]%\" OR `cnt`.`content` LIKE \"%$filter[value]%\"";
                 break;
             case ('recent'):
                 $recentFilter = " AND DATE(`p`.`published_date`) >= DATE_SUB(CURRENT_DATE, INTERVAL 14 DAY)";
@@ -85,6 +85,14 @@ SQL;
     public function get_publications($offset, $filter = [], $slider = false)
     {
 
+        //$filter_value = $filter['value'];
+
+        if($filter['filter'] == "search"){
+            $searchJoinContent = 'LEFT JOIN `content` as `cnt` ON `p`.`id` = `cnt`.`publication_id` AND `cnt`.`tag` = "text"';
+            $cnt = ' `cnt`.`content` as `introtext`,';
+        }else{
+            $searchJoinContent = $cnt = "";
+        }
 
         if (!$filter['manager-zone']) {
 
@@ -107,10 +115,9 @@ SQL;
             $limit_sql = " ORDER BY `p`.`published_date` DESC";
         }
 
-
         $sql = <<<SQL
 SELECT 
-`p`.*, 
+`p`.*, $cnt
 (SELECT COUNT(`id`) FROM `content` WHERE `p`.`id` = `content`.`publication_id` AND `content`.`tag` = 'image' AND `content`.`is_active` = 1 AND `content`.`is_hidden` = 0) as `img_counter`, 
 (SELECT COUNT(`id`) FROM `content` WHERE `p`.`id` = `content`.`publication_id` AND `content`.`tag` = 'video' AND `content`.`is_active` = 1) as `video_counter`,
 IF(`p`.`image_default` != "", `p`.`image_default`, (SELECT `content` FROM `content` WHERE `publication_id` = `p`.`id` AND `tag` = "image" AND `content` != "" AND `is_active` = 1 ORDER BY RAND() LIMIT 1)) as `public_img`,
@@ -121,6 +128,7 @@ IF(`p`.`image_default` != "", `p`.`image_default`, (SELECT `content` FROM `conte
 (SELECT COUNT(`id`) FROM `comments` WHERE `publication_id` = `p`.`id` AND `is_active` = 1) as `comment_count`
 FROM `publications` as `p`
 RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1 $filter[categoryFilter]
+$searchJoinContent
 $filter[tagFilter]
 LEFT JOIN `users` as `u` ON `p`.`user_id` = `u`.`id`
 WHERE 1 $unpublihed $filter[searchFilter] $filter[recentFilter] $filter[authorFilter] $filter[topFilter] $filter[dateFilter] $filter[managerZone] $filter[likedFilter]
@@ -232,6 +240,10 @@ SQL;
     //Подсчет количества страниц для вывода пагинации
     public function get_total_count($filter = [])
     {
+
+        $searchJoinContent = $filter['filter'] == "search"
+            ? 'LEFT JOIN `content` as `cnt` ON `p`.`id` = `cnt`.`publication_id` AND `cnt`.`tag` = "text"'
+            : "";
         $erotic_filter = $filter['filter'] == 'category' ? '' : ' AND `cat`.`is_hidden` != 1';
         $unpublihed = !$filter['user-zone'] ? 'AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0 AND `p`.`moderated` = 1' . $erotic_filter : '';
         $filter = $this->get_filter_string($filter);
@@ -242,9 +254,12 @@ SQL;
 SELECT COUNT(`p`.`id`) as `publication_counter`
 FROM `publications` as `p`
 RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1 $filter[categoryFilter]
+$searchJoinContent
 $filter[tagFilter]
 WHERE 1 $unpublihed $filter[searchFilter] $filter[recentFilter] $filter[topFilter] $filter[authorFilter] $filter[dateFilter] $filter[managerZone]
 SQL;
+
+        //pre($sql);
 
         $query = db::getInstance()->Select($sql);
         $publication_counter = $query[0]['publication_counter'];
