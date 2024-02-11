@@ -42,13 +42,13 @@ SQL;
     {
         switch ($filter['filter']) {
             case ('tag'):
-                $tagFilter = "RIGHT JOIN `hashtags` as `t` ON `p`.`id` = `t`.`publication_id` AND `t`.`name` = \"$filter[value]\"";
+                $tagFilter = "RIGHT JOIN `hashtags` as `t` ON `p`.`id` = `t`.`publication_id` AND `t`.`name` = \"" . htmlspecialchars($filter['value']) . "\"";
                 break;
             case ('category'):
                 $categoryFilter = "AND `cat`.`id` = $filter[value]";
                 break;
             case ('search'):
-                $searchFilter = "AND (`p`.`title` LIKE \"%$filter[value]%\" OR `cnt`.`content` LIKE \"%$filter[value]%\" OR `cnt`.`description` LIKE \"%$filter[value]%\")";
+                $searchFilter = "AND (`p`.`title` LIKE \"%$filter[value]%\" OR `cnt`.`content` LIKE \"%" . htmlspecialchars($filter['value']) . "%\" OR `cnt`.`description` LIKE \"%" . htmlspecialchars($filter['value']) . "%\")";
                 break;
             case ('recent'):
                 $recentFilter = " AND DATE(`p`.`published_date`) >= DATE_SUB(CURRENT_DATE, INTERVAL 14 DAY)";
@@ -57,7 +57,7 @@ SQL;
                 $authorFilter = "AND `p`.`user_id` = $filter[value]";
                 break;
             case ('top'):
-                $topFilter = "AND `p`.`likes` >= $filter[value] ";
+                $topFilter = "AND `p`.`likes` >= 2 OR `p`.`views` >= 10 ";
                 break;
             case ('liked'):
                 $likedFilter = "AND `p`.`id` IN(" . implode(', ', $filter['value']) . ") ";
@@ -85,7 +85,10 @@ SQL;
     public function get_publications($offset, $filter = [], $slider = false)
     {
 
+        //pre($filter);
+
         $filter_value = $filter['value'];
+        $filter_name = $filter['filter'];
 
         if($filter['filter'] == "search"){
             $searchJoinContent = 'LEFT JOIN `content` as `cnt` ON `p`.`id` = `cnt`.`publication_id`';
@@ -96,14 +99,17 @@ SQL;
 
         if (!$filter['manager-zone']) {
 
+            //pre($filter_name);
+
             //Фильтр на показ эротики
-            $erotic_user_filter = $_SESSION['user']['show_erotic'] || $filter['user-zone'] ? "" : "HAVING `cat`.`is_hidden` != 1";
+            $erotic_user_filter = ($_SESSION['user']['show_erotic'] && in_array($filter_name, ['', 'author-profile', 'category'])) || $filter['user-zone'] ? "" : "HAVING `cat`.`is_hidden` != 1";
 
             if ($filter['filter'] == "liked") {
                 $filter = $this->get_filter_string($filter);
                 $limit_sql = " ORDER BY `p`.`published_date` DESC";
             } else {
-                $erotic_filter = in_array($filter['filter'], ['date', 'search', 'category', 'tag', 'author']) ? '' : ' AND `cat`.`is_hidden` != 1';
+                //pre($filter_name);
+               // $erotic_filter = $_SESSION['user']['show_erotic'] && $filter_name != "top" ? '': ' AND `cat`.`is_hidden` != 1';
                 $unpublihed = !$filter['user-zone'] ? 'AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0 AND `p`.`moderated` = 1' . $erotic_filter : '';
                 $filter = $this->get_filter_string($filter);
                 $limit = $GLOBALS['config']['publications']['pagination-limit'];

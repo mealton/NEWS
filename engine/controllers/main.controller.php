@@ -274,7 +274,7 @@ DROPDOWN;
             return false;
         }
 
-        $filter['value'] = htmlspecialchars($filter['value']);
+        //$filter['value'] = htmlspecialchars($filter['value']);
 
 
         $publication = new PublicationModel();

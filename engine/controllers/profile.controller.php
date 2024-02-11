@@ -176,7 +176,13 @@ class Profile extends Main
             if ($liked_publics) {
                 $liked_publics = (array)unserialize($liked_publics);
                 $liked_publics = array_keys($liked_publics);
+
+                //pre($liked_publics);
+
                 $liked_publics = $this->get_publications(['filter' => 'liked', 'value' => $liked_publics], 1);
+
+
+
                 $user[0]['liked_publics'] = render('profile/user', 'publications_history_item', $liked_publics);
             } else
                 $user[0]['liked_publics'] = "";
