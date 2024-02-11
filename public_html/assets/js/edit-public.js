@@ -640,7 +640,7 @@ const publication = {
                     behavior: 'smooth'
                 });
                 let list = '<ul class="fs-5 mb-4">';
-                selected.each( (i, item) => list += `<li>${item.querySelector('.publication__item-content').innerHTML.trim()}</li>`);
+                selected.each((i, item) => list += `<li>${item.querySelector('.publication__item-content').innerHTML.trim()}</li>`);
                 list += '</ul>';
                 let selectedFirst = selected.first();
                 selectedFirst.removeClass('selected');
@@ -970,9 +970,11 @@ const publication = {
 
     },
 
+
     closeModal(toDown = false) {
 
         let customModal = $('.custom-modal');
+
 
         customModal.addClass(`disappearing${toDown ? "-down" : ""}`);
 
@@ -992,6 +994,13 @@ const publication = {
         img.classList.add('static');
         icon.className = 'fa fa-search-plus clickable';
         icon.onclick = () => this.draggable(icon);
+        main.modalIsDraggable = false;
+
+        if (screen.width < 1000) {
+            $('.fa.modal-control').show();
+            $('img').css({position: 'relative', left: 0, top: 0});
+            $('.custom-modal-wrapper').css({position: 'relative'});
+        }
 
         // $('.custom-modal').css({flexWrap: 'wrap'});
     },
@@ -1010,6 +1019,14 @@ const publication = {
         });
         icon.className = 'fa fa-search-minus clickable';
         icon.onclick = () => this.nodraggable(icon);
+
+        main.modalIsDraggable = true;
+
+        if (screen.width < 1000) {
+            $('.fa.modal-control').hide();
+            $('.custom-modal-wrapper').css({position: 'static'});
+            $('img').css({position: 'absolute'});
+        }
 
         //$('.custom-modal').css({flexWrap: 'nowrap'});
     },

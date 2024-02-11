@@ -739,12 +739,6 @@ footer {
   left: calc(50% - 16px);
   z-index: 99999;
 }
-@media screen and (max-width: 999px) {
-  .custom-modal-wrapper .fa-search-plus, .custom-modal-wrapper .fa-search-minus {
-    display: none;
-  }
-}
-
 .fa.fa-heart-o.disabled {
   pointer-events: none;
   opacity: 0.35;
