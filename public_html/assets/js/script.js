@@ -85,7 +85,7 @@ $(document).ready(() => {
         if(!this.value)
             return helper.html('');
 
-        if (this.value.length < 3)
+        if (this.value.length < 4)
             return false;
         else if ([38, 40].includes(e.keyCode) && helper.html()) {
 

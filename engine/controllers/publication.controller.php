@@ -29,7 +29,7 @@ class Publication extends Main
         }
 
         $this->components['breadcrumb'] = $this->breadcrumb('', $search);
-        $this->components['title'] = $search;
+        $this->components['title'] = "Поиск \"" . htmlspecialchars($search) . "\"";
 
         $filter = ['filter' => 'search', 'value' => $search];
         $this->get_publications($filter);

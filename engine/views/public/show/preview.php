@@ -16,6 +16,7 @@
  * @var $category_id integer
  * @var $category string
  * @var $introtext string
+ * @var $search string
  */
 ?>
 <article>
@@ -96,8 +97,10 @@
                     </strong></h4>
             </a>
             <p class="text-muted">
-                <? if ($_GET['search']): ?>
-                    <?= preg_replace('/(' . urldecode($_GET['search']) . ')/iu', '<mark>$1</mark>', htmlspecialchars_decode($introtext)) ?>
+                <? if ($_GET['search'] && preg_match('/(' . urldecode($_GET['search']) . ')/iu', htmlspecialchars_decode($search))): ?>
+                    <?= htmlspecialchars_decode($introtext) ?>
+                    <br><br>
+                    <?= preg_replace('/(' . urldecode($_GET['search']) . ')/iu', '<mark>$1</mark>', htmlspecialchars_decode($search)) ?>
                 <?php else: ?>
                     <?= htmlspecialchars_decode($introtext) ?>
                 <?php endif; ?>

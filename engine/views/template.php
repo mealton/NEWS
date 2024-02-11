@@ -44,6 +44,7 @@
                             <div class="input-group position-relative search-form-group">
                                 <input class="form-control search-form__input" name="search" type="text"
                                        placeholder="Поиск по названию"
+                                       value="<?= $_GET['search'] ?>"
                                        autocomplete="off"
                                        required
                                        aria-label="Enter search term..." aria-describedby="button-search">

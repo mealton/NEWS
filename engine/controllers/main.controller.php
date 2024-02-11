@@ -268,6 +268,15 @@ DROPDOWN;
 
         require_once dirname(__DIR__) . '/models/publication.model.php';
 
+        if ($filter['filter'] == 'search' && mb_strlen(urldecode($filter['value']), 'utf-8') < 4) {
+            $content = '<p class="lead">Слишком короткий поисковый запрос. Пожалуйста, уточните...</p>';
+            page($content, $this->components);
+            return false;
+        }
+
+        $filter['value'] = htmlspecialchars($filter['value']);
+
+
         $publication = new PublicationModel();
 
         $called_class = get_called_class();

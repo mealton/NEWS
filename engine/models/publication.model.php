@@ -48,7 +48,7 @@ SQL;
                 $categoryFilter = "AND `cat`.`id` = $filter[value]";
                 break;
             case ('search'):
-                $searchFilter = "AND (`p`.`title` LIKE \"%$filter[value]%\" OR `cnt`.`content` LIKE \"%$filter[value]%\")";
+                $searchFilter = "AND (`p`.`title` LIKE \"%$filter[value]%\" OR `cnt`.`content` LIKE \"%$filter[value]%\" OR `cnt`.`description` LIKE \"%$filter[value]%\")";
                 break;
             case ('recent'):
                 $recentFilter = " AND DATE(`p`.`published_date`) >= DATE_SUB(CURRENT_DATE, INTERVAL 14 DAY)";
@@ -85,11 +85,11 @@ SQL;
     public function get_publications($offset, $filter = [], $slider = false)
     {
 
-        //$filter_value = $filter['value'];
+        $filter_value = $filter['value'];
 
         if($filter['filter'] == "search"){
-            $searchJoinContent = 'LEFT JOIN `content` as `cnt` ON `p`.`id` = `cnt`.`publication_id` AND `cnt`.`tag` = "text"';
-            $cnt = ' `cnt`.`content` as `introtext`,';
+            $searchJoinContent = 'LEFT JOIN `content` as `cnt` ON `p`.`id` = `cnt`.`publication_id`';
+            $cnt = ' IF(`cnt`.`tag` IN("video", "image"), `cnt`.`description`, `cnt`.`content`) as `search`,';
         }else{
             $searchJoinContent = $cnt = "";
         }
@@ -143,6 +143,13 @@ SQL;
         $publications = db::getInstance()->Select($sql);
 
         foreach ($publications as $i => $item) {
+
+            if($item['search']){
+                $strposition = mb_strpos(mb_strtolower($item['search']), mb_strtolower($filter_value), 0, 'utf-8');
+                if($strposition > 50)
+                    $publications[$i]['search'] = "..." . mb_substr($item['search'], $strposition - 15, mb_strlen($filter_value) + 35, 'utf-8') . "...";
+            }
+
             if (in_array(0, $this->category_checker($item['category_id'])))
                 unset($publications[$i]);
         }
