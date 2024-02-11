@@ -57,7 +57,7 @@ SQL;
                 $authorFilter = "AND `p`.`user_id` = $filter[value]";
                 break;
             case ('top'):
-                $topFilter = "AND `p`.`likes` >= 2 OR `p`.`views` >= 10 ";
+                $topFilter = "AND `p`.`likes` >= 2 AND `p`.`views` >= 10 ";
                 break;
             case ('liked'):
                 $likedFilter = "AND `p`.`id` IN(" . implode(', ', $filter['value']) . ") ";

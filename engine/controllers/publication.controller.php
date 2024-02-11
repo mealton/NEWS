@@ -62,7 +62,7 @@ class Publication extends Main
     public function all()
     {
         $this->components['title'] = 'Все публикации';
-        //$this->components['breadcrumb'] = $this->breadcrumb('', 'Топ');
+        $this->components['breadcrumb'] = $this->breadcrumb('', 'Все публикации');
         $this->get_publications();
     }
 
