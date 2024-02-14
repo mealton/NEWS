@@ -15,6 +15,15 @@ function get_selected_text() {
     }
 }
 
+function get_elements_by_inner(elements, word) {
+    let matches = [];
+    elements.forEach(elem => {
+        if (elem.innerHTML.toLowerCase().match(word.toLowerCase()))
+            matches.push(elem);
+    });
+    return matches;
+}
+
 function formExecute(form) {
     const fields = form.elements;
     const data = {};

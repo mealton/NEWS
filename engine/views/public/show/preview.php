@@ -24,7 +24,7 @@
         <div class="col-md-6 mb-4">
             <div class="bg-image hover-overlay ripple shadow-2-strong rounded-5 position-relative <?= $special_content_category ? 'is-erotic-container' : '' ?>"
                  data-mdb-ripple-color="light">
-                <a href="/publication/show/<?= $id ?>::<?= $alias ?>.html">
+                <a href="/publication/show/<?= $id ?>::<?= $alias ?>.html<?= $_GET['search'] ? '?search=' . $_GET['search'] : '' ?>">
                     <h2 class="preview-title mobile-preview-title">
                         <strong>
                             <? if ($_GET['search']): ?>
@@ -87,7 +87,7 @@
         <span class="badge bg-danger px-2 py-1 shadow-1-strong mb-3">
             <a href="/publication/category/<?= $category_id ?>/<?= translit($category) ?>/"><?= $category ?></a>
         </span>
-            <a href="/publication/show/<?= $id ?>::<?= $alias ?>.html" class="preview-title desktop-preview-title">
+            <a href="/publication/show/<?= $id ?>::<?= $alias ?>.html<?= $_GET['search'] ? '?search=' . $_GET['search'] : '' ?>" class="preview-title desktop-preview-title">
                 <h4><strong>
                         <? if ($_GET['search']): ?>
                             <?= preg_replace('/(' . urldecode($_GET['search']) . ')/iu', '<mark>$1</mark>', htmlspecialchars_decode($title)) ?>

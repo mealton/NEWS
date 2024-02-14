@@ -41,10 +41,10 @@ class Publication extends Main
         require_once dirname(__DIR__) . '/models/publication.model.php';
         $publication = new PublicationModel();
         $search = $publication->get_publications(0, ['filter' => 'search', 'value' => trim($data['search'])]);
-        $GLOBALS['search-value'] = trim($data['search']);
+        $GLOBALS['search_value'] = trim($data['search']);
         $search = array_map(function ($item) {
-            $title = preg_replace('/(' . $GLOBALS['search-value'] . ')/iu', '<b>$1</b>', strip_tags(htmlspecialchars_decode($item['title'])));
-            $href = "/publication/show/$item[id]::$item[alias].html";
+            $title = preg_replace('/(' . $GLOBALS['search_value'] . ')/iu', '<b>$1</b>', strip_tags(htmlspecialchars_decode($item['title'])));
+            $href = "/publication/show/$item[id]::$item[alias].html?search=$GLOBALS[search_value]";
             $image = "<img src='$item[public_img]' class='search-img' alt='' />";
             return "<li class='list-group-item'><a href=\"$href\">$image <span>$title</span></a></li>";
         }, $search);
