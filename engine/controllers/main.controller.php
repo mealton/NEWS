@@ -228,6 +228,8 @@ DROPDOWN;
 
         $sidebar_publics = $model->get_sidebar_publics($publication_id);
 
+        //pre($sidebar_publics);
+
 
         $this->components['sidebar-publics'] = !empty($sidebar_publics) && in_array(get_called_class(), ["Publication"])
             ? render('public/show', 'similar-item', $sidebar_publics)
@@ -303,11 +305,8 @@ DROPDOWN;
         if ($return)
             return $publications;
 
-        //pre($_SESSION['user']);
-
-
         //Slider
-        if (!$filter && $_SESSION['user']['show_slider']) {
+        if ($filter['filter'] == 'top' && $_SESSION['user']['show_slider']) {
             $publications_slider = $publication->get_publications($this->offset, $filter, 1);
             $this->components['slider'] = count((array)$publications_slider) > 3
                 ? render('components', 'slider', ['publications_slider' => $publications_slider])

@@ -102,7 +102,7 @@ SQL;
             //pre($filter_name);
 
             //Фильтр на показ эротики
-            $erotic_user_filter = ($_SESSION['user']['show_erotic'] && in_array($filter_name, ['', 'author-profile', 'category'])) || $filter['user-zone'] ? "" : "HAVING `cat`.`is_hidden` != 1";
+            $erotic_user_filter = ($_SESSION['user']['show_erotic'] && in_array($filter_name, ['', 'author-profile', 'category', 'tag'])) || $filter['user-zone'] ? "" : "HAVING `cat`.`is_hidden` != 1";
 
             if ($filter['filter'] == "liked") {
                 $filter = $this->get_filter_string($filter);
@@ -144,7 +144,7 @@ $limit_sql
 
 SQL;
 
-        //pre($sql);
+       //pre($sql);
 
         $publications = db::getInstance()->Select($sql);
 
@@ -170,6 +170,12 @@ SQL;
     {
         $this->history = $history;
         $ids = implode(", ", array_keys($this->history));
+
+        $erotic_user_filter =
+            $_SESSION['user']['show_erotic']
+                ? ""
+                : "AND `cat`.`is_hidden` != 1";
+
         $sql = <<<SQL
 SELECT 
 `p`.*,
@@ -178,7 +184,7 @@ IF(`p`.`image_default` != "",
     `p`.`image_default`, 
     (SELECT `content` FROM `content` WHERE `publication_id` = `p`.`id` AND `tag` = "image" AND `content` != "" AND `is_active` = 1 ORDER BY RAND() LIMIT 1)) as `public_img`
 FROM `publications` as `p`
-RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1
+RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1 $erotic_user_filter
 WHERE `p`.`id` IN ($ids)
 ORDER BY FIELD(`p`.`id`, $ids)
 SQL;
@@ -206,6 +212,12 @@ SQL;
         $alias_where = !$admin_mode ? 'AND CONCAT(`p`.`alias`, ".html") = "' . $alias . '"' : '';
         $unpublihed = !$admin_mode ? 'AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0  AND `p`.`moderated` = 1' : '';
 
+        $erotic_user_filter =
+            $_SESSION['user']['show_erotic']
+                ? ""
+                : "AND `cat`.`is_hidden` != 1";
+
+
         $sql = <<<SQL
 SELECT 
 `p`.*, `c`.*, `p`.`id` as `publication_id`,
@@ -218,13 +230,16 @@ SELECT
 (SELECT COUNT(`id`) FROM `comments` WHERE `publication_id` = `p`.`id` AND `is_active` = 1) as `comment_count`
 FROM `publications` as `p`
 LEFT JOIN `content` as `c` ON `p`.`id` = `c`.`publication_id` AND  `c`.`is_active` = 1
-RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1
+RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1 $erotic_user_filter
         
 LEFT JOIN `users` as `u` ON `p`.`user_id` = `u`.`id`
 WHERE 1 $unpublihed AND `p`.`id` = $id $alias_where
 SQL;
 
+        //pre($sql);
         $publication = db::getInstance()->Select($sql);
+
+        //pre($publication);
 
         if(empty($publication))
             return false;
@@ -464,9 +479,11 @@ SQL;
             $sql = <<<SQL
 SELECT 
 `p`.*,
+`cat`.`is_hidden`,
 IF(`p`.`image_default` != "", `p`.`image_default`, (SELECT `content` FROM `content` WHERE `publication_id` = `p`.`id` AND `tag` = "image" AND `content` != "" AND `is_active` = 1 ORDER BY RAND() LIMIT 1)) as `public_img`
 FROM `publications` as `p`
 RIGHT JOIN `publications` as `p_` ON `p`.`category_id` = `p_`.`category_id` AND `p_`.`is_published` = 1 AND `p_`.`is_deleted` = 0 AND `p_`.`id` != `p`.`id`
+RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1
 WHERE `p`.`id` != $id AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0  AND `p`.`category_id` = (SELECT `category_id` FROM `publications` WHERE `id` = $id LIMIT 1) AND `p`.`moderated` = 1
 GROUP BY `p`.`id`
 ORDER BY `p`.`published_date` DESC
