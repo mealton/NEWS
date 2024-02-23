@@ -2,9 +2,12 @@
 /**
  * Страница авторизации
  */
+
+//pre($_SESSION['auth'] );
+
 ?>
 <section>
-    <form action="/profile/auth/" method="post">
+    <form action="/profile/auth" method="post">
         <div class="container">
 
             <div class="row justify-content-center">
