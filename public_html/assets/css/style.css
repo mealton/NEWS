@@ -930,6 +930,11 @@ ul.publications-list {
   transition: all 0.5s ease-in-out;
 }
 
+@-moz-document url-prefix() {
+  .video-item:before {
+    display: none;
+  }
+}
 .fancybox-close-small {
   outline: none !important;
 }

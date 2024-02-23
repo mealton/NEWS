@@ -1178,7 +1178,8 @@ const publication = {
 
     playNext(video) {
 
-        video.webkitExitFullScreen();
+        if(!navigator.userAgent.toLowerCase().includes('firefox'))
+            video.webkitExitFullScreen();
 
         let nextVideo = $(video).closest('.public-video-item').next('.public-video-item').find('video');
         if (!nextVideo.length)

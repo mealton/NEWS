@@ -243,13 +243,14 @@
 
 }
 
-.link-modal-inner{
+.link-modal-inner {
   width: 500px;
   max-width: 95%;
   padding: 25px;
   background-color: #fff;
   border-radius: 10px;
-  input{
+
+  input {
     display: block;
     margin-bottom: 15px;
   }
@@ -267,7 +268,7 @@
     z-index: 99999;
 
     @media screen and (max-width: 999px) {
-     //display: none;
+      //display: none;
     }
 
   }
@@ -486,6 +487,12 @@ ul.publications-list {
   background: url('/assets/uploads/icons/yt.png') center no-repeat;
   background-size: auto;
   transition: all 0.5s ease-in-out;
+}
+
+@-moz-document url-prefix() {
+  .video-item:before {
+    display: none;
+  }
 }
 
 .fancybox-close-small {
