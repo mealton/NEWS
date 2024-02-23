@@ -1,6 +1,6 @@
 const publication = {
 
-    action: '/publication',
+    action: '/',
 
     setLikeWidth() {
         let likesBlock = $('#likes-count');
@@ -868,6 +868,7 @@ const publication = {
                 commentContainer.prepend(response.comment);
             }
         };
+
         ffetch(this.action, callback, data);
         return false;
     },
@@ -913,6 +914,7 @@ const publication = {
                 uploader.init();
             }, 50);
         };
+
         ffetch(this.action, callback, data);
     },
 
@@ -920,7 +922,8 @@ const publication = {
         let data = {
             method: 'remove_comment',
             id: icon.dataset.id,
-            manager: manager
+            manager: manager,
+            reason_complaint: manager ? prompt("Укажите причину блокировки") : ''
         };
 
         let callback = response => {

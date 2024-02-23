@@ -786,7 +786,7 @@ LIKES;
         $comment = $comment[0];
 
         if ($_SESSION['user']['is_admin'] && $comment['is_complained'] && $data['manager']) {
-            $result = $publication->update('comments', ['is_active' => 0], $id);
+            $result = $publication->update('comments', ['is_active' => 0, 'reason_complaint' => $data['reason_complaint']], $id);
             json(['result' => $result, 'class' => get_called_class()]);
             return true;
         } elseif (!$_SESSION['user']['is_admin'] && $comment['is_complained']) {

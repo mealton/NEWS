@@ -130,7 +130,7 @@ $(document).ready(() => {
                     return helper.html('');
             });
         };
-        ffetch('/publication', callback, data);
+        ffetch('/', callback, data);
     });
 
 

@@ -363,6 +363,7 @@ SQL;
         $sql = <<<SQL
 SELECT 
 `com`.*, 
+IF((SELECT COUNT(`id`) FROM `comments` as `comm` WHERE `com`.`id` = `comm`.`parent_id` AND `comm`.`publication_id` = `com`.`publication_id` AND `comm`.`is_reply` = 1) > 0, 1, 0) as `has_replies`,      
 IF(`c`.`content` = "", "", CONCAT('<img src="', `c`.`content`, '"  onclick="publication.showModal(this)" class="img-fluid comment-img clickable" alt="">')) as `image`, 
 `com_`.`user_id` as `reply_user_id`, 
 `com_`.`comment` as `reply_comment`,

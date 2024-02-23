@@ -3,6 +3,7 @@
  * Ответ на комментарий
  * @var $user_id integer
  * @var $is_complained boolean
+ * @var $reason_complaint string
  * @var $id integer
  * @var $username string
  * @var $profile_image string
@@ -19,7 +20,7 @@
 ?>
 <div class="card-body p-4 position-relative comment-item-container comment-reply">
     <?php session_start();
-    if (($user_id == $_SESSION['user']['id'] && !$is_complained) || $_SESSION['user']['is_admin']): ?>
+    if ($user_id == $_SESSION['user']['id'] && !$is_complained): ?>
         <i class='fa fa-times remove-comment pointer' title="Удалить комментарий" data-id="<?= $id ?>"
            onclick="publication.removeComment(this)" aria-hidden='true'></i>
     <?php endif; ?>
@@ -50,12 +51,20 @@
                         <span class="complain <?= $is_complained ? '' : 'd-none' ?>">
                             &nbsp;<span class="badge bg-danger">Жалоба!</span>
                         </span>
-                        &nbsp;<?php if ($user_id == $_SESSION['user']['id']): ?>
+
+
+                        <?php if ($_SESSION['user']['id'] && $_SESSION['user']['id'] != $user_id): ?>
                             <i class='fa fa-heart<?= $commet_is_liked ? '' : '-o' ?> pointer'
                                data-id="<?= $id ?>"
                                data-user="<?= $_SESSION['user']['id'] ?>"
                                onclick="publication.like_comment(this)" aria-hidden='true'></i>
-                            <small class="comment-likes-count"><?= $likes ?></small>&nbsp;&nbsp;
+                            <small class="comment-likes-count"><?= $likes ?></small>                    &nbsp;
+                            <i class='fa fa-reply pointer'
+                               data-publication_id="<?= $publication_id ?>"
+                               data-id="<?= $id ?>"
+                               data-user="<?= $_SESSION['user']['id'] ?>"
+                               onclick="publication.reply(this)"
+                               aria-hidden='true'></i>&nbsp;&nbsp;&nbsp;
                             <i class="fa fa-exclamation-triangle pointer"
                                title="Пожаловаться"
                                data-id="<?= $id ?>"
@@ -65,12 +74,16 @@
                             <i class='fa fa-heart-o' aria-hidden='true'></i>
                             <small class="comment-likes-count"><?= $likes ?></small>
                         <?php endif; endif; ?>
+                        &nbsp;
+
+
                 </p>
             </div>
 
 
             <?php if (!$is_active && $is_complained): ?>
-                <p class="lead">Комментарий удалён модератором.....</p>
+                <p class="lead"><small>Комментарий удалён
+                        модератором. <?= $reason_complaint ? 'Причина: ' . $reason_complaint : "" ?></small></p>
             <?php else: ?>
                 <p class="mb-0"><?= $comment ?></p>
                 <br>
