@@ -167,6 +167,16 @@
     width: 0;
   }
 
+  .counter{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 14px;
+    color: #FFF;
+    text-shadow: 1px 0 1px #000, 0 1px 1px #000, -1px 0 1px #000, 0 -1px 1px #000;
+    z-index: 99;
+  }
+
   img {
 
     @media screen and (max-width: 599px) {

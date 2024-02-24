@@ -1066,6 +1066,13 @@ const publication = {
     showModal(img) {
 
         let src = img.src;
+
+        let all_images = $(`#publication-content img.publication-image-item`);
+        let current_image = document.querySelector(`#publication-content img.publication-image-item[src="${src}"]`);
+        let number = +all_images.index(current_image) + 1;
+        let imagesCount = all_images.length;
+        let counter = `${number} / ${imagesCount}`;
+
         let previous = $(img).closest('figure').prev('p, h3');
         let descriptionPrevious;
         if (!previous.length)
@@ -1093,6 +1100,7 @@ const publication = {
 
         let modal =
             `<div class="custom-modal">
+                <div class="counter">${counter}</div>
                 <i class='fa fa-times close-modal modal-control clickable' onclick="publication.closeModal()" aria-hidden='true'></i>
                 <div class="custom-modal-wrapper">
                     <img src="${src}" alt="${description}" class="clickable img-fluid custom-modal-img" onload="publication.modalImgPlus(this)"  />

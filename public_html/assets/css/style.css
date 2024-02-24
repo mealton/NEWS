@@ -658,6 +658,15 @@ footer {
 .custom-modal::-webkit-scrollbar {
   width: 0;
 }
+.custom-modal .counter {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  font-size: 14px;
+  color: #FFF;
+  text-shadow: 1px 0 1px #000, 0 1px 1px #000, -1px 0 1px #000, 0 -1px 1px #000;
+  z-index: 99;
+}
 @media screen and (max-width: 599px) {
   .custom-modal img {
     max-width: 100%;
