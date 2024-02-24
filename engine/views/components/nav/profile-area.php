@@ -21,6 +21,7 @@
         <?php endif; ?>
         <div class="dropdown-menu" style="right: 0;" aria-labelledby="navbarDropdown-profile">
             <a class="dropdown-item" href="/profile/user/<?= $id ?>/profile-page.html">Личный кабинет</a>
+            <a class="dropdown-item" href="/profile/user/<?= $id ?>/profile-page.html?tab=add-public">Добавить публикацию</a>
             <a class="dropdown-item" href="/profile/logout.html">Выйти</a>
             <?php if ($_SESSION['user']['is_admin']): ?>
                 <div class="dropdown-divider"></div>

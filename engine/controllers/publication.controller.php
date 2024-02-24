@@ -485,8 +485,11 @@ LIKES;
         $tags_container = $data['tags_container'] ? $data['tags_container'] : '.tags';
 
         $html = file_get_html($url);
-        $dom = str_get_html($html);
 
+        if(!$html)
+            return false;
+
+        $dom = str_get_html($html);
         $metaTags = get_meta_tags($url);
         $h1 = $dom->find("h1", 0)->plaintext;
         $title = $h1 ? $h1 : $metaTags['title'];

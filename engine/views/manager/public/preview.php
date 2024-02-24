@@ -80,6 +80,7 @@
         <a href="/manager/show/<?= $id ?>::<?= $alias ?>.html">
             <button class="btn btn-primary">Открыть</button>
         </a>
+        <button class="btn btn-success" data-id="<?= $id ?>" onclick="manager.moderatePublication(this)">Одобрить</button>
         <br>
         <hr>
         <br>
