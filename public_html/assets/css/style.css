@@ -989,7 +989,6 @@ ul.publications-list {
   color: inherit;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 .search-helper img.search-img {
   max-width: 50px;

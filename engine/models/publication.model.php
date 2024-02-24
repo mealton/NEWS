@@ -150,14 +150,25 @@ SQL;
 
         foreach ($publications as $i => $item) {
 
-            if($item['search']){
-                $strposition = mb_strpos(mb_strtolower($item['search']), mb_strtolower($filter_value), 0, 'utf-8');
-                if($strposition > 50)
-                    $publications[$i]['search'] = "..." . mb_substr($item['search'], $strposition - 15, mb_strlen($filter_value) + 35, 'utf-8') . "...";
-            }
-
             if (in_array(0, $this->category_checker($item['category_id'])))
                 unset($publications[$i]);
+
+            if($item['search']){
+                $strposition = mb_strpos(mb_strtolower($item['search']), mb_strtolower($filter_value), 0, 'utf-8');
+
+                if($strposition === false){
+                    $publications[$i]['search'] = "";
+                    continue;
+                }
+
+                if($strposition > 50)
+                    $publications[$i]['search'] = "..." . mb_substr($item['search'], $strposition - 15, null, 'utf-8');
+
+                if(mb_strlen($item['search']) > mb_strlen($filter_value) + 50)
+                    $publications[$i]['search'] = mb_substr($publications[$i]['search'], 0, $strposition + mb_strlen($filter_value) + 15, 'utf-8') . "...";
+            }
+
+
         }
 
         //pre($publications);

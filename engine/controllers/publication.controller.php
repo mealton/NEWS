@@ -44,9 +44,10 @@ class Publication extends Main
         $GLOBALS['search_value'] = trim($data['search']);
         $search = array_map(function ($item) {
             $title = preg_replace('/(' . $GLOBALS['search_value'] . ')/iu', '<b>$1</b>', strip_tags(htmlspecialchars_decode($item['title'])));
+            $search = preg_replace('/(' . $GLOBALS['search_value'] . ')/iu', '<b>$1</b>', strip_tags(htmlspecialchars_decode($item['search'])));
             $href = "/publication/show/$item[id]::$item[alias].html?search=$GLOBALS[search_value]";
             $image = "<img src='$item[public_img]' class='search-img' alt='' />";
-            return "<li class='list-group-item'><a href=\"$href\">$image <span>$title</span></a></li>";
+            return "<li class='list-group-item'><a href=\"$href\">$image <span>$title</span></a><p class='text-muted'><small>$search</small></p></li>";
         }, $search);
         json($search);
     }
