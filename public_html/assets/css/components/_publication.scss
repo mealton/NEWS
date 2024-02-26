@@ -183,7 +183,7 @@
   }
 
   &__counter {
-    position: absolute;
+    position: fixed;
     left: 10px;
     top: 10px;
     font-size: 14px;
@@ -193,7 +193,7 @@
   }
 
   .add-comment-to-img {
-    position: absolute;
+    position: fixed;
     left: 10px;
     top: 40px;
 
@@ -341,7 +341,7 @@
 
 
 .custom-modal-img-preloader {
-  position: absolute;
+  position: fixed;
   left: calc(50% - 30px);
   top: calc(50% - 30px);
   width: 60px;
@@ -351,7 +351,7 @@
 }
 
 .custom-modal .modal-control {
-  position: absolute;
+  position: fixed;
   color: #FFF;
   cursor: pointer;
   font-size: 36px;

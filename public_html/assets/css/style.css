@@ -674,7 +674,7 @@ footer {
   width: 0;
 }
 .custom-modal__counter {
-  position: absolute;
+  position: fixed;
   left: 10px;
   top: 10px;
   font-size: 14px;
@@ -683,7 +683,7 @@ footer {
   z-index: 99;
 }
 .custom-modal .add-comment-to-img {
-  position: absolute;
+  position: fixed;
   left: 10px;
   top: 40px;
   color: #FFF;
@@ -795,7 +795,7 @@ footer {
 }
 
 .custom-modal-img-preloader {
-  position: absolute;
+  position: fixed;
   left: calc(50% - 30px);
   top: calc(50% - 30px);
   width: 60px;
@@ -805,7 +805,7 @@ footer {
 }
 
 .custom-modal .modal-control {
-  position: absolute;
+  position: fixed;
   color: #FFF;
   cursor: pointer;
   font-size: 36px;
