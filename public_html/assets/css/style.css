@@ -686,10 +686,13 @@ footer {
   position: absolute;
   left: 10px;
   top: 40px;
-  font-size: 20px !important;
   color: #FFF;
   cursor: pointer;
   z-index: 9999;
+}
+.custom-modal .add-comment-to-img .modal-control {
+  font-size: 20px !important;
+  position: static;
 }
 .custom-modal #comment-form-container .comment-form {
   padding-top: 40px;
@@ -964,7 +967,25 @@ ul.publications-list {
   line-height: 1;
 }
 
-.video-item:before {
+.video-item .youtube-icon {
+  position: absolute;
+  left: calc(50% - 60px);
+  top: calc(50% - 34px);
+  transition: all 0.5s ease-in-out;
+}
+.video-item:hover .youtube-icon {
+  transform: scale(1.1);
+}
+
+#comments-to-image .comment-item-container {
+  margin-top: 50px;
+  text-align: left;
+}
+#comments-to-image .comment-item-container .comment-note, #comments-to-image .comment-item-container .remove-comment {
+  display: none;
+}
+
+/*.video-item:before {
   display: block;
   content: "";
   position: absolute;
@@ -972,11 +993,10 @@ ul.publications-list {
   top: 0;
   width: 100%;
   height: 100%;
-  background: url("/assets/uploads/icons/yt.png") center no-repeat;
+  background: url('/assets/uploads/icons/yt.png') center no-repeat;
   background-size: auto;
   transition: all 0.5s ease-in-out;
-}
-
+}*/
 @-moz-document url-prefix() {
   .video-item:before {
     display: none;

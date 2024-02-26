@@ -21,7 +21,7 @@
  * @var $commented_content string
  */
 ?>
-<div class="card-body p-4 position-relative comment-item-container">
+<div class="card-body p-4 position-relative comment-item-container" data-contentid="<?= $content_id ?>">
     <?php session_start();
     if ($user_id == $_SESSION['user']['id'] && !$is_complained && !$has_replies): ?>
         <i class='fa fa-times remove-comment pointer' title="Удалить комментарий" data-id="<?= $id ?>"
@@ -48,7 +48,7 @@
                 </a>
 
                 <?php if ($commented_content): ?>
-                    <span class="mb-0">
+                    <span class="mb-0 comment-note">
                         <small>к изображению </small>
                         <img src="<?= $commented_content ?>" class="comment-to-img" onclick="publication.showModalFromComment(this)" alt="">
                     </span>

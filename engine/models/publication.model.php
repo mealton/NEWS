@@ -231,7 +231,7 @@ SQL;
 
         $sql = <<<SQL
 SELECT 
-`p`.*, `c`.*, `p`.`id` as `publication_id`,
+COUNT(`com`.`id`) as `comment_counter`, `p`.*, `c`.*, `p`.`id` as `publication_id`,
 (SELECT COUNT(`id`) FROM `content` WHERE `p`.`id` = `content`.`publication_id` AND `content`.`tag` = 'image' AND `content`.`is_active` = 1 AND `content`.`is_hidden` = 0) as `img_counter`, 
 (SELECT COUNT(`id`) FROM `content` WHERE `p`.`id` = `content`.`publication_id` AND `content`.`tag` = 'video' AND `content`.`is_active` = 1) as `video_counter`, 
 `cat`.`name` as `category`,
@@ -242,15 +242,13 @@ SELECT
 FROM `publications` as `p`
 LEFT JOIN `content` as `c` ON `p`.`id` = `c`.`publication_id` AND  `c`.`is_active` = 1
 RIGHT JOIN `categories` as `cat` ON `p`.`category_id` = `cat`.`id` AND `cat`.`is_active` = 1 $erotic_user_filter
-        
+LEFT JOIN `comments` as `com` ON `c`.`id` = `com`.`content_id`        
 LEFT JOIN `users` as `u` ON `p`.`user_id` = `u`.`id`
 WHERE 1 $unpublihed AND `p`.`id` = $id $alias_where
+GROUP BY `c`.`id`
 SQL;
 
-        //pre($sql);
         $publication = db::getInstance()->Select($sql);
-
-        //pre($publication);
 
         if(empty($publication))
             return false;

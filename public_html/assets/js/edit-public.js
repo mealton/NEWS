@@ -1085,9 +1085,15 @@ const publication = {
 
     closeCommentForm() {
         document.getElementById('comment-form-container').innerHTML = "";
+        document.getElementById('comments-to-image').innerHTML = "";
         this.scrollBlock = false;
         window.addEventListener('wheel', this.scrollModalImages, {passive: false});
         $('.custom-modal p.lead.clickable').show();
+    },
+
+    getCommentsToImg(content_id){
+        let data_id = `[data-contentid="${content_id}"]`;
+        return $(`#comments .comment-item-container${data_id}`);
     },
 
     commentToImg(publication_id, content_id) {
@@ -1099,6 +1105,8 @@ const publication = {
 
         let callback = response => {
             //console.log(response);
+            let comments = this.getCommentsToImg(content_id);
+
             let commentFormContainer = document.getElementById('comment-form-container');
             commentFormContainer.innerHTML = response;
             commentFormContainer.scrollIntoView();
@@ -1112,6 +1120,10 @@ const publication = {
             $(commentFormContainer)
                 .find('.comment-form .col-md-11')
                 .append(`<button type="button" class="btn btn-secondary" onclick="publication.closeCommentForm()">Отмена</button>`);
+
+            if(comments.length)
+                comments.clone().appendTo("#comments-to-image");
+
         };
 
         ffetch(this.action, callback, data);
@@ -1121,6 +1133,13 @@ const publication = {
         let current_image = document.querySelector(`#publication-content img.publication-image-item[src="${img.src}"]`);
         //return this.showModal(current_image);
         current_image.scrollIntoView()
+    },
+
+    showModalWithCommentForm(icon) {
+        let img = $(icon).closest('.publication-image-item-container').find('.publication-image-item')[0];
+        this.showModal(img);
+        setTimeout(() => $('.add-comment-to-img .fa-commenting-o').click(), 50);
+        setTimeout( () => document.getElementById('comments-to-image').scrollIntoView(), 100);
     },
 
     showModal(img) {
@@ -1134,6 +1153,12 @@ const publication = {
         let number = +all_images.index(current_image) + 1;
         let imagesCount = all_images.length;
         let counter = `${number} / ${imagesCount}`;
+
+        let commentCounter = '';
+        if(!img.classList.contains('comment-img'))
+            commentCounter = this.getCommentsToImg(img.dataset.id).length;
+
+        commentCounter = commentCounter > 0 ? commentCounter : '';
 
         let previous = $(img).closest('figure').prev('p, h3');
         let descriptionPrevious;
@@ -1155,9 +1180,11 @@ const publication = {
             : "";
 
         let commentBtn = ENABLE_LIKE_CONTENT && id
-            ? `<i class='fa fa-commenting-o add-comment-to-img modal-control clickable' onclick='publication.commentToImg(${PUBLICATION_ID}, ${id})' aria-hidden='true' title='Оставить комментарий к данному изобрпажению'></i>`
+            ? `<span class="add-comment-to-img clickable">
+                <i class='fa fa-commenting-o modal-control' onclick='publication.commentToImg(${PUBLICATION_ID}, ${id})' aria-hidden='true' title='Оставить комментарий к данному изобрпажению'></i>
+                 ${commentCounter}
+                </span>`
             : "";
-
 
         if (img.classList.contains('comment-img')) {
             faPrev = faNext = counter = "";
@@ -1167,7 +1194,7 @@ const publication = {
         let modal =
             `<div class="custom-modal">
                 <div class="custom-modal__counter">${counter}</div>
-                ${commentBtn}
+                ${commentBtn} ${commentCounter}
                 <i class='fa fa-times close-modal modal-control clickable' onclick="publication.closeModal()" aria-hidden='true'></i>
                 <div class="custom-modal-wrapper">
                     <img src="${src}" alt="${description}" class="clickable img-fluid custom-modal-img" onload="publication.modalImgPlus(this)"  />
@@ -1175,6 +1202,7 @@ const publication = {
                     <div class="custom-modal-img-preloader preloader"></div>
                     ${description ? `<p class="lead clickable">${description}</p>` : ""}                    
                 </div>
+                <div id="comments-to-image"></div>
                 ${faPrev} ${faNext}                               
             </div>`;
 
