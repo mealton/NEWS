@@ -18,7 +18,7 @@
                 <p><em itemprop="description"><?= $description ?></em></p>
             </blockquote>
         <?php endif ?>
-        <figure style="display: inline-block; position: relative">
+        <figure class="publication-image-item-container">
             <img itemprop="contentUrl" class="img-fluid rounded publication-image-item"
                  data-id="<?= $id ?>"
                  onclick="publication.showModal(this)" src="<?= $content ?>"

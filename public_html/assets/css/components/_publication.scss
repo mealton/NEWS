@@ -66,6 +66,13 @@
   color: #FFF;
 }
 
+.publication-image-item-container{
+  margin: auto;
+  max-width: 95%;
+  display: inline-block;
+  position: relative
+}
+
 .public-item-preview, .subcategory-card {
   a {
     color: inherit;
