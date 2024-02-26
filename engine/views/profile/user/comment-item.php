@@ -14,13 +14,15 @@
  * @var $comment string
  * @var $image string
  * @var $replies string
+ * @var $has_replies boolean
  */
 ?>
 <div class="card-body p-4 comment-item-container">
     <div class="row">
         <div class="col-md-6">
             <div class="publication">
-                <a href="/publication/show/<?= $publication_id ?>::<?= $alias ?>.html#comments" title="Перейти к комментариям публикации">
+                <a href="/publication/show/<?= $publication_id ?>::<?= $alias ?>.html#comments"
+                   title="Перейти к комментариям публикации">
                     <h3><?= html_entity_decode($title) ?></h3>
                     <img src="<?= $public_img ?>" class="img-fluid" alt="" style="max-width: 300px;">
                 </a>
@@ -29,8 +31,10 @@
         <div class="col-md-6">
             <div class="d-flex flex-start position-relative">
                 <div>
-                    <i class='fa fa-times remove-comment pointer' title="Удалить комментарий" data-id="<?= $id ?>"
-                       onclick="publication.removeComment(this)" aria-hidden='true'></i>
+                    <?php if ($_SESSION['user']['id'] == $user_id && !$has_replies): ?>
+                        <i class='fa fa-times remove-comment pointer' title="Удалить комментарий" data-id="<?= $id ?>"
+                           onclick="publication.removeComment(this)" aria-hidden='true'></i>
+                    <?php endif; ?>
                     <h6 class="fw-bold mb-1">
                         <a href="/publication/authors/<?= $user_id ?>::<?= $username ?>/">
                             <?= $username ?>

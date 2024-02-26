@@ -608,6 +608,13 @@ footer {
   margin-left: 0;
 }
 
+.content-likes {
+  position: absolute;
+  right: -30px;
+  top: 0;
+  font-size: small;
+}
+
 .comment-form textarea {
   min-height: 100px;
   max-height: 100px;
@@ -645,6 +652,7 @@ footer {
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  flex-wrap: wrap;
   padding: 20px 15px;
   z-index: 9999;
   text-align: center;
@@ -658,7 +666,7 @@ footer {
 .custom-modal::-webkit-scrollbar {
   width: 0;
 }
-.custom-modal .counter {
+.custom-modal__counter {
   position: absolute;
   left: 10px;
   top: 10px;
@@ -666,6 +674,29 @@ footer {
   color: #FFF;
   text-shadow: 1px 0 1px #000, 0 1px 1px #000, -1px 0 1px #000, 0 -1px 1px #000;
   z-index: 99;
+}
+.custom-modal .add-comment-to-img {
+  position: absolute;
+  left: 10px;
+  top: 40px;
+  font-size: 20px !important;
+  color: #FFF;
+  cursor: pointer;
+  z-index: 9999;
+}
+.custom-modal #comment-form-container .comment-form {
+  padding-top: 40px;
+  margin: 0 !important;
+  position: static;
+  width: 800px;
+  max-width: 95vw;
+  text-align: left;
+}
+.custom-modal #comment-form-container .comment-form hr {
+  display: none;
+}
+.custom-modal #comment-form-container .comment-form .preview-item, .custom-modal #comment-form-container .comment-form .preview-item .remove-img {
+  font-size: 14px;
 }
 @media screen and (max-width: 599px) {
   .custom-modal img {
@@ -763,7 +794,7 @@ footer {
   color: #FFF;
 }
 
-.modal-control {
+.custom-modal .modal-control {
   position: absolute;
   color: #FFF;
   cursor: pointer;
@@ -946,6 +977,15 @@ ul.publications-list {
 }
 .fancybox-close-small {
   outline: none !important;
+}
+
+.comment-to-img {
+  max-width: 40px;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+.comment-to-img:hover {
+  transform: scale(3);
 }
 
 .iframe-description {

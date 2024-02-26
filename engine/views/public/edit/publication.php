@@ -141,6 +141,13 @@
             <br>
             <input type="text" name="comment" class="form-control"
                    placeholder="Комментарий к статье (виден только вам)" value="<?= $comment ?>">
+            <br>
+            <div class="form-check">
+                <label class="form-check-label">
+                    Разрешить ставить лайки и комментировать фото / видео&nbsp;
+                    <input class="form-check-input" name="like_content" type="checkbox" value="0">
+                </label>
+            </div>
         </div>
     </div>
 </fieldset>

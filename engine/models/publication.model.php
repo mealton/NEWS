@@ -353,6 +353,45 @@ SQL;
         return db::getInstance()->Query("UPDATE `publications` SET `likes` = `likes` + 1 WHERE `id` = $id");
     }
 
+    public function content_like($id)
+    {
+
+        session_start();
+
+        $query = db::getInstance()->Select("SELECT `users_liked` FROM `content` WHERE `id` = $id LIMIT 1");
+        $user_liked = unserialize($query[0]['users_liked']);
+        $user_liked = is_array($user_liked) ? $user_liked : [];
+        $user_id = $_SESSION['user']['id'];
+        $is_liked = in_array($user_id, $user_liked);
+
+        if($is_liked){
+            $user_liked = array_diff($user_liked, [$user_id]);
+            $user_liked = serialize($user_liked);
+
+            $sql = <<<SQL
+UPDATE `content`
+SET `content_likes` = `content_likes` - 1, `users_liked` = '$user_liked'
+WHERE `id` = $id
+SQL;
+        }else{
+            $user_liked[] = $user_id;
+            $user_liked = serialize($user_liked);
+            $sql = <<<SQL
+UPDATE `content`
+SET `content_likes` = `content_likes` + 1, `users_liked` = '$user_liked'
+WHERE `id` = $id
+SQL;
+        }
+
+        $result = db::getInstance()->Query($sql);
+        if($result){
+            $query =  db::getInstance()->Select("SELECT `content_likes` FROM `content` WHERE `id` = $id LIMIT 1");
+            return ['result' => $result, 'is_liked' => $is_liked, 'likes' => $query[0]['content_likes']];
+        }else
+            return ['result' => $result];
+
+    }
+
     public function dislike($id)
     {
         return db::getInstance()->Query("UPDATE `publications` SET `likes` = `likes` - 1 WHERE `id` = $id");
@@ -373,7 +412,8 @@ SQL;
         $comment_where_id = $comment_id ? " AND `com`.`id` = $comment_id" : "";
         $sql = <<<SQL
 SELECT 
-`com`.*, 
+`com`.*,
+IF(`com`.`content_id` != "", (SELECT `content` FROM `content` WHERE `id` = `com`.`content_id` LIMIT 1), "") as `commented_content`,      
 IF((SELECT COUNT(`id`) FROM `comments` as `comm` WHERE `com`.`id` = `comm`.`parent_id` AND `comm`.`publication_id` = `com`.`publication_id` AND `comm`.`is_reply` = 1) > 0, 1, 0) as `has_replies`,      
 IF(`c`.`content` = "", "", CONCAT('<img src="', `c`.`content`, '"  onclick="publication.showModal(this)" class="img-fluid comment-img clickable" alt="">')) as `image`, 
 `com_`.`user_id` as `reply_user_id`, 
@@ -398,15 +438,15 @@ WHERE `com`.`publication_id` = $publication_id $comment_where_id
 ORDER BY `com`.`date` DESC, `com_`.`date` DESC
 SQL;
 
-        //pre(get_called_class());
-
         return db::getInstance()->Select($sql);
 
     }
 
     public function get_user_comments($user_id = false, $get_total = false)
     {
-        $where_user_id = $user_id ? "WHERE `com`.`user_id` = $user_id" : "WHERE (`com`.`is_complained` = 1 AND `com`.`is_active` = 1) OR (`com_`.`is_complained` = 1 AND `com_`.`is_active` = 1)";
+        $where_user_id = $user_id
+            ? "WHERE `com`.`user_id` = $user_id OR `com_`.`parent_id` = `com`.`id`"
+            : "WHERE (`com`.`is_complained` = 1 AND `com`.`is_active` = 1) OR (`com_`.`is_complained` = 1 AND `com_`.`is_active` = 1)";
         /* $offset = (int)$_GET['page'];
          $limit = 5;
 
@@ -415,6 +455,7 @@ SQL;
         $sql = <<<SQL
 SELECT 
 `com`.*, 
+IF((SELECT COUNT(`id`) FROM `comments` as `comm` WHERE `com`.`id` = `comm`.`parent_id` AND `comm`.`publication_id` = `com`.`publication_id` AND `comm`.`is_reply` = 1) > 0, 1, 0) as `has_replies`,      
 IF(`c`.`content` = "", "", CONCAT('<img src="', `c`.`content`, '" class="img-fluid" alt="">')) as `image`, 
 `com_`.`user_id` as `reply_user_id`, 
 `com_`.`comment` as `reply_comment`,
@@ -447,6 +488,7 @@ HAVING `com`.`id` IS NOT NULL
 ORDER BY `com`.`date` DESC, `com_`.`date` DESC
 $return_limit
 SQL;
+
         return db::getInstance()->Select($sql);
 
     }

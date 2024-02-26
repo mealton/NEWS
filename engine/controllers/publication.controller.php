@@ -186,6 +186,13 @@ class Publication extends Main
         $PublicationModel = new PublicationModel();
         $publication = $PublicationModel->get_publication($publication_id, $alias);
 
+        $publication = array_map(function ($item){
+            $users_liked = unserialize($item['users_liked']);
+            $users_liked = is_array($users_liked) ? $users_liked : [];
+            $item['content_is_liked'] = in_array($_SESSION['user']['id'], $users_liked);
+            return $item;
+        }, (array)$publication);
+
         //pre($publication);
 
         //История
@@ -531,7 +538,7 @@ LIKES;
                 $subtitle = $element->plaintext;
                 if (!$subtitle)
                     continue;
-                $content = '<h2>' . $subtitle . '</h2>';
+                $content = $subtitle;
             } elseif (in_array($element->tag, ['video', 'iframe'])) {
                 $tag = 'video';
                 $poster = $element->poster;
@@ -540,7 +547,7 @@ LIKES;
                 $tag = 'text';
                 if (!$element->plaintext)
                     continue;
-                $content = '<p>' . $element->plaintext . '</p>';
+                $content = $element->plaintext;
             }
             $media[] = ['tag' => $tag, 'content' => $content, 'source' => $element->src, 'description' => '', 'item_folder' => 'edit', 'poster' => $poster];
         }
@@ -684,6 +691,20 @@ LIKES;
         return true;
     }
 
+    protected function content_like($data)
+    {
+        $id = (int)$data['id'];
+        if (!$id) {
+            json('Не переданы обязательные параметры');
+            return false;
+        }
+        require_once dirname(__DIR__) . '/models/publication.model.php';
+        $publication = new PublicationModel();
+        $result = $publication->content_like($id);
+        json($result);
+        return $result;
+    }
+
     protected function like_comment($data)
     {
         $id = (int)$data['id'];
@@ -721,6 +742,7 @@ LIKES;
     {
         session_start();
         $publication_id = (int)$data['publication_id'];
+        $content_id = (int)$data['content_id'];
         $user_id = (int)$_SESSION['user']['id'];
         $comment = trim((string)$data['comment']);
         $image = trim((string)$data['image']);
@@ -735,6 +757,7 @@ LIKES;
         $publication = new PublicationModel();
         $comment_id = $publication->insert('comments', [
             'publication_id' => $publication_id,
+            'content_id' => $content_id,
             'user_id' => $user_id,
             'comment' => $comment,
             'is_reply' => (int)$data['is_reply'],
@@ -756,6 +779,14 @@ LIKES;
         $comment = render('public/show/comments', $view_comment, $comment);
         json(['result' => $comment_id, 'comment' => $comment]);
         exit();
+    }
+
+    protected function get_comment_form($data)
+    {
+        session_start();
+        $data['user_id'] = $_SESSION['user']['id'];
+        $form = render('public/show/comments', 'comment-form', $data);
+        json($form);
     }
 
     protected function reply($data)

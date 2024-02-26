@@ -18,6 +18,7 @@
  * @var $comment string
  * @var $image string
  * @var $replies string
+ * @var $commented_content string
  */
 ?>
 <div class="card-body p-4 position-relative comment-item-container">
@@ -45,6 +46,13 @@
                     <?= $username ?>
                     <?= $is_author ? '<span class="author-comment">Комментарий автора</span>' : '' ?>
                 </a>
+
+                <?php if ($commented_content): ?>
+                    <span class="mb-0">
+                        <small>к изображению </small>
+                        <img src="<?= $commented_content ?>" class="comment-to-img" onclick="publication.showModalFromComment(this)" alt="">
+                    </span>
+                <?php endif; ?>
             </h6>
             <div class="d-flex align-items-center mb-3">
                 <p class="mb-0">
@@ -79,7 +87,6 @@
                         <?php endif; endif; ?>
                 </p>
             </div>
-
 
             <?php if (!$is_active && $is_complained): ?>
                 <p class="lead"><small>Комментарий удалён

@@ -3,13 +3,14 @@
  * Форма отправки комментариев
  * @var $publication_id integer
  * @var $user_id integer
+ * @var $content_id integer
  * @var $is_reply boolean
  * @var $parent_id integer
  * @var $show_cancel boolean
  */
 
 session_start(); if($_SESSION['user']['id']): ?>
-<form class="mb-4 comment-form" onsubmit="publication.comment(this); return false;">
+<form class="mb-4 comment-form modal-control clickable" onsubmit="publication.comment(this); return false;">
     <div class="row">
         <div class="col-md-1">
             <?php if ($_SESSION['user']['profile_image']): ?>
@@ -25,6 +26,7 @@ session_start(); if($_SESSION['user']['id']): ?>
             <input type="hidden" name="user_id" value="<?= $user_id ?>"/>
             <input type="hidden" name="is_reply" value="<?= $is_reply ?>"/>
             <input type="hidden" name="parent_id" value="<?= $parent_id ?>"/>
+            <input type="hidden" name="content_id" value="<?= $content_id ?>"/>
             <textarea class="form-control" name="comment"
                       placeholder="Оставьте свой комментарий к публикации"></textarea>
             <div class="invalid-feedback"></div>

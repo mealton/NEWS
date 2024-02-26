@@ -10,6 +10,7 @@
  * @var $publication_content string
  * @var $user_id integer
  * @var $views integer
+ * @var $like_content boolean
  * @var $is_liked boolean
  * @var $publication_id integer
  * @var $likes integer
@@ -17,6 +18,12 @@
  * @var $hashtagsCount array
  */
 ?>
+
+<script>
+    //Разрешение "лайкать" фото / видео в публикации
+    let ENABLE_LIKE_CONTENT = <?= $like_content ?>;
+    let PUBLICATION_ID = <?= $publication_id ?>;
+</script>
 
 <header class="mb-4">
     <article>

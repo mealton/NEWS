@@ -2,6 +2,22 @@ const publication = {
 
     action: '/',
 
+    content_like(item) {
+        let data = {
+            method: 'content_like',
+            id: item.dataset.id
+        };
+        let callback = response => {
+            console.log(response);
+            if (!response.result)
+                return false;
+
+            item.className = `fa fa-heart${!response.is_liked ? '' : '-o'} pointer`;
+            $(item).next('.content-likes-counter').html(response.likes);
+        };
+        ffetch(this.action, callback, data);
+    },
+
     setLikeWidth() {
         let likesBlock = $('#likes-count');
         let nextLikesSpanCount = likesBlock.find('.next-likes-count > span').length;
@@ -745,6 +761,7 @@ const publication = {
         publication.head.introtext = form.elements.introtext.value.trim();
         publication.head.hashtags = form.elements.hashtags.value.trim();
         publication.head.comment = form.elements.comment.value.trim();
+        publication.head.like_content = +form.elements.like_content.checked;
 
         form.querySelectorAll('.publication__item').forEach(item => {
             let tag = item.dataset.tag;
@@ -867,6 +884,9 @@ const publication = {
                 commentContainer.find('p.lead').remove();
                 commentContainer.prepend(response.comment);
             }
+
+            if (data.content_id)
+                this.closeCommentForm();
         };
 
         ffetch(this.action, callback, data);
@@ -1000,7 +1020,7 @@ const publication = {
         main.modalIsDraggable = false;
 
         if (screen.width < 1000) {
-            $('.fa.modal-control').show();
+            $('.fa.modal-control, .custom-modal__counter').show();
             $('img').css({position: 'relative', left: 0, top: 0});
             $('.custom-modal-wrapper').css({position: 'relative'});
         }
@@ -1026,7 +1046,7 @@ const publication = {
         main.modalIsDraggable = true;
 
         if (screen.width < 1000) {
-            $('.fa.modal-control').hide();
+            $('.fa.modal-control, .custom-modal__counter').hide();
             $('.custom-modal-wrapper').css({position: 'static'});
             $('img').css({position: 'absolute'});
         }
@@ -1063,12 +1083,54 @@ const publication = {
         });
     },
 
+    closeCommentForm() {
+        document.getElementById('comment-form-container').innerHTML = "";
+        this.scrollBlock = false;
+        window.addEventListener('wheel', this.scrollModalImages, {passive: false});
+        $('.custom-modal p.lead.clickable').css({zIndex: 'inherit'});
+    },
+
+    commentToImg(publication_id, content_id) {
+        let data = {
+            method: 'get_comment_form',
+            content_id: content_id,
+            publication_id: publication_id,
+        };
+
+        let callback = response => {
+            //console.log(response);
+            let commentFormContainer = document.getElementById('comment-form-container');
+            commentFormContainer.innerHTML = response;
+            commentFormContainer.scrollIntoView();
+
+            //window.scrollTo({top: commentFormContainer.offset().top});
+            this.scrollBlock = true;
+            window.removeEventListener('wheel', this.scrollModalImages);
+            //document.body.style.overflow = 'inherit';
+            uploader.init();
+            $('.custom-modal p.lead.clickable').css({zIndex: '-999'});
+            $(commentFormContainer)
+                .find('.comment-form .col-md-11')
+                .append(`<button type="button" class="btn btn-secondary" onclick="publication.closeCommentForm()">Отмена</button>`);
+        };
+
+        ffetch(this.action, callback, data);
+    },
+
+    showModalFromComment(img) {
+        let current_image = document.querySelector(`#publication-content img.publication-image-item[src="${img.src}"]`);
+        //return this.showModal(current_image);
+        current_image.scrollIntoView()
+    },
+
     showModal(img) {
 
         let src = img.src;
 
         let all_images = $(`#publication-content img.publication-image-item`);
         let current_image = document.querySelector(`#publication-content img.publication-image-item[src="${src}"]`);
+
+        let id = img.classList.contains('comment-img') ? "" : +current_image.dataset.id;
         let number = +all_images.index(current_image) + 1;
         let imagesCount = all_images.length;
         let counter = `${number} / ${imagesCount}`;
@@ -1092,22 +1154,28 @@ const publication = {
             ? `<i class='fa fa-chevron-right prev-next modal-control clickable' onclick="publication.nextModal()" aria-hidden='true'></i>`
             : "";
 
+        let commentBtn = ENABLE_LIKE_CONTENT && id
+            ? `<i class='fa fa-commenting-o add-comment-to-img modal-control clickable' onclick='publication.commentToImg(${PUBLICATION_ID}, ${id})' aria-hidden='true' title='Оставить комментарий к данному изобрпажению'></i>`
+            : "";
+
 
         if (img.classList.contains('comment-img')) {
-            faPrev = faNext = "";
+            faPrev = faNext = counter = "";
             description = img.previousElementSibling.innerHTML;
         }
 
         let modal =
             `<div class="custom-modal">
-                <div class="counter">${counter}</div>
+                <div class="custom-modal__counter">${counter}</div>
+                ${commentBtn}
                 <i class='fa fa-times close-modal modal-control clickable' onclick="publication.closeModal()" aria-hidden='true'></i>
                 <div class="custom-modal-wrapper">
                     <img src="${src}" alt="${description}" class="clickable img-fluid custom-modal-img" onload="publication.modalImgPlus(this)"  />
+                    <div id="comment-form-container"></div> 
                     <div class="custom-modal-img-preloader preloader"></div>
                     ${description ? `<p class="lead clickable">${description}</p>` : ""}                    
                 </div>
-                ${faPrev} ${faNext}                
+                ${faPrev} ${faNext}                               
             </div>`;
 
         $(document.body)
@@ -1186,7 +1254,7 @@ const publication = {
 
     playNext(video) {
 
-        if(!navigator.userAgent.toLowerCase().includes('firefox'))
+        if (!navigator.userAgent.toLowerCase().includes('firefox'))
             video.webkitExitFullScreen();
 
         let nextVideo = $(video).closest('.public-video-item').next('.public-video-item').find('video');
