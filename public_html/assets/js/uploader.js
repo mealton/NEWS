@@ -2,6 +2,36 @@ const uploader = {
 
     action: '/uploader',
 
+    multiupload(fileInput) {
+        if (window.FormData === undefined)
+            return alert('В вашем браузере FormData не поддерживается');
+
+        let formData = new FormData();
+        $.each($(fileInput)[0].files, (key, input) => formData.append('file[]', input));
+        let after = $(fileInput).closest('.publication__item').length;
+        let label = fileInput.parentElement;
+        label.classList.add('preloader');
+
+        $.ajax({
+            type: "POST",
+            url: this.action,
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                label.classList.remove('preloader');
+                if (after)
+                    $(fileInput).closest('.publication__item').after(response.html);
+                else
+                    $('#publication_body').append(response.html);
+                uploader.init();
+            }
+        });
+    },
+
     uploadFile(input) {
         Object.values(input['files']).forEach(file => {
             let reader = new FileReader();
@@ -37,7 +67,7 @@ const uploader = {
                 let video = $(input).closest('.uploader-container').next('.uploader-previews').find('video');
                 console.log(response, video[0]);
 
-                if(video[0] === undefined)
+                if (video[0] === undefined)
                     video = $(input).closest('.publication__item').find('video');
 
                 video.prop({poster: response.src});
@@ -158,6 +188,6 @@ const uploader = {
 
 $(document).ready((e) => {
     uploader.init();
-    if(typeof e.preventDefault === 'function')
+    if (typeof e.preventDefault === 'function')
         e.preventDefault()
 });

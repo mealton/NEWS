@@ -5,8 +5,8 @@
  * Класс для загрузки файлов
  */
 
-ini_set('memory_limit','2048M');
-ini_set('time_limit','100');
+ini_set('memory_limit', '2048M');
+ini_set('time_limit', '1000');
 
 
 class Uploader
@@ -17,6 +17,28 @@ class Uploader
     public function init()
     {
 
+    }
+
+    static function upload_files($files)
+    {
+        $uploads = [];
+        for ($i = 0; $i < count($files['file']['tmp_name']); $i++) {
+            $ext = end(explode('/', $files['file']['type'][$i]));
+            if ($ext == "jpeg")
+                $ext = "jpg";
+            $fileName = time() . rand(0, 100000) . time() . '.' . $ext;
+            $path = '/assets/uploads/img/public/' . $fileName;
+            $folder = $_SERVER['DOCUMENT_ROOT'] . $path;
+            $result = move_uploaded_file($files['file']['tmp_name'][$i], $folder);
+            if ($result) {
+                watermark($folder);
+                $image = '<img src="' . $path . '" data-source="" alt="" class="publication-image-item img-fluid d-block">';
+                $item = render('public/edit/item/', 'image', ['content' => $image, 'editor_hide' => 1]);
+                $uploads[] = $item;
+            }
+            sleep(.3);
+        }
+        json(['html' => implode("", $uploads), 'files' => $files]);
     }
 
     //Инициализация
@@ -55,7 +77,7 @@ class Uploader
         if (preg_match('/data\:/', $url)) {
             $url = end(explode(',', $url));
             $image = base64_decode($url);
-        } else{
+        } else {
             $url = preg_replace('/\.(jpg|png|gif)(.*)/', '.$1', $url);
             $image = curl($url);
         }

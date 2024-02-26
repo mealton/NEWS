@@ -131,6 +131,7 @@ class Profile extends Main
         session_start();
         if ($_SESSION['user']['id'] == $id) {
             $this->components['title'] = $_SESSION['user']['fullname'] ? $_SESSION['user']['fullname'] : $_SESSION['user']['username'];
+            //$this->components['extra-vendors'] = ['jquery' => 'ajaxupload.3.5'];
             $this->components['extra-scripts'] = ['profile', 'edit-public'];
             require_once dirname(__DIR__) . '/models/profile.model.php';
             $model = new ProfileModel();

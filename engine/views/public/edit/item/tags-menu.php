@@ -16,12 +16,21 @@
     </div>
     <div class="col-md-4 tag-controls">
         <div class="row tags-controls-container fs-3 text justify-content-end">
+
+            <div class="col-md-2">
+
+                <label class='fa fa-files-o' title="Мультизакгрузчик изображений" aria-hidden='true'>
+                    <input type="file" name="multifile" multiple style="display: none;" accept="image/*" onchange="uploader.multiupload(this)">
+                </label>
+            </div>
+
             <div class="col-md-2">
                 <i class="tags-controls__item fa fa-picture-o" aria-hidden="true"
                    title="Добавить <?= $after ?> картинку"
                    onclick="publication.addItem(this)"
                    data-tag="image"></i>
             </div>
+
             <div class="col-md-2">
                 <i class="tags-controls__item fa fa-youtube" aria-hidden="true" title="Добавить <?= $after ?> видео"
                    onclick="publication.addItem(this)"
