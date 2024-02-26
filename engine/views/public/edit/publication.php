@@ -13,6 +13,7 @@
  * @var $comment string
  * @var $start_text string
  * @var $publication_content string
+ * @var $like_content boolean
  */
 ?>
 <!--Выбор категории-->
@@ -145,7 +146,7 @@
             <div class="form-check">
                 <label class="form-check-label">
                     Разрешить ставить лайки и комментировать фото / видео&nbsp;
-                    <input class="form-check-input" name="like_content" type="checkbox" value="0">
+                    <input class="form-check-input" name="like_content" type="checkbox" <?= $like_content ? 'checked' : '' ?> >
                 </label>
             </div>
         </div>

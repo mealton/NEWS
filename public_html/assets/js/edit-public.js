@@ -1087,7 +1087,7 @@ const publication = {
         document.getElementById('comment-form-container').innerHTML = "";
         this.scrollBlock = false;
         window.addEventListener('wheel', this.scrollModalImages, {passive: false});
-        $('.custom-modal p.lead.clickable').css({zIndex: 'inherit'});
+        $('.custom-modal p.lead.clickable').show();
     },
 
     commentToImg(publication_id, content_id) {
@@ -1108,7 +1108,7 @@ const publication = {
             window.removeEventListener('wheel', this.scrollModalImages);
             //document.body.style.overflow = 'inherit';
             uploader.init();
-            $('.custom-modal p.lead.clickable').css({zIndex: '-999'});
+            $('.custom-modal p.lead.clickable').hide();
             $(commentFormContainer)
                 .find('.comment-form .col-md-11')
                 .append(`<button type="button" class="btn btn-secondary" onclick="publication.closeCommentForm()">Отмена</button>`);

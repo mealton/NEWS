@@ -22,6 +22,7 @@
             'url_import' => $public_header['source_url'],
             'category_id' => $public_header['category_id'],
             'title' => $public_header['title'],
+            'like_content' => $public_header['like_content'],
             'introtext' => $public_header['introtext'],
             'comment' => $public_header['comment'],
             'hashtags' => $public_header['hashtags'],
