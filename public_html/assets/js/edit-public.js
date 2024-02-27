@@ -887,7 +887,7 @@ const publication = {
 
                 $('.publication-counters .fa.fa-comment').next('small').html(response.comment_count);
 
-                if(data.content_id){
+                if (data.content_id) {
                     let icon = $(`.content-comment-counter[data-id="${data.content_id}"]`);
                     let commentCounter = +icon.html();
                     icon.html(++commentCounter);
@@ -1100,7 +1100,7 @@ const publication = {
         $('.custom-modal p.lead.clickable').show();
     },
 
-    getCommentsToImg(content_id){
+    getCommentsToImg(content_id) {
         let data_id = `[data-contentid="${content_id}"]`;
         return $(`#comments .comment-item-container${data_id}`);
     },
@@ -1114,7 +1114,7 @@ const publication = {
 
         let commentFormContainer = document.getElementById('comment-form-container');
 
-        if(commentFormContainer.innerHTML)
+        if (commentFormContainer.innerHTML)
             return this.closeCommentForm();
 
         let callback = response => {
@@ -1133,28 +1133,28 @@ const publication = {
                 .find('.comment-form .form-body')
                 .append(`<button type="button" class="btn btn-secondary" onclick="publication.closeCommentForm()">Отмена</button>`);
 
-            if(comments.length)
+            if (comments.length)
                 comments.clone().appendTo("#comments-to-image");
 
             setTimeout(() => document.getElementById('comments-to-image')
-                .scrollIntoView({ block: 'end',  behavior: 'smooth' }), 50);
+                .scrollIntoView({block: 'start', behavior: 'smooth'}), 50);
 
         };
 
         ffetch(this.action, callback, data);
     },
 
-    showModalFromComment(img) {
+    scrollToImage(img) {
         let current_image = document.querySelector(`#publication-content img.publication-image-item[src="${img.src}"]`);
         //return this.showModal(current_image);
-        current_image.scrollIntoView()
+        current_image.scrollIntoView({block: 'center'})
     },
 
     showModalWithCommentForm(icon) {
         let img = $(icon).closest('.publication-image-item-container').find('.publication-image-item')[0];
         this.showModal(img);
         setTimeout(() => $('.add-comment-to-img .fa-commenting-o').click(), 50);
-        setTimeout( () => document.getElementById('comments-to-image').scrollIntoView(), 100);
+        setTimeout(() => document.getElementById('comments-to-image').scrollIntoView(), 100);
     },
 
     showModal(img) {
@@ -1173,7 +1173,7 @@ const publication = {
         let likesIcon = likes ? `<span class="likes-btn clickable">${likes}</span>` : '';
 
         let commentCounter = '';
-        if(!img.classList.contains('comment-img'))
+        if (!img.classList.contains('comment-img'))
             commentCounter = this.getCommentsToImg(img.dataset.id).length;
 
         let previous = $(img).closest('figure').prev('p, h3');

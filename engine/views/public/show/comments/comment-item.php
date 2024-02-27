@@ -50,7 +50,7 @@
                 <?php if ($commented_content): ?>
                     <span class="mb-0 comment-note">
                         <small>к изображению </small>
-                        <img src="<?= $commented_content ?>" class="comment-to-img" onclick="publication.showModalFromComment(this)" alt="">
+                        <img src="<?= $commented_content ?>" class="comment-to-img" onclick="publication.scrollToImage(this)" alt="">
                     </span>
                 <?php endif; ?>
             </h6>
