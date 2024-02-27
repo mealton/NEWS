@@ -884,6 +884,14 @@ const publication = {
                 let commentContainer = $('#comments');
                 commentContainer.find('p.lead').remove();
                 commentContainer.prepend(response.comment);
+
+                $('.publication-counters .fa.fa-comment').next('small').html(response.comment_count);
+
+                if(data.content_id){
+                    let icon = $(`.content-comment-counter[data-id="${data.content_id}"]`);
+                    let commentCounter = +icon.html();
+                    icon.html(++commentCounter);
+                }
             }
 
             if (data.content_id)
@@ -1104,13 +1112,16 @@ const publication = {
             publication_id: publication_id,
         };
 
+        let commentFormContainer = document.getElementById('comment-form-container');
+
+        if(commentFormContainer.innerHTML)
+            return this.closeCommentForm();
+
         let callback = response => {
             //console.log(response);
             let comments = this.getCommentsToImg(content_id);
 
-            let commentFormContainer = document.getElementById('comment-form-container');
             commentFormContainer.innerHTML = response;
-            commentFormContainer.scrollIntoView();
 
             //window.scrollTo({top: commentFormContainer.offset().top});
             this.scrollBlock = true;
@@ -1124,6 +1135,9 @@ const publication = {
 
             if(comments.length)
                 comments.clone().appendTo("#comments-to-image");
+
+            setTimeout(() => document.getElementById('comments-to-image')
+                .scrollIntoView({ block: 'end',  behavior: 'smooth' }), 50);
 
         };
 
@@ -1155,17 +1169,12 @@ const publication = {
         let imagesCount = all_images.length;
         let counter = `${number} / ${imagesCount}`;
 
-        /* <i class="fa fa-heart-o pointer" data-id="${id}" onclick="publication.content_like(this)" aria-hidden="true"></i>
-                            ${likes}*/
-
         let likes = $(current_image).next('.content-likes').find('span.likes').html();
-        let likesIcon = `<span class="likes-btn clickable">${likes}</span>`;
+        let likesIcon = likes ? `<span class="likes-btn clickable">${likes}</span>` : '';
 
         let commentCounter = '';
         if(!img.classList.contains('comment-img'))
             commentCounter = this.getCommentsToImg(img.dataset.id).length;
-
-        commentCounter = commentCounter > 0 ? commentCounter : '';
 
         let previous = $(img).closest('figure').prev('p, h3');
         let descriptionPrevious;
@@ -1188,9 +1197,8 @@ const publication = {
 
         let commentBtn = ENABLE_LIKE_CONTENT && id
             ? `<span class="add-comment-to-img clickable">
-                <i class='fa fa-commenting-o modal-control' onclick='publication.commentToImg(${PUBLICATION_ID}, ${id})' aria-hidden='true' title='Оставить комментарий к данному изобрпажению'></i>
-                 ${commentCounter}
-                </span>`
+                <i class='fa fa-commenting-o clickable pointer' onclick='publication.commentToImg(${PUBLICATION_ID}, ${id})' aria-hidden='true' title='Оставить комментарий к данному изобрпажению'></i>
+                 <span class="content-comment-counter" data-id="${id}">${commentCounter}</span>`
             : "";
 
         if (img.classList.contains('comment-img')) {
@@ -1198,11 +1206,16 @@ const publication = {
             description = img.previousElementSibling.innerHTML;
         }
 
+        let modalControlPanel = `
+<div class="modal-control-panel">
+${commentBtn} ${likesIcon}
+<i class='fa fa-times close-modal clickable pointer' onclick="publication.closeModal()" aria-hidden='true'></i>
+</div>`;
+
         let modal =
             `<div class="custom-modal">
-                <div class="custom-modal__counter">${counter}</div>
-                ${commentBtn} ${commentCounter} ${likesIcon}
-                <i class='fa fa-times close-modal modal-control clickable' onclick="publication.closeModal()" aria-hidden='true'></i>
+                <div class="custom-modal__counter">${counter}</div>                
+                ${modalControlPanel}
                 <div class="custom-modal-wrapper">
                     <img src="${src}" alt="${description}" class="clickable img-fluid custom-modal-img" onload="publication.modalImgPlus(this)"  />
                     <div id="comment-form-container"></div> 

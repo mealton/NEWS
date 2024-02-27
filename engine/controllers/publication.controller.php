@@ -775,9 +775,10 @@ LIKES;
                 ['publication_id' => $comment_id, 'content' => $data['image'], 'tag' => 'comment']);
 
         $comment = $publication->get_comments($publication_id, $comment_id);
+        $comment_count = count($publication->get_comments($publication_id));
         $view_comment = (int)$data['is_reply'] ? 'comment-item-reply' : 'comment-item';
         $comment = render('public/show/comments', $view_comment, $comment);
-        json(['result' => $comment_id, 'comment' => $comment]);
+        json(['result' => $comment_id, 'comment' => $comment, 'comment_count' => $comment_count]);
         exit();
     }
 

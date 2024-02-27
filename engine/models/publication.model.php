@@ -165,7 +165,7 @@ SQL;
                     $publications[$i]['search'] = "..." . mb_substr($item['search'], $strposition - 15, null, 'utf-8');
 
                 if(mb_strlen($item['search']) > mb_strlen($filter_value) + 50)
-                    $publications[$i]['search'] = mb_substr($publications[$i]['search'], 0, $strposition + mb_strlen($filter_value) + 15, 'utf-8') . "...";
+                    $publications[$i]['search'] = mb_substr($publications[$i]['search'], 0, 15 + mb_strlen($filter_value) + 15, 'utf-8') . "...";
             }
 
 

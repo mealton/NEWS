@@ -668,6 +668,29 @@ footer {
   -ms-overflow-style: none;
   overflow: -moz-scrollbars-none;
   scrollbar-width: none;
+  /*.add-comment-to-img {
+    position: fixed;
+    left: 10px;
+    top: 70px;
+
+    color: #FFF;
+    cursor: pointer;
+    z-index: 9999;
+
+    .modal-control{
+      font-size: 20px !important;
+      position: static;
+    }
+  }*/
+  /*.likes-btn {
+    position: fixed;
+    left: 10px;
+    top: 40px;
+
+    color: #FFF;
+    cursor: pointer;
+    z-index: 9999;
+  }*/
   transition: all 1.5s ease-in-out;
 }
 .custom-modal::-webkit-scrollbar {
@@ -681,26 +704,6 @@ footer {
   color: #FFF;
   text-shadow: 1px 0 1px #000, 0 1px 1px #000, -1px 0 1px #000, 0 -1px 1px #000;
   z-index: 99;
-}
-.custom-modal .add-comment-to-img {
-  position: fixed;
-  left: 10px;
-  top: 70px;
-  color: #FFF;
-  cursor: pointer;
-  z-index: 9999;
-}
-.custom-modal .add-comment-to-img .modal-control {
-  font-size: 20px !important;
-  position: static;
-}
-.custom-modal .likes-btn {
-  position: fixed;
-  left: 10px;
-  top: 40px;
-  color: #FFF;
-  cursor: pointer;
-  z-index: 9999;
 }
 .custom-modal #comment-form-container .comment-form {
   padding-top: 40px;
@@ -840,11 +843,16 @@ footer {
   }
 }
 
-.close-modal {
-  position: absolute;
+.modal-control-panel {
+  position: fixed;
   right: 15px;
   top: 15px;
-  z-index: 2;
+  z-index: 99999;
+  font-size: 16px;
+  color: #FFF;
+}
+.modal-control-panel > span {
+  margin-right: 10px;
 }
 
 .none-moderated .image-preview {

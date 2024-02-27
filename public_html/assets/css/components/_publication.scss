@@ -192,7 +192,7 @@
     z-index: 99;
   }
 
-  .add-comment-to-img {
+  /*.add-comment-to-img {
     position: fixed;
     left: 10px;
     top: 70px;
@@ -205,9 +205,9 @@
       font-size: 20px !important;
       position: static;
     }
-  }
+  }*/
 
-  .likes-btn {
+  /*.likes-btn {
     position: fixed;
     left: 10px;
     top: 40px;
@@ -215,7 +215,7 @@
     color: #FFF;
     cursor: pointer;
     z-index: 9999;
-  }
+  }*/
 
   #comment-form-container {
     .comment-form {
@@ -390,11 +390,17 @@
   }
 }
 
-.close-modal {
-  position: absolute;
+.modal-control-panel {
+  position: fixed;
   right: 15px;
   top: 15px;
-  z-index: 2;
+  z-index: 99999;
+  font-size: 16px;
+  color: #FFF;
+
+  & > span {
+    margin-right: 10px;
+  }
 }
 
 .none-moderated .image-preview {
@@ -561,12 +567,12 @@ ul.publications-list {
   }
 }
 
-#comments-to-image{
-  .comment-item-container{
+#comments-to-image {
+  .comment-item-container {
     margin-top: 50px;
     text-align: left;
-    
-    .comment-note, .remove-comment{
+
+    .comment-note, .remove-comment {
       display: none;
     }
   }
