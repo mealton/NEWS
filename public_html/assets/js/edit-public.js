@@ -12,8 +12,9 @@ const publication = {
             if (!response.result)
                 return false;
 
-            item.className = `fa fa-heart${!response.is_liked ? '' : '-o'} pointer`;
-            $(item).next('.content-likes-counter').html(response.likes);
+            $(`.liker[data-id="${data.id}"]`)
+                .attr('class', `fa liker fa-heart${!response.is_liked ? '' : '-o'} pointer`)
+                .next('.content-likes-counter').html(response.likes);
         };
         ffetch(this.action, callback, data);
     },
@@ -1118,7 +1119,7 @@ const publication = {
             uploader.init();
             $('.custom-modal p.lead.clickable').hide();
             $(commentFormContainer)
-                .find('.comment-form .col-md-11')
+                .find('.comment-form .form-body')
                 .append(`<button type="button" class="btn btn-secondary" onclick="publication.closeCommentForm()">Отмена</button>`);
 
             if(comments.length)
@@ -1154,6 +1155,12 @@ const publication = {
         let imagesCount = all_images.length;
         let counter = `${number} / ${imagesCount}`;
 
+        /* <i class="fa fa-heart-o pointer" data-id="${id}" onclick="publication.content_like(this)" aria-hidden="true"></i>
+                            ${likes}*/
+
+        let likes = $(current_image).next('.content-likes').find('span.likes').html();
+        let likesIcon = `<span class="likes-btn clickable">${likes}</span>`;
+
         let commentCounter = '';
         if(!img.classList.contains('comment-img'))
             commentCounter = this.getCommentsToImg(img.dataset.id).length;
@@ -1187,14 +1194,14 @@ const publication = {
             : "";
 
         if (img.classList.contains('comment-img')) {
-            faPrev = faNext = counter = "";
+            faPrev = faNext = counter = likesIcon = "";
             description = img.previousElementSibling.innerHTML;
         }
 
         let modal =
             `<div class="custom-modal">
                 <div class="custom-modal__counter">${counter}</div>
-                ${commentBtn} ${commentCounter}
+                ${commentBtn} ${commentCounter} ${likesIcon}
                 <i class='fa fa-times close-modal modal-control clickable' onclick="publication.closeModal()" aria-hidden='true'></i>
                 <div class="custom-modal-wrapper">
                     <img src="${src}" alt="${description}" class="clickable img-fluid custom-modal-img" onload="publication.modalImgPlus(this)"  />

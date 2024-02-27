@@ -195,7 +195,7 @@
   .add-comment-to-img {
     position: fixed;
     left: 10px;
-    top: 40px;
+    top: 70px;
 
     color: #FFF;
     cursor: pointer;
@@ -207,10 +207,20 @@
     }
   }
 
+  .likes-btn {
+    position: fixed;
+    left: 10px;
+    top: 40px;
+
+    color: #FFF;
+    cursor: pointer;
+    z-index: 9999;
+  }
+
   #comment-form-container {
     .comment-form {
       padding-top: 40px;
-      margin: 0 !important;
+      margin: 0 auto !important;
       position: static;
       width: 800px;
       max-width: 95vw;

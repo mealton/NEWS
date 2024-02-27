@@ -21,7 +21,7 @@ session_start(); if($_SESSION['user']['id']): ?>
                      width="50" title="Личный кабинет пользователя">
             <?php endif; ?>
         </div>
-        <div class="col-md-11">
+        <div class="col-md-11 form-body">
             <input type="hidden" name="publication_id" value="<?= $publication_id ?>"/>
             <input type="hidden" name="user_id" value="<?= $user_id ?>"/>
             <input type="hidden" name="is_reply" value="<?= $is_reply ?>"/>
@@ -40,9 +40,9 @@ session_start(); if($_SESSION['user']['id']): ?>
     <hr>
 </form>
 <?php else:?>
-    <form class="mb-4 comment-form" onsubmit="return false;">
+    <form class="mb-4 comment-form clickable" onsubmit="return false;">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 form-body">
             <textarea class="form-control" name="comment" disabled
                       placeholder="Авторизуйтесь для возможности комментирования..."></textarea>
             <br>
