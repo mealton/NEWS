@@ -9,6 +9,7 @@
  * @var $email string
  * @var $about string
  * @var $is_admin boolean
+ * @var $no_moderate boolean
  */
 $disabled = $_SESSION['user']['id'] == $id ? 'disabled' : ''; ?>
 
@@ -61,6 +62,15 @@ $disabled = $_SESSION['user']['id'] == $id ? 'disabled' : ''; ?>
                                    <?= $disabled ?>
                                    <?= $is_admin ? 'checked' : '' ?> />
                                 Права администратора
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label>
+                            <input class="form-check-input" type="checkbox" name="no_moderate"
+                                   onchange="manager.updateUser(this)"
+                                   <?= $disabled ?>
+                                   <?= $no_moderate ? 'checked' : '' ?> />
+                                Пропускать публикации без проверки
                             </label>
                         </div>
                     </td>

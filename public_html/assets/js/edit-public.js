@@ -19,6 +19,13 @@ const publication = {
         ffetch(this.action, callback, data);
     },
 
+    stopAll(videoItem) {
+        $('#publication-content video').each((i, video) => {
+            if (video !== videoItem && !video.paused)
+                video.pause();
+        });
+    },
+
     setLikeWidth() {
         let likesBlock = $('#likes-count');
         let nextLikesSpanCount = likesBlock.find('.next-likes-count > span').length;

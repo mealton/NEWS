@@ -293,7 +293,7 @@
   &.disappearing {
     opacity: 0;
 
-    .custom-modal-img {
+    .custom-modal-wrapper, #comments-to-image {
       transition: all .5s ease-in-out;
       transform: translateY(-50px);
       opacity: 0;
@@ -302,7 +302,7 @@
     &-down {
       opacity: 0;
 
-      .custom-modal-img {
+      .custom-modal-wrapper, #comments-to-image {
         transition: all .5s ease-in-out;
         transform: translateY(50px);
         opacity: 0;
@@ -358,6 +358,18 @@
   height: 60px;
   z-index: 99999;
   color: #FFF;
+}
+
+.video-container {
+  .youtube-icon {
+    display: none;
+  }
+
+  &.video-item {
+    .youtube-icon {
+      display: block;
+    }
+  }
 }
 
 .custom-modal .modal-control {

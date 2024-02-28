@@ -27,7 +27,8 @@ let manager = {
             method: 'update_user',
             id: container[0].dataset.id,
             is_active: container.find('input[name="is_active"]')[0].checked,
-            is_admin: container.find('input[name="is_admin"]')[0].checked
+            is_admin: container.find('input[name="is_admin"]')[0].checked,
+            no_moderate: container.find('input[name="no_moderate"]')[0].checked
         };
 
         let banned_period = container.find('select[name="banned_period"]').val();

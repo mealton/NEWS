@@ -326,7 +326,7 @@ LIKES;
         }
 
         $public['alias'] = translit($public['title']);
-        $public['moderated'] = $_SESSION['user']['is_admin'];
+        $public['moderated'] = $_SESSION['user']['is_admin'] || $_SESSION['user']['no_moderate'];
         return $public;
     }
 
@@ -378,7 +378,7 @@ LIKES;
         if((int)$public['update-date'])
             $public['published_date'] = date('Y-m-d H:i:s');
 
-        if (!$_SESSION['user']['is_admin'])
+        if (!$_SESSION['user']['is_admin'] && !$_SESSION['user']['no_moderate'])
             $public['moderated'] = 0;
 
         //Изменяем шапку
