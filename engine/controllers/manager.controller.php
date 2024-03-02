@@ -43,8 +43,24 @@ class Manager extends Main
 
         $publications = $this->get_publications([], true);
 
+        //pre($publications);
+
+
+        $to_moderate = array_filter($publications, function ($item){
+           return !$item['moderated'];
+        });
+
+        $publications = array_filter($publications, function ($item){
+           return $item['moderated'] == 1;
+        });
+
+
+        $manager[0]['to_moderate'] = !empty($to_moderate)
+            ? render('manager/public', 'preview', $this->convert_title($to_moderate))
+            : '<p class="lead">Публикации на модерацию отсутствуют...</p>';
+
         $manager[0]['publications'] = !empty($publications)
-            ? render('manager/public', 'preview', $this->convert_title($publications))
+            ? render('manager/public', 'preview-manager', $this->convert_title($publications))
             : '<p class="lead">Публикации отсутствуют...</p>';
 
 

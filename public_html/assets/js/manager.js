@@ -68,12 +68,15 @@ let manager = {
         console.log(data);
         let callback = response => {
             console.log(response);
+            let preview = $(btn).closest('.public-item-preview');
             if(response.result[0].moderated){
                 btn.className = 'btn btn-danger';
                 btn.innerText = 'Отозвать публикацию';
+                preview.detach().prependTo('#publications');
             }else{
                 btn.className = 'btn btn-success';
                 btn.innerText = 'Одобрить публикацию';
+                preview.detach().prependTo('#to_moderate');
             }
         };
         ffetch(this.action, callback, data);

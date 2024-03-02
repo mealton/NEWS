@@ -117,7 +117,7 @@ SQL;
             }
 
         } else {
-            $filter['managerZone'] = "AND `p`.`moderated` = 0 ";
+            //$filter['managerZone'] = "AND `p`.`moderated` = 0 ";
             $limit_sql = " ORDER BY `p`.`published_date` DESC";
         }
 
