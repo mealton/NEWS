@@ -81,6 +81,7 @@
             <button class="btn btn-primary">Открыть</button>
         </a>
         <button class="btn btn-success" data-id="<?= $id ?>" onclick="manager.moderatePublication(this)">Одобрить</button>
+        <button class="btn btn-danger" data-id="<?= $id ?>" onclick="manager.removePublication(this)">Удалить</button>
         <br>
         <hr>
         <br>

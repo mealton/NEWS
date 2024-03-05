@@ -82,6 +82,25 @@ let manager = {
         ffetch(this.action, callback, data);
     },
 
+    removePublication(btn){
+
+        if(!confirm('Точно удалить?'))
+            return false;
+
+        let data = {
+            method: 'remove_publication',
+            id: btn.dataset.id
+        };
+        console.log(data);
+        let callback = response => {
+            console.log(response);
+            let preview = $(btn).closest('.public-item-preview');
+            if(response.result)
+                preview.remove();
+        };
+        ffetch(this.action, callback, data);
+    },
+
     removeUser(btn){
         let container = $(btn).closest('.accordion-item.user-item');
         let data = {

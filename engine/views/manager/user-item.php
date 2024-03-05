@@ -52,7 +52,6 @@ $disabled = $_SESSION['user']['id'] == $id ? 'disabled' : ''; ?>
                 <tbody>
                 <tr>
                     <td><?= $email ?></td>
-                    <td><?= $gender ?></td>
                     <td><?= $about ?></td>
                     <td>
                         <div class="form-check">

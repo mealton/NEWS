@@ -47,11 +47,11 @@ class Manager extends Main
 
 
         $to_moderate = array_filter($publications, function ($item){
-           return !$item['moderated'];
+           return !$item['moderated'] && $item['id'];
         });
 
         $publications = array_filter($publications, function ($item){
-           return $item['moderated'] == 1;
+           return $item['moderated'] == 1 && $item['id'];
         });
 
 
@@ -277,6 +277,31 @@ LIKES;
         }
 
         json(['result' => $model->update('publications', $data, $id)]);
+        return true;
+
+
+    }
+
+
+    //Удаление публикации
+    protected function remove_publication($data)
+    {
+
+        require_once dirname(__DIR__) . '/models/publication.model.php';
+        $model = new PublicationModel();
+        $id = (int)$data['id'];
+
+        if (!$id) {
+            json(['result' => false, 'message' => 'Не передан Id']);
+            return false;
+        }
+
+        $result = $model->delete('publications', $id);
+
+        if($result)
+            $result = $model->delete('content', $id, 'publication_id');
+
+        json(['result' => $result]);
         return true;
 
 
