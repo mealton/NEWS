@@ -20,7 +20,7 @@
     <br>
     <?= $hashtags ?>
 </div>
-<br><br>
+<br id="sitemap"><br>
 <hr>
 <div class='cat-tree'>
     <h3>Карта сайта:</h3>
