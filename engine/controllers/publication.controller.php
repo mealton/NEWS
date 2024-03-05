@@ -181,10 +181,12 @@ class Publication extends Main
         if (!(int)$publication_id)
             exit404($query);
 
-
         require_once dirname(__DIR__) . '/models/publication.model.php';
         $PublicationModel = new PublicationModel();
         $publication = $PublicationModel->get_publication($publication_id, $alias);
+
+        if (empty($publication))
+            exit404($query);
 
         $publication = array_map(function ($item){
             $users_liked = unserialize($item['users_liked']);
@@ -192,8 +194,6 @@ class Publication extends Main
             $item['content_is_liked'] = in_array($_SESSION['user']['id'], $users_liked);
             return $item;
         }, (array)$publication);
-
-        //pre($publication);
 
         //История
         $history = $PublicationModel->getter('users', ['id' => $_SESSION['user']['id']], 'history');
