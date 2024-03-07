@@ -27,6 +27,21 @@ class MainModel
         return true;
     }
 
+    public function get_top_categories()
+    {
+        $sql = <<<SQL
+SELECT `c`.`id`, `c`.`name`, SUM(`p`.`views`) as `viewer`
+FROM `categories` as `c`
+RIGHT JOIN `publications` as `p` ON `c`.`id` = `p`.`category_id`
+WHERE `c`.`is_active` = 1 AND `c`.`is_hidden` = 0 AND `p`.`is_deleted` = 0 AND `p`.`moderated` = 1 AND `p`.`is_published` = 1
+GROUP BY `c`.`name`
+ORDER BY `viewer` DESC
+LIMIT 10
+SQL;
+        return db::getInstance()->Select($sql);
+
+    }
+
     public function get_categories($limit = 0, $no_children = 0)
     {
 

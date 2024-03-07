@@ -219,24 +219,27 @@ DROPDOWN;
             ]);
         $this->components['footer'] = render('components', 'footer');
 
-        //pre($categories);
 
+        //Категории с самыми просматриваемыми публикациями
+        $top_categories = $model->get_top_categories();
+        $top_categories = array_map(function ($item){
+            return [
+                'name' => $item['name'],
+                'href' => '/publication/category/' . $item['id'] . '/' . translit($item['name']),
+                'is_current' => $GLOBALS['category'] == translit($item['name'])
+            ];
+        }, $top_categories);
 
-        $categories = array_chunk($categories, ceil(count($categories) / 2));
-        $this->components['categories_left'] = render('public/show', 'li_link_element', $categories[0]);
-        $this->components['categories_right'] = render('public/show', 'li_link_element', $categories[1]);
+        $top_categories = array_chunk($top_categories, ceil(count($top_categories) / 2));
+        $this->components['categories_left'] = render('public/show', 'li_link_element', $top_categories[0]);
+        $this->components['categories_right'] = render('public/show', 'li_link_element', $top_categories[1]);
 
         $sidebar_publics = $model->get_sidebar_publics($publication_id);
-
-        //pre($sidebar_publics);
-
 
         $this->components['sidebar-publics'] = !empty($sidebar_publics) && in_array(get_called_class(), ["Publication"])
             ? render('public/show', 'similar-item', $sidebar_publics)
             : "";
 
-
-        $this->components['categories_right'] = render('public/show', 'li_link_element', $categories[1]);
 
         if ($action && $action != 'index') {
             //Запускаем action, если есть соответствующий метод

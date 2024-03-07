@@ -21,6 +21,14 @@ html, body {
   flex: 1 0 auto;
 }
 
+.categories__item-container:last-child{
+  //padding-left: 0;
+}
+
+.top-categories{
+  font-size: 15px;
+}
+
 body {
   &::-webkit-scrollbar {
     height: 11px;

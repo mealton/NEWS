@@ -60,9 +60,9 @@
                     </div>
                     <!-- Categories widget-->
                     <div class="card mb-4">
-                        <div class="card-header">Рубрики</div>
+                        <div class="card-header">Топ рубрики</div>
                         <div class="card-body">
-                            <div class="row categories">
+                            <div class="row categories top-categories">
                                 <div class="col-sm-6 categories__item-container">
                                     <ul class="list-unstyled mb-0">
                                         <?= $components['categories_left'] ?>
