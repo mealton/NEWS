@@ -381,7 +381,7 @@ LIKES;
                 $publication->insert('hashtags', ['publication_id' => $publication_id, 'name' => $hashtag]);
         }
 
-        $note_result = $this->note($public, $_SESSION['user']['id'], $_SESSION['user']['username']);
+        $note_result = $this->note($public, $_SESSION['user']['id'], $_SESSION['user']['username'], $publication_id);
 
         json(['result' => $publication_id, 'publication' => $public]);
     }
@@ -440,27 +440,7 @@ LIKES;
         }
 
 
-/*        //Готовим уведомления
-        $subscribers = $publication->getter('subscribers', ['user_id' => $_SESSION['user']['id']], 'subsriber_id');
-        if ($public['subscribers_notification'] && !empty($subscribers) && $public['moderated']) {
-            $user_id = $_SESSION['user']['id'];
-            $username = $_SESSION['user']['username'];
-            $note = <<<NOTE
-Пользователь <a href="/publication/authors/$user_id::$username" target="_blank">$username</a> 
-внёс изменения в свою публикацию 
-<a href="/publication/show/$public[id]::$public[alias].html" target="_blank">$public[title]</a>
-NOTE;
-            $notification_data = [
-                'user_id' => $user_id,
-                'username' => $username,
-                'subscriber_ids' => fetch_to_array($subscribers, 'subsriber_id'),
-                'note' => $note,
-            ];
-            $note_result = $publication->set_notifications($notification_data);
-        }*/
-
-
-        $note_result = $this->note($public, $_SESSION['user']['id'], $_SESSION['user']['username']);
+        $note_result = $this->note($public, $_SESSION['user']['id'], $_SESSION['user']['username'], $public['id']);
 
         json(['result' => $public['id'], 'action' => 'update', 'publication' => $public, 'note_result' => $note_result]);
         return true;

@@ -8,9 +8,16 @@ class PublicationModel extends MainModel
 
     public function set_notifications($data)
     {
-        $sql = "INSERT INTO `notifications` (`subscriber_id`, `note`) VALUES ";
-        foreach ($data['subscriber_ids'] as $subscriber_id)
-            $sql .= "($subscriber_id, \"" . htmlspecialchars($data['note']) . "\"),";
+        $sql = "INSERT INTO `notifications` (`subscriber_id`, `publication_id`, `note`) VALUES ";
+        foreach ($data['subscriber_ids'] as $subscriber_id) {
+            if (!$this->check_existence('notifications', [
+                'publication_id' => $data['publication_id'],
+                'subscriber_id' => $data['subscriber_id'],
+                'is_unread' => 1
+            ]))
+                $sql .= "($subscriber_id, $data[publication_id], \"" . htmlspecialchars($data['note']) . "\"),";
+        }
+
 
         $sql = trim($sql, ",");
         return db::getInstance()->QueryInsert($sql);
@@ -479,7 +486,7 @@ SQL;
     public function get_user_comments($user_id = false, $get_total = false)
     {
         $where_user_id = $user_id
-            ? "WHERE `com`.`user_id` = $user_id OR `com_`.`parent_id` = `com`.`id`"
+            ? "WHERE `com`.`user_id` = $user_id OR (`com_`.`parent_id` = `com`.`id` AND (SELECT COUNT(`id`) FROM `comments` WHERE `parent_id` = `com`.`id` AND `user_id` = $user_id) > 0)"
             : "WHERE (`com`.`is_complained` = 1 AND `com`.`is_active` = 1) OR (`com_`.`is_complained` = 1 AND `com_`.`is_active` = 1)";
         /* $offset = (int)$_GET['page'];
          $limit = 5;

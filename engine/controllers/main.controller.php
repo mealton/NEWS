@@ -101,7 +101,7 @@ class Main
     }
 
 
-    public function note($public, $user_id, $username)
+    public function note($public, $user_id, $username, $publication_id)
     {
         //Готовим уведомления
         require_once dirname(__DIR__) . '/models/publication.model.php';
@@ -114,6 +114,7 @@ class Main
 <a href="/publication/show/$public[id]::$public[alias].html" target="_blank">$public[title]</a>
 NOTE;
             $notification_data = [
+                'publication_id' => $publication_id,
                 'subscriber_ids' => fetch_to_array($subscribers, 'subsriber_id'),
                 'note' => $note,
             ];

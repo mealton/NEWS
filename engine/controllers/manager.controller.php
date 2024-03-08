@@ -282,7 +282,7 @@ LIKES;
             $public = $model->getter('publications', ['id' => $id]);
             $public = $public[0];
             $user = $model->getter('users', ['id' => $public['user_id']]);
-            $note_result = $this->note($public, $user[0]['id'], $user[0]['username']);
+            $note_result = $this->note($public, $user[0]['id'], $user[0]['username'], $id);
         }
 
         json(['result' => $result, 'note_result' => $note_result]);
