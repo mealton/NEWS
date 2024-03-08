@@ -143,6 +143,15 @@ class Profile extends Main
             require_once dirname(__DIR__) . '/models/publication.model.php';
             $PublicationModel = new PublicationModel();
 
+
+            $subscribes = $PublicationModel->getter('subscribers', ['subsriber_id' => $_SESSION['user']['id']]);
+            if (!empty($subscribes)) {
+                $ids = fetch_to_array($subscribes, 'user_id');
+                $subscribes = $PublicationModel->get_authors(implode(",", $ids));
+                $user[0]['subscribes'] = render('public/show', 'author_card', $subscribes);
+            }else
+                $user[0]['subscribes'] = "<p class='lead'>У вас пока нет ни одной подписки...</p>";
+
             $history = $user[0]['history'];//$PublicationModel->getter('users', ['id' => $_SESSION['user']['id']], 'history');
             $history = (array)unserialize($history);
 
@@ -181,7 +190,6 @@ class Profile extends Main
                 //pre($liked_publics);
 
                 $liked_publics = $this->get_publications(['filter' => 'liked', 'value' => $liked_publics], 1);
-
 
 
                 $user[0]['liked_publics'] = render('profile/user', 'publications_history_item', $liked_publics);
@@ -388,7 +396,7 @@ class Profile extends Main
         $model = new ProfileModel();
         $user = $model->getter('users', ['id' => $id, 'registration_token' => $registration_token]);
         if (empty($user))
-            exit403();
+            exit403('');
 
         $model->update('users', ['password' => md5($password)], $id);
         $_SESSION['user'] = $user[0];

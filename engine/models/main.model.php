@@ -304,4 +304,16 @@ SQL;
     }
 
 
+    public function get_notifications($subscriber_id)
+    {
+        $sql = <<<SQL
+SELECT * FROM `notifications`
+WHERE `subscriber_id` = $subscriber_id AND `is_unread` = 1
+ORDER BY `datetime` DESC
+SQL;
+
+        return db::getInstance()->Select($sql);
+    }
+
+
 }

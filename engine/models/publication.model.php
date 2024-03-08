@@ -6,6 +6,42 @@ class PublicationModel extends MainModel
 
     private $history = [];
 
+    public function set_notifications($data)
+    {
+        $sql = "INSERT INTO `notifications` (`subscriber_id`, `note`) VALUES ";
+        foreach ($data['subscriber_ids'] as $subscriber_id)
+            $sql .= "($subscriber_id, \"" . htmlspecialchars($data['note']) . "\"),";
+
+        $sql = trim($sql, ",");
+        return db::getInstance()->QueryInsert($sql);
+    }
+
+    public function subscribe($data)
+    {
+        $subsriber_id = (int)$data['subsriber_id'];
+        $user_id = (int)$data['user_id'];
+        if (!$subsriber_id || !$user_id)
+            return false;
+        $sql = <<<SQL
+INSERT INTO `subscribers` (`subsriber_id`, `user_id`)
+VALUES ($subsriber_id, $user_id)
+SQL;
+        return db::getInstance()->QueryInsert($sql);
+    }
+
+    public function unsubscribe($data)
+    {
+        $subsriber_id = (int)$data['subsriber_id'];
+        $user_id = (int)$data['user_id'];
+        if (!$subsriber_id || !$user_id)
+            return false;
+        $sql = <<<SQL
+DELETE FROM `subscribers`
+WHERE `subsriber_id` = $subsriber_id AND `user_id` = $user_id
+SQL;
+        return db::getInstance()->Query($sql);
+    }
+
 
     public function init()
     {
@@ -90,10 +126,10 @@ SQL;
         $filter_value = $filter['value'];
         $filter_name = $filter['filter'];
 
-        if($filter['filter'] == "search"){
+        if ($filter['filter'] == "search") {
             $searchJoinContent = 'LEFT JOIN `content` as `cnt` ON `p`.`id` = `cnt`.`publication_id`';
             $cnt = ' IF(`cnt`.`tag` IN("video", "image"), `cnt`.`description`, `cnt`.`content`) as `search`,';
-        }else{
+        } else {
             $searchJoinContent = $cnt = "";
         }
 
@@ -109,7 +145,7 @@ SQL;
                 $limit_sql = " ORDER BY `p`.`published_date` DESC";
             } else {
                 //pre($filter_name);
-               // $erotic_filter = $_SESSION['user']['show_erotic'] && $filter_name != "top" ? '': ' AND `cat`.`is_hidden` != 1';
+                // $erotic_filter = $_SESSION['user']['show_erotic'] && $filter_name != "top" ? '': ' AND `cat`.`is_hidden` != 1';
                 $unpublihed = !$filter['user-zone'] ? 'AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0 AND `p`.`moderated` = 1' . $erotic_filter : '';
                 $filter = $this->get_filter_string($filter);
                 $limit = $GLOBALS['config']['publications']['pagination-limit'];
@@ -144,7 +180,7 @@ $limit_sql
 
 SQL;
 
-       //pre($sql);
+        //pre($sql);
 
         $publications = db::getInstance()->Select($sql);
 
@@ -153,18 +189,18 @@ SQL;
             if (in_array(0, $this->category_checker($item['category_id'])))
                 unset($publications[$i]);
 
-            if($item['search']){
+            if ($item['search']) {
                 $strposition = mb_strpos(mb_strtolower($item['search']), mb_strtolower($filter_value), 0, 'utf-8');
 
-                if($strposition === false){
+                if ($strposition === false) {
                     $publications[$i]['search'] = "";
                     continue;
                 }
 
-                if($strposition > 50)
+                if ($strposition > 50)
                     $publications[$i]['search'] = "..." . mb_substr($item['search'], $strposition - 15, null, 'utf-8');
 
-                if(mb_strlen($item['search']) > mb_strlen($filter_value) + 50)
+                if (mb_strlen($item['search']) > mb_strlen($filter_value) + 50)
                     $publications[$i]['search'] = mb_substr($publications[$i]['search'], 0, 15 + mb_strlen($filter_value) + 15, 'utf-8') . "...";
             }
 
@@ -250,7 +286,7 @@ SQL;
 
         $publication = db::getInstance()->Select($sql);
 
-        if(empty($publication))
+        if (empty($publication))
             return false;
 
         //pre($publication);
@@ -362,7 +398,7 @@ SQL;
         $user_id = $_SESSION['user']['id'];
         $is_liked = in_array($user_id, $user_liked);
 
-        if($is_liked){
+        if ($is_liked) {
             $user_liked = array_diff($user_liked, [$user_id]);
             $user_liked = serialize($user_liked);
 
@@ -371,7 +407,7 @@ UPDATE `content`
 SET `content_likes` = `content_likes` - 1, `users_liked` = '$user_liked'
 WHERE `id` = $id
 SQL;
-        }else{
+        } else {
             $user_liked[] = $user_id;
             $user_liked = serialize($user_liked);
             $sql = <<<SQL
@@ -382,10 +418,10 @@ SQL;
         }
 
         $result = db::getInstance()->Query($sql);
-        if($result){
-            $query =  db::getInstance()->Select("SELECT `content_likes` FROM `content` WHERE `id` = $id LIMIT 1");
+        if ($result) {
+            $query = db::getInstance()->Select("SELECT `content_likes` FROM `content` WHERE `id` = $id LIMIT 1");
             return ['result' => $result, 'is_liked' => $is_liked, 'likes' => $query[0]['content_likes']];
-        }else
+        } else
             return ['result' => $result];
 
     }
@@ -547,13 +583,14 @@ SQL;
     }
 
 
-    public function get_authors()
+    public function get_authors($ids = false)
     {
+        $filter = !$ids ? "" : "AND `u`.`id` IN ($ids)";
         $sql = <<<SQL
 SELECT `u`.*, COUNT(`p`.`id`) as `p_count`
 FROM `users` as `u`
 RIGHT JOIN `publications` as `p` ON `u`.`id` = `p`.`user_id` AND `p`.`is_published` = 1 AND `p`.`is_deleted` = 0 AND `p`.`moderated` = 1
-WHERE `u`.`id` != ""
+WHERE `u`.`id` != "" $filter
 GROUP BY `u`.`id`
 SQL;
         return db::getInstance()->Select($sql);

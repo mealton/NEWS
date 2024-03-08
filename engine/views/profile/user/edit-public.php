@@ -37,6 +37,10 @@
                                value="1" <?= $is_published ? 'checked' : '' ?> >
                         Опубликовать
                     </label>
+                    <label class="form-check-label" style="margin-right: 40px">
+                        <input class="form-check-input" name="subscribers_notification" type="checkbox" checked>
+                        Уведомить подписчиков
+                    </label>
                     <label class="form-check-label">
                         <input class="form-check-input" name="update-date" type="checkbox">
                         Обновить дату публикации
@@ -49,7 +53,7 @@
         <a href="?tab=publications&page=<?= $_GET['page'] ?>">
             <button type="button" class="btn btn-secondary">Выйти</button>
         </a>
-        <a href="/publication/show/<?= $publication_id . "::" . $public_header['alias'] ?>.html" target="_blank">
+        <a href="/publication/show/<?= $publication_id . "::" . $public_header['alias'] ?>.html">
             <button type="button" class="btn btn-success">Перейти к публикации</button>
         </a>
     </form>

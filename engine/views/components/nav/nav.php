@@ -8,6 +8,7 @@
  * @var $date_to string
  * @var $today_info string
  * @var $profile_area string
+ * @var $has_hotes boolean
  */
 session_start();
 ?>
@@ -94,8 +95,8 @@ session_start();
 
             </ul>
             <small id="today-informer"><?= $today_info ?></small>
+            <?php include_once __DIR__ . '/notifications.php' ?>
             <?= $profile_area ?>
-
         </div>
     </div>
 </nav>

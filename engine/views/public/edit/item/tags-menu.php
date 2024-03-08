@@ -12,6 +12,11 @@
             <button type="button" style="display: <?= $editor_hide ? 'none' : 'block' ?>"
                     class="btn btn-primary accept-btn editor" onclick="publication.acceptEdit(this)">ОК
             </button>
+        <?else:?>
+            <button class="btn btn-primary" type="submit">Обновить</button>
+            <a href="?tab=publications&page=<?= $_GET['page'] ?>">
+                <button type="button" class="btn btn-secondary">Выйти</button>
+            </a>
         <?php endif; ?>
     </div>
     <div class="col-md-4 tag-controls">

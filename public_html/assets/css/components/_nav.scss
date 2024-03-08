@@ -16,13 +16,13 @@
   padding: 14px;
 }
 
-.toggler-container{
+.toggler-container {
   display: flex;
   height: 100%;
   align-items: center;
 }
 
-#sidebar-toggler{
+#sidebar-toggler {
   height: 40px;
   margin-left: 5px;
 }
@@ -123,5 +123,45 @@
       padding: 0;
       line-height: 1.5;
     }
+  }
+}
+
+
+.notification-menu {
+  .dropdown-menu {
+    margin-top: 15px;
+  }
+
+  #note-counter{
+    position: absolute;
+    right: -50%;
+    top: -8px;
+    padding: 3px 6px;
+    color: red;
+    line-height: 1;
+    font-size: 14px;
+    display: inline-block;
+    font-weight: 900;
+  }
+
+  .notification-item {
+    max-width: 270px;
+    text-wrap: wrap;
+
+    &:not(:last-child){
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ededed;
+    }
+
+    a {
+      color: #1c7cdb;
+      text-decoration: underline;
+    }
+  }
+
+  .fa {
+    font-size: 24px;
+    cursor: pointer;
   }
 }

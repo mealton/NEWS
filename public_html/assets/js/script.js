@@ -43,6 +43,32 @@ let main = {
 
 $(document).ready(() => {
 
+    $('.notification-item').find('a').on('click', function (e) {
+        e.preventDefault();
+        let note = $(this).closest('.notification-item');
+        let data = {
+            method:'read_notification',
+            id:note[0].dataset.id
+        };
+        let callback = response => {
+            console.log(response);
+            if(response.result){
+                note.remove();
+                let dropDownMenu = $('.notification-menu .dropdown-menu');
+                let noteCounter = $('#note-counter');
+                let counter = +noteCounter.html();
+                noteCounter.html(--counter);
+                if(!dropDownMenu.find('.notification-item').length){
+                    dropDownMenu.html(`<small class="dropdown-item">Новых уведомлений нет</small>`);
+                    $('.notification-menu').find('.fa.fa-bell').attr('class', 'fa fa-bell-o');
+                    noteCounter.html('');
+                }
+            }
+            location.href = this.href;
+        };
+        ffetch('/', callback, data);
+    });
+
 
     if (screen.width < 768) {
         window.addEventListener('touchstart', main.swipeInit, {passive: false});

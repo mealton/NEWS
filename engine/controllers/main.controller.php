@@ -100,6 +100,29 @@ class Main
         return $result;
     }
 
+
+    public function note($public, $user_id, $username)
+    {
+        //Готовим уведомления
+        require_once dirname(__DIR__) . '/models/publication.model.php';
+        $publication = new PublicationModel();
+        $subscribers = $publication->getter('subscribers', ['user_id' => $user_id], 'subsriber_id');
+        if ($public['subscribers_notification'] && !empty($subscribers) && $public['moderated']) {
+            $note = <<<NOTE
+Пользователь <a href="/publication/authors/$user_id::$username" target="_blank">$username</a> 
+добавил новую публикацию 
+<a href="/publication/show/$public[id]::$public[alias].html" target="_blank">$public[title]</a>
+NOTE;
+            $notification_data = [
+                'subscriber_ids' => fetch_to_array($subscribers, 'subsriber_id'),
+                'note' => $note,
+            ];
+            $note_result = $publication->set_notifications($notification_data);
+        }
+        return $note_result;
+    }
+
+
     public function __construct($query = [], $async = false)
     {
         //Для ajax запросов
@@ -206,6 +229,18 @@ DROPDOWN;
             '<i class="fa fa-map-marker" aria-hidden="true"></i> ' . $location['country'] . ' ' . $location['city'] .
             '<br>' . $workday . ', ' . date_rus_format(date('Y-m-d'), ['upper' => 1]) . ' ' . $time;
 
+        //уведомления
+        $notifications = $model->get_notifications($_SESSION['user']['id']);
+
+        if (!empty($notifications)) {
+            $notifications = array_map(function ($item) {
+                $item['note'] = html_entity_decode($item['note']);
+                $item['datetime'] = date_rus_format($item['datetime'], ['time' => 1]);
+                return $item;
+            }, $notifications);
+            $note_counter = count($notifications);
+        }
+
 
         $this->components['nav'] = render('components', 'nav/nav',
             [
@@ -215,14 +250,17 @@ DROPDOWN;
                 'published_date_start' => $published_date_start,
                 'date_from' => $date_from,
                 'date_to' => $date_to,
-                'today_info' => $today_info
+                'today_info' => $today_info,
+                'has_notes' => !empty($notifications),
+                'note_counter' => $note_counter,
+                'notifications' => render('components/nav', 'notifications-item', $notifications)
             ]);
         $this->components['footer'] = render('components', 'footer');
 
 
         //Категории с самыми просматриваемыми публикациями
         $top_categories = $model->get_top_categories();
-        $top_categories = array_map(function ($item){
+        $top_categories = array_map(function ($item) {
             return [
                 'name' => $item['name'],
                 'href' => '/publication/category/' . $item['id'] . '/' . translit($item['name']),
@@ -322,6 +360,9 @@ DROPDOWN;
 
         if ($filter['filter'] == 'author') {
             $author_data = $publication->getter('users', ['id' => $filter['value']]);
+            $subscribe_check = $publication->getter('subscribers', ['user_id' => $filter['value'], 'subsriber_id' => $_SESSION['user']['id']]);
+            $author_data[0]['user_id'] = $filter['value'];
+            $author_data[0]['is_subscribed'] = !empty($subscribe_check);
             $author_data[0]['manager_controls'] = render('manager', 'user-item', $author_data);
             $author_data[0]['publication_count'] = count((array)$publication->getter(
                 'publications',
@@ -340,6 +381,8 @@ DROPDOWN;
 
 
             $content = render('public/show', 'author', $author_data[0]) . "<hr>" . $content;
+
+            $this->components['extra-scripts'] = ['edit-public', 'manager'];
         }
 
         page($content, $this->components);
@@ -374,7 +417,7 @@ DROPDOWN;
             $pages = implode("", array_map(function ($page) {
                 //Разные ссылки для страницы публикаций и для страницы пользователя
                 $href = $this->calledClassName == 'Profile' ? '?tab=publications&page=' . $page : '?page=' . $page;
-                if($this->filter['filter'] == "search")
+                if ($this->filter['filter'] == "search")
                     $href = '?search=' . $this->filter['value'] . '&page=' . $page;
                 return $page == $this->page
                     ? "<li class='page-item active'><span class='page-link'>$page<span class='sr-only'>(current)</span></span></li>"
@@ -385,7 +428,7 @@ DROPDOWN;
             $NextPage = $this->page + 1;
             $href = $this->calledClassName == 'Profile' ? '?tab=publications&' : '?';
 
-            if($filter['filter'] == "search")
+            if ($filter['filter'] == "search")
                 $href = '?search=' . $filter['value'] . '&';
 
             return render('components', 'pagination',

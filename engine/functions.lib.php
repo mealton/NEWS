@@ -561,7 +561,7 @@ function exit404($query)
     exit();
 }
 
-function exit403($query)
+function exit403($query = false)
 {
     header('HTTP/1.0 403 Forbidden');
     $controller_name = current(explode(".html", $query[0]));

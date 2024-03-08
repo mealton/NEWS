@@ -19,7 +19,7 @@ class Publication extends Main
     protected function search($query)
     {
 
-        if(count($query) > 2)
+        if (count($query) > 2)
             exit404($query);
 
         $search = trim(urldecode($_GET['search']));
@@ -87,7 +87,7 @@ class Publication extends Main
     //action для вывода топа публикаций
     protected function top($query = [], $async = false)
     {
-        if(count($query) > 2)
+        if (count($query) > 2)
             exit404($query);
         //$this->components['title'] = 'Топ';
         //$this->components['breadcrumb'] = $this->breadcrumb('', 'Топ');
@@ -99,7 +99,7 @@ class Publication extends Main
     protected function category($query = [], $async = false)
     {
 
-        if(count($query) > 4)
+        if (count($query) > 4)
             exit404($query);
 
         $category_id = intval($query[2]);
@@ -117,7 +117,7 @@ class Publication extends Main
 
         $this->components['title'] = $category_data[0]['name'];
 
-        if(translit($category_data[0]['name']) != $category)
+        if (translit($category_data[0]['name']) != $category)
             exit404($query);
 
         $this->components['keywords'] = $category_data[0]['keywords'];
@@ -137,14 +137,14 @@ class Publication extends Main
     protected function date($query = [], $async = false)
     {
 
-        if(count($query) > 4)
+        if (count($query) > 4)
             exit404($query);
 
         $date_from = trim($query[2]);
         $date_to = trim($query[3]);
 
-        $pattern  = "/\d{4}-\d{2}-\d{2}/";
-        if(!preg_match($pattern, $date_from) || !preg_match($pattern, $date_from))
+        $pattern = "/\d{4}-\d{2}-\d{2}/";
+        if (!preg_match($pattern, $date_from) || !preg_match($pattern, $date_from))
             exit404($query);
 
         if ($date_from == $date_to)
@@ -154,7 +154,7 @@ class Publication extends Main
 
         $this->components['breadcrumb'] = $this->breadcrumb(false, $title);
         $this->components['title'] = $title;
-       // $this->components['extra-scripts'] = ['edit-public'];
+        // $this->components['extra-scripts'] = ['edit-public'];
         $filter = ['filter' => 'date', 'value' => $date_from . "::" . $date_to];
         $this->get_publications($filter);
     }
@@ -188,7 +188,7 @@ class Publication extends Main
         if (empty($publication))
             exit404($query);
 
-        $publication = array_map(function ($item){
+        $publication = array_map(function ($item) {
             $users_liked = unserialize($item['users_liked']);
             $users_liked = is_array($users_liked) ? $users_liked : [];
             $item['content_is_liked'] = in_array($_SESSION['user']['id'], $users_liked);
@@ -330,6 +330,30 @@ LIKES;
         return $public;
     }
 
+    protected function read_all($data)
+    {
+        require_once dirname(__DIR__) . '/models/publication.model.php';
+        $publication = new PublicationModel();
+        session_start();
+        $result = $publication->update('notifications', ['is_unread' => 0], $_SESSION['user']['id'], 'subscriber_id');
+        json(['result' => $result]);
+        return $result;
+    }
+
+    protected function read_notification($data)
+    {
+        $id = (int)$data['id'];
+        if (!$id) {
+            json('no id');
+            return false;
+        }
+        require_once dirname(__DIR__) . '/models/publication.model.php';
+        $publication = new PublicationModel();
+        $result = $publication->update('notifications', ['is_unread' => 0], $id);
+        json(['result' => $result]);
+        return $result;
+    }
+
     //добавление новой публикации
     protected function add($data)
     {
@@ -357,6 +381,8 @@ LIKES;
                 $publication->insert('hashtags', ['publication_id' => $publication_id, 'name' => $hashtag]);
         }
 
+        $note_result = $this->note($public, $_SESSION['user']['id'], $_SESSION['user']['username']);
+
         json(['result' => $publication_id, 'publication' => $public]);
     }
 
@@ -375,7 +401,7 @@ LIKES;
         $public = $this->prepare_publication($data);
         $public['token'] = md5(generateRandomString(100));
 
-        if((int)$public['update-date'])
+        if ((int)$public['update-date'])
             $public['published_date'] = date('Y-m-d H:i:s');
 
         if (!$_SESSION['user']['is_admin'] && !$_SESSION['user']['no_moderate'])
@@ -413,7 +439,30 @@ LIKES;
                 $publication->insert('hashtags', ['publication_id' => $public['id'], 'name' => $hashtag]);
         }
 
-        json(['result' => $public['id'], 'action' => 'update', 'publication' => $public]);
+
+/*        //Готовим уведомления
+        $subscribers = $publication->getter('subscribers', ['user_id' => $_SESSION['user']['id']], 'subsriber_id');
+        if ($public['subscribers_notification'] && !empty($subscribers) && $public['moderated']) {
+            $user_id = $_SESSION['user']['id'];
+            $username = $_SESSION['user']['username'];
+            $note = <<<NOTE
+Пользователь <a href="/publication/authors/$user_id::$username" target="_blank">$username</a> 
+внёс изменения в свою публикацию 
+<a href="/publication/show/$public[id]::$public[alias].html" target="_blank">$public[title]</a>
+NOTE;
+            $notification_data = [
+                'user_id' => $user_id,
+                'username' => $username,
+                'subscriber_ids' => fetch_to_array($subscribers, 'subsriber_id'),
+                'note' => $note,
+            ];
+            $note_result = $publication->set_notifications($notification_data);
+        }*/
+
+
+        $note_result = $this->note($public, $_SESSION['user']['id'], $_SESSION['user']['username']);
+
+        json(['result' => $public['id'], 'action' => 'update', 'publication' => $public, 'note_result' => $note_result]);
         return true;
     }
 
@@ -494,7 +543,7 @@ LIKES;
 
         $html = file_get_html($url);
 
-        if(!$html)
+        if (!$html)
             return false;
 
         $dom = str_get_html($html);
@@ -571,7 +620,7 @@ LIKES;
     //action для вывода недавних публикаций
     protected function recent($query = [], $async = false)
     {
-        if(count($query) > 2)
+        if (count($query) > 2)
             exit404($query);
         $this->components['breadcrumb'] = $this->breadcrumb('', 'Последние добавленные публикации');
         $this->components['title'] = 'Последние добавленные публикации';
@@ -582,7 +631,7 @@ LIKES;
     //action для вывода публикаций определенного автора
     protected function authors($query = [], $async = false)
     {
-        if(count($query) > 3)
+        if (count($query) > 3)
             exit404($query);
         $author = trim($query[2]);
         if (!$author) {
@@ -607,9 +656,6 @@ LIKES;
             exit404($query);
 
         $this->components['breadcrumb'] = $this->breadcrumb('', $author_name);
-
-
-
         $this->components['title'] = 'Публикации пользователя ' . $author_name;
         //$this->components['extra-scripts'][] = 'manager';
         $filter = ['filter' => 'author', 'value' => $author_id];
@@ -882,7 +928,7 @@ LIKES;
     protected function categories($query)
     {
 
-        if(count($query) > 2)
+        if (count($query) > 2)
             exit404($query);
 
         $_SESSION['p-counter'] = 0;
@@ -938,6 +984,22 @@ LIKES;
         curl_close($ch);
         $details = json_decode($response, 1); //parse the JSON into an array
         json(['title' => $details['title'], 'data' => $details]);
+    }
+
+    protected function subscribe($data)
+    {
+        require_once dirname(__DIR__) . '/models/publication.model.php';
+        $publication = new PublicationModel();
+
+        session_start();
+        $data['subsriber_id'] = $_SESSION['user']['id'];
+
+        $result = $data['unsubscribe']
+            ? $publication->unsubscribe($data)
+            : $publication->subscribe($data);
+
+        json(['result' => $result]);
+        return true;
     }
 
 }

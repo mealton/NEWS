@@ -2,6 +2,43 @@ const publication = {
 
     action: '/',
 
+    readAll(){
+        let data = {
+            method:'read_all',
+        };
+        let callback = response => {
+            console.log(response);
+            if(response.result){
+                $('.notification-menu .dropdown-menu').html(`<small class="dropdown-item">Новых уведомлений нет</small>`);
+                $('.notification-menu').find('.fa.fa-bell').attr('class', 'fa fa-bell-o');
+                $('#note-counter').html('');
+            }
+        };
+        ffetch('/', callback, data);
+    },
+
+    subscribe(btn, unsubscribe = false) {
+        let data = {
+            method: 'subscribe',
+            unsubscribe: unsubscribe,
+            user_id: btn.dataset.id
+        };
+        let callback = response => {
+            console.log(response);
+            if (!response.result)
+                return false;
+
+            btn.parentElement.innerHTML = unsubscribe
+                ? `<button class="btn btn-primary" data-id="${data.user_id}" onclick="publication.subscribe(this)">
+                            Подписаться
+                        </button>`
+                : `<button class="btn btn-secondary" data-id="${data.user_id}" onclick="publication.subscribe(this, 1)">
+                            Отписаться
+                        </button>`;
+        };
+        ffetch(this.action, callback, data);
+    },
+
     content_like(item) {
         let data = {
             method: 'content_like',
@@ -770,6 +807,7 @@ const publication = {
         publication.head.hashtags = form.elements.hashtags.value.trim();
         publication.head.comment = form.elements.comment.value.trim();
         publication.head.like_content = +form.elements.like_content.checked;
+        publication.head.subscribers_notification = +form.elements.subscribers_notification.checked;
 
         form.querySelectorAll('.publication__item').forEach(item => {
             let tag = item.dataset.tag;

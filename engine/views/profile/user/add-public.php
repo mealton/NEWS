@@ -10,9 +10,13 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-check">
-                    <label class="form-check-label">
+                    <label class="form-check-label" style="margin-right: 40px">
                         <input class="form-check-input" name="publish" type="checkbox" value="1" checked>
                         Опубликовать
+                    </label>
+                    <label class="form-check-label" style="margin-right: 40px">
+                        <input class="form-check-input" name="subscribers_notification" type="checkbox" checked>
+                        Уведомить подписчиков
                     </label>
                 </div>
             </div>

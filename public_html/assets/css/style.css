@@ -265,6 +265,38 @@ footer {
   line-height: 1.5;
 }
 
+.notification-menu .dropdown-menu {
+  margin-top: 15px;
+}
+.notification-menu #note-counter {
+  position: absolute;
+  right: -50%;
+  top: -8px;
+  padding: 3px 6px;
+  color: red;
+  line-height: 1;
+  font-size: 14px;
+  display: inline-block;
+  font-weight: 900;
+}
+.notification-menu .notification-item {
+  max-width: 270px;
+  text-wrap: wrap;
+}
+.notification-menu .notification-item:not(:last-child) {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ededed;
+}
+.notification-menu .notification-item a {
+  color: #1c7cdb;
+  text-decoration: underline;
+}
+.notification-menu .fa {
+  font-size: 24px;
+  cursor: pointer;
+}
+
 .uploader-container {
   width: 100%;
   display: flex;
