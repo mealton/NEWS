@@ -897,7 +897,7 @@ LIKES;
             return !$item['parent_id'];
         });
         foreach ($categories as $i => $item) {
-            $categories[$i]['publications'] = render('sitemap', 'li-public', $model->getter('publications', ['is_published' => 1, 'moderated' => 1, 'is_deleted' => 0, 'category_id' => $item['id']]));
+            $categories[$i]['publications'] = render('sitemap', 'li-public', $model->get_cat_tree_publics($item['id']));
             $categories[$i]['subs'] = $this->get_subs($item);
         }
 

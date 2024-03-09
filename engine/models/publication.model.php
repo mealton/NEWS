@@ -374,7 +374,19 @@ INNER JOIN `publications` as `p`
 WHERE `c`.`parent_id` = $id
 GROUP BY `c`.`id`
 $erotic_user_filter
-ORDER BY `c`.`name`
+ORDER BY `c`.`name`, `p`.`published_date` DESC
+SQL;
+        return db::getInstance()->Select($sql);
+    }
+
+
+    public function get_cat_tree_publics($category_id)
+    {
+        $sql = <<<SQL
+SELECT *
+FROM `publications`
+WHERE `is_published` = 1 AND `moderated` = 1 AND `is_deleted` = 0 AND `category_id` = $category_id
+ORDER BY `published_date` DESC
 SQL;
         return db::getInstance()->Select($sql);
     }
