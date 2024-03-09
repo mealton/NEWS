@@ -287,7 +287,19 @@ LIKES;
             return $item;
         }, (array)$comments);
 
-        //pre($comments);
+        //Подписка
+        if ($_SESSION['user']['id'] && $publication[0]['user_id'] != $_SESSION['user']['id']) {
+            $is_subscriber = $PublicationModel->getter('subscribers',
+                [
+                    'subsriber_id' => $_SESSION['user']['id'],
+                    'user_id' => $publication[0]['user_id']
+                ]);
+            $is_subscriber = !empty($is_subscriber);
+            $subscribe_btn = $is_subscriber
+                ? ''
+                : '<button class="btn btn-dark" data-id="' . $publication[0]['user_id'] . '" onclick="publication.subscribe(this)">Подписаться на автора</button>';
+        }
+
 
         if (!empty($comments))
             $comments = render('public/show/comments', 'comment-item', $this->comment_builder($comments));
@@ -297,6 +309,7 @@ LIKES;
         $content = render('public/show', 'publication', [
             'publication_header' => $publication_header,
             'publication_content' => $publication_content,
+            'subscribe_btn' => $subscribe_btn,
             'comment_form' => $comment_form,
             'comments' => $comments,
             'user_id' => $publication[0]['user_id'],

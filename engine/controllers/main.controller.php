@@ -231,7 +231,8 @@ DROPDOWN;
             '<br>' . $workday . ', ' . date_rus_format(date('Y-m-d'), ['upper' => 1]) . ' ' . $time;
 
         //уведомления
-        $notifications = $model->get_notifications($_SESSION['user']['id']);
+        if($_SESSION['user']['id'])
+            $notifications = $model->get_notifications($_SESSION['user']['id']);
 
         if (!empty($notifications)) {
             $notifications = array_map(function ($item) {

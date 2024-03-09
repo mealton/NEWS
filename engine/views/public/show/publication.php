@@ -3,6 +3,7 @@
  * Полный текст публикации
  * @var $publication_header string
  * @var $publication_content string
+ * @var $subscribe_btn string
  * @var $source string
  * @var $user_id integer
  * @var $publication_id integer
@@ -34,6 +35,10 @@
                     <button class="btn btn-primary">Редактировать</button>
                 </a>
             </div>
+        <?php endif; ?>
+        <?php if ($subscribe_btn): ?>
+        <div class="mb-5">
+        <?= $subscribe_btn ?>
         <?php endif; ?>
 
     </div>
