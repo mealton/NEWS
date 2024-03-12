@@ -330,6 +330,10 @@ class Profile extends Main
         require_once dirname(__DIR__) . '/models/profile.model.php';
         $model = new ProfileModel();
         $data = $_POST;
+
+        if(!$data['username'] || !$data['password'] || !$data['confirm_password'] || !$data['email'])
+            exit403();
+
         $data['registration_token'] = generateRandomString(32);
         $data['password'] = md5($data['password']);
         $user_id = $model->insert('users', $data);

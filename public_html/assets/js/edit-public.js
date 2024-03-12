@@ -812,6 +812,7 @@ const publication = {
         form.querySelectorAll('.publication__item').forEach(item => {
             let tag = item.dataset.tag;
             let content, description, source, is_hidden, style, poster;
+            let content_likes_element = item.querySelector('.content-likes-counter');
 
             if (tag === "text") {
                 let contentContainer = item.querySelector('.publication__item-content');
@@ -845,6 +846,8 @@ const publication = {
                 }
             }
 
+            let content_likes = content_likes_element ? +content_likes_element.innerText : 0;
+
             publication.body.push({
                 tag: tag,
                 content: content,
@@ -853,6 +856,7 @@ const publication = {
                 is_hidden: is_hidden,
                 style: style,
                 poster: poster,
+                content_likes: content_likes
             });
         });
 

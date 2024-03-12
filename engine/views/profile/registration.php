@@ -63,6 +63,10 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary mt-4">Зарегистрироваться</button>
+
+                            <a href="/profile/login.html">
+                                <button type="button" class="btn btn-outline-warning btn-block mt-4">Авторизоваться</button>
+                            </a>
                         </div>
                     </div>
                 </div>

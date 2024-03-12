@@ -12,11 +12,13 @@
             <button type="button" style="display: <?= $editor_hide ? 'none' : 'block' ?>"
                     class="btn btn-primary accept-btn editor" onclick="publication.acceptEdit(this)">ОК
             </button>
-        <?else:?>
-            <button class="btn btn-primary" type="submit">Обновить</button>
-            <a href="?tab=publications&page=<?= $_GET['page'] ?>">
-                <button type="button" class="btn btn-secondary">Выйти</button>
-            </a>
+        <? else: ?>
+            <div style="margin-top: 5px">
+                <button class="btn btn-primary" type="submit">Обновить</button>
+                <a href="?tab=publications&page=<?= $_GET['page'] ?>">
+                    <button type="button" class="btn btn-secondary">Выйти</button>
+                </a>
+            </div>
         <?php endif; ?>
     </div>
     <div class="col-md-4 tag-controls">
@@ -25,7 +27,8 @@
             <div class="col-md-2">
 
                 <label class='fa fa-files-o' title="Мультизакгрузчик изображений" aria-hidden='true'>
-                    <input type="file" name="multifile" multiple style="display: none;" accept="image/*" onchange="uploader.multiupload(this)">
+                    <input type="file" name="multifile" multiple style="display: none;" accept="image/*"
+                           onchange="uploader.multiupload(this)">
                 </label>
             </div>
 

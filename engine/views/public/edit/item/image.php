@@ -6,6 +6,7 @@
  * @var $editor_hide boolean
  * @var $description string
  * @var $content string
+ * @var $like_content boolean
  */
 ?>
 <div class="publication__item" data-tag="image">
@@ -28,7 +29,7 @@
                        onchange="publication.multiSelectPublicItems(this)"
                        title="Выделятся все блоки, начиная с данного и заканчивая следующим выделенным">
             </label>
-            <label class="form-check-label" >
+            <label class="form-check-label">
                 <small>Взять описание из предыдущего блока</small>
                 <input class="form-check-input" name="set-description" type="checkbox" value=""
                        onchange="publication.setDescription(this)"
@@ -45,10 +46,15 @@
         <div class="row">
             <div class="col-md-12 publication__item-content">
                 <?php //if ($description): ?>
-                    <br>
-                    <p class="img-description"><em><?= $description ?></em></p>
-                <?php// endif; ?>
-                <?= $content ?>
+                <br>
+                <p class="img-description"><em><?= $description ?></em></p>
+                <?php // endif; ?>
+                <div class="position-relative d-inline-block" style="max-width: calc(100% - 30px)">
+                    <div style="margin-right: 10px;"><?= $content ?></div>
+                    <?php if ($like_content): ?>
+                        <?php include dirname(dirname(__DIR__)) . '/show/item/like_content.php'; ?>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
         <?php $tag = 'image';

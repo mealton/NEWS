@@ -30,7 +30,7 @@
 
             <figcaption>
                 <p style="text-align: right">
-                    <?php if ($source): ?>
+                    <?php if (trim($source) && preg_match('/(http:\/\/|https:\/\/)?(www)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-\?\%\&]*)*\/?/i', $source)): ?>
 
                         <small>
                             Источник:

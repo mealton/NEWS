@@ -313,11 +313,23 @@
 }
 
 
-
+.notification-menu{
+  .dropdown-item{
+    white-space: inherit;
+    background-color: #fff !important;
+    color: inherit !important;
+  }
+}
 
 
 .likes-btn{
   margin: 0 30px;
+}
+
+#comments-to-image{
+  width: 100%;
+  padding: 30px 15% 0;
+  box-sizing: border-box;
 }
 
 .link-modal-inner {

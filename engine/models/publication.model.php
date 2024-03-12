@@ -9,18 +9,22 @@ class PublicationModel extends MainModel
     public function set_notifications($data)
     {
         $sql = "INSERT INTO `notifications` (`subscriber_id`, `publication_id`, `note`) VALUES ";
+        $insert = false;
         foreach ($data['subscriber_ids'] as $subscriber_id) {
             if (!$this->check_existence('notifications', [
                 'publication_id' => $data['publication_id'],
-                'subscriber_id' => $data['subscriber_id'],
+                'subscriber_id' => $subscriber_id,
                 'is_unread' => 1
-            ]))
+            ])){
+                $insert = true;
                 $sql .= "($subscriber_id, $data[publication_id], \"" . htmlspecialchars($data['note']) . "\"),";
+            }
+
         }
 
 
         $sql = trim($sql, ",");
-        return db::getInstance()->QueryInsert($sql);
+        return $insert ? db::getInstance()->QueryInsert($sql) : false;
     }
 
     public function subscribe($data)
@@ -394,6 +398,29 @@ SQL;
     //Удаление контента
     public function remove_old_content($publication_id, $token)
     {
+
+
+        //Обновление id комментариев к фото/видео
+
+        //Получаем Id старых фото/видео с комментариями
+        $sql = <<<SQL
+SELECT `com`.`content_id`, `com`.`publication_id`, `c`.`content`
+FROM `comments` as `com`
+LEFT JOIN `content` as `c` ON `c`.`id` = `com`.`content_id`
+WHERE `com`.`publication_id` = $publication_id
+SQL;
+        $query = db::getInstance()->Select($sql);
+
+        //Обновляем
+        foreach ($query as $item){
+            $sql = <<<SQL
+UPDATE `comments`
+SET `content_id` = (SELECT `id` FROM `content` WHERE `publication_id` = $publication_id AND `content` = "$item[content]" AND `token` = "$token")
+WHERE `publication_id` = $publication_id 
+SQL;
+            db::getInstance()->Query($sql);
+        }
+
         $sql = <<<SQL
 DELETE FROM `content` WHERE `publication_id` = $publication_id AND (`token` IS NULL OR `token` != "$token")
 SQL;

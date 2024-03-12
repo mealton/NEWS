@@ -309,6 +309,7 @@ SQL;
         $sql = <<<SQL
 SELECT * FROM `notifications`
 WHERE `subscriber_id` = $subscriber_id AND `is_unread` = 1
+GROUP BY `publication_id`
 ORDER BY `datetime` DESC
 SQL;
 
