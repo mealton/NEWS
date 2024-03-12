@@ -28,6 +28,8 @@
             'hashtags' => $public_header['hashtags'],
             'import_containers' => $import_containers,
             'image_default' => $image_default,
+            'alias' => $public_header['alias'],
+            'publication_id' => $publication_id
         ]) ?>
         <div class="row">
             <div class="col-md-12">
