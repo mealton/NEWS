@@ -1144,6 +1144,7 @@ const publication = {
     closeCommentForm() {
         document.getElementById('comment-form-container').innerHTML = "";
         document.getElementById('comments-to-image').innerHTML = "";
+        document.getElementById('comments-to-image').classList.remove("visible");
         this.scrollBlock = false;
         window.addEventListener('wheel', this.scrollModalImages, {passive: false});
         $('.custom-modal p.lead.clickable').show();
@@ -1184,6 +1185,8 @@ const publication = {
 
             if (comments.length)
                 comments.clone().appendTo("#comments-to-image");
+
+            document.getElementById('comments-to-image').classList.add("visible");
 
             setTimeout(() => document.getElementById('comments-to-image')
                 .scrollIntoView({block: 'start', behavior: 'smooth'}), 50);

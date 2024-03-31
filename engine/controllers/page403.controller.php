@@ -11,6 +11,7 @@ class Page403 extends Main
     {
         parent::__construct();
         $this->components['title'] = "Доступ запрещен";
+        $this->components['noindex'] = true;
         $content = render('extra', 'access-denied');
         page($content, $this->components);
     }

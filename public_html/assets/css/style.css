@@ -823,7 +823,7 @@ footer {
   margin: 0 30px;
 }
 
-#comments-to-image {
+#comments-to-image.visible {
   width: 100%;
   padding: 30px 15% 0;
   box-sizing: border-box;

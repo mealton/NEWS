@@ -15,15 +15,17 @@
                     class="btn btn-primary accept-btn editor" onclick="publication.acceptEdit(this)">ОК
             </button>
         <? else: ?>
-            <div style="margin-top: 3px">
-                <button class="btn btn-primary" type="submit">Обновить</button>
-                <a href="?tab=publications&page=<?= $_GET['page'] ?>">
-                    <button type="button" class="btn btn-secondary">Выйти</button>
-                </a>
-                <a href="/publication/show/<?= $publication_id . "::" . $alias ?>.html">
-                    <button type="button" class="btn btn-success">Перейти к публикации</button>
-                </a>
-            </div>
+            <?php if ($_GET['tab'] == "publications" && $_GET['publication_id']): ?>
+                <div style="margin-top: 3px">
+                    <button class="btn btn-primary" type="submit">Обновить</button>
+                    <a href="?tab=publications&page=<?= $_GET['page'] ?>">
+                        <button type="button" class="btn btn-secondary">Выйти</button>
+                    </a>
+                    <a href="/publication/show/<?= $publication_id . "::" . $alias ?>.html">
+                        <button type="button" class="btn btn-success">Перейти к публикации</button>
+                    </a>
+                </div>
+            <?php endif; ?>
         <?php endif; ?>
     </div>
     <div class="col-md-4 tag-controls">

@@ -11,6 +11,7 @@ class Page404 extends Main
     {
         parent::__construct();
         $this->components['title'] = "Страница не найдена";
+        $this->components['noindex'] = true;
         $content = render('extra', 'page-404');
         page($content, $this->components);
     }

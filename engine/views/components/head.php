@@ -23,6 +23,10 @@
 
 <link rel="canonical" href="<?= get_current_url() ?>">
 
+<?php if($components['noindex']):?>
+<meta name="robots" content="noindex">
+<?php endif;?>
+
 <!--Yandex Webmaster-->
 <meta name="yandex-verification" content="f125773a1f3ed168" >
 
