@@ -303,7 +303,7 @@ DROPDOWN;
         $profile = $model->auth($username, $password);
         if (!empty($profile)) {
             $_SESSION['user'] = $profile;
-            header("Refresh:0");
+            //header("Refresh:0");
         }
     }
 

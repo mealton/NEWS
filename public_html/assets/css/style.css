@@ -613,6 +613,7 @@ footer {
   max-width: 95%;
   display: inline-block;
   position: relative;
+  cursor: pointer;
 }
 
 .public-item-preview a, .subcategory-card a {
