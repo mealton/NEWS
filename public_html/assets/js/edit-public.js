@@ -1104,7 +1104,7 @@ const publication = {
         main.modalIsDraggable = true;
 
         if (screen.width < 1000) {
-            $('.fa.modal-control, .custom-modal__counter').hide();
+            $('.fa.modal-control, .custom-modal__counter, .close-modal').hide();
             $('.custom-modal-wrapper').css({position: 'static'});
             $('img').css({position: 'absolute'});
         }

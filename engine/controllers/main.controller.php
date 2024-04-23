@@ -110,7 +110,7 @@ class Main
         if ($public['subscribers_notification'] && !empty($subscribers) && $public['moderated']) {
             $note = <<<NOTE
 Пользователь <a href="/publication/authors/$user_id::$username" target="_blank">$username</a> 
-добавил новую публикацию 
+добавил (изменил) публикацию 
 <a href="/publication/show/$public[id]::$public[alias].html" target="_blank">$public[title]</a>
 NOTE;
             $notification_data = [

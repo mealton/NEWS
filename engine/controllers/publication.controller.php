@@ -216,9 +216,12 @@ class Publication extends Main
         $publication[0]['is_liked'] = in_array($publication[0]['publication_id'], array_keys($liked_publics));
 
         $publication[0]['media_title'] = $this->convert_title_2($publication[0]['title'], $publication[0]['img_counter'], $publication[0]['video_counter']);
-        $hashtagsCount = $publication[0]['hashtagsCount'];
 
-        //pre();
+        $hashtagsCount = array_filter($publication[0]['hashtagsCount'], function ($item){
+            return trim($item['name']) != "";
+        });
+
+        //pre($hashtagsCount);
 
         $publication = pre_show($publication);
         $this->components['title'] = $publication[0]['title'];
@@ -226,9 +229,12 @@ class Publication extends Main
         $this->components['extra-vendors'] = ['giffer' => 'javascript-giffer'];
         $this->components['extra-scripts'] = ['edit-public'];
 
+        $hashtags = explode(",", trim($publication[0]['hashtags']));
+        $hashtags = array_diff($hashtags, ['']);
+
         $publication[0]['hashtags'] = array_map(function ($hashtag) {
             return trim($hashtag);
-        }, explode(",", trim($publication[0]['hashtags'])));
+        }, $hashtags);
 
         $this->components['breadcrumb'] = $this->breadcrumb($publication[0]['category_id'], $publication[0]['title']);
         $this->components['keywords'] = implode(", ", array_slice($publication[0]['hashtags'], 0, 20));
