@@ -296,6 +296,12 @@
 
     .custom-modal-wrapper, #comments-to-image {
       transition: all .5s ease-in-out;
+      opacity: 0;
+    }
+
+
+    .custom-modal-img {
+      transition: all .5s ease-in-out;
       transform: translateY(-50px);
       opacity: 0;
     }
@@ -303,7 +309,7 @@
     &-down {
       opacity: 0;
 
-      .custom-modal-wrapper, #comments-to-image {
+      .custom-modal-img {
         transition: all .5s ease-in-out;
         transform: translateY(50px);
         opacity: 0;
@@ -314,8 +320,8 @@
 }
 
 
-.notification-menu{
-  .dropdown-item{
+.notification-menu {
+  .dropdown-item {
     white-space: inherit;
     background-color: #fff !important;
     color: inherit !important;
@@ -323,11 +329,11 @@
 }
 
 
-.likes-btn{
+.likes-btn {
   margin: 0 30px;
 }
 
-#comments-to-image.visible{
+#comments-to-image.visible {
   width: 100%;
   padding: 30px 15% 0;
   box-sizing: border-box;
