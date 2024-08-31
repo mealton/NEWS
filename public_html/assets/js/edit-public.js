@@ -1354,8 +1354,8 @@ ${commentBtn} ${likesIcon}
 
     playNext(video) {
 
-        if (!navigator.userAgent.toLowerCase().includes('firefox'))
-            video.webkitExitFullScreen();
+        // if (!navigator.userAgent.toLowerCase().includes('firefox'))
+        //     video.webkitExitFullScreen();
 
         let nextVideo = $(video).closest('.public-video-item').next('.public-video-item').find('video');
         if (!nextVideo.length)

@@ -10,6 +10,8 @@
  * @var $comment_form string
  * @var $comments string
  */
+
+//pre($_SESSION['user']);
 ?>
     <!-- Post header-->
     <div itemscope itemtype="http://schema.org/Article" id="publication-body">
@@ -29,7 +31,7 @@
         <?php endif; ?>
 
         <?php session_start();
-        if ($user_id == $_SESSION['user']['id']): ?>
+        if ($user_id == $_SESSION['user']['id'] || $_SESSION['user']['is_admin']): ?>
             <div class="mb-5">
                 <a href="/profile/user/<?= $_SESSION['user']['id'] ?>/profile-page.html?tab=publications&page=&publication_id=<?= $publication_id ?>">
                     <button class="btn btn-primary">Редактировать</button>

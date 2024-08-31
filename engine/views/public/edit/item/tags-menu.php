@@ -33,7 +33,7 @@
 
             <div class="col-md-2">
 
-                <label class='fa fa-files-o' title="Мультизакгрузчик изображений" aria-hidden='true'>
+                <label class='fa fa-files-o' title="Мультизагрузчик изображений" aria-hidden='true'>
                     <input type="file" name="multifile" multiple style="display: none;" accept="image/*"
                            onchange="uploader.multiupload(this)">
                 </label>
