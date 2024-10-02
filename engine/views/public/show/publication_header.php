@@ -45,7 +45,7 @@
             <time itemprop="dateModified" datetime="<?= $published_date ?>" content="<?= $published_date ?>"></time>
             <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
                 <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
-                    <img itemprop="url image" src="https://mtuci.mealton.ru/assets/uploads/img/logo.png" alt="Описание картинки" title="Описание картинки" style="display:none;">
+                    <img itemprop="url image" src="/assets/uploads/img/logo.png" alt="Описание картинки" title="Описание картинки" style="display:none;">
                 </div>
                 <meta itemprop="name" content="<?= $GLOBALS['config']['site']['sitename'] ?>">
                 <meta itemprop="telephone" content="">

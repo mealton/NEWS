@@ -11,7 +11,7 @@ function watermark($image, $text = "mealton.ru")
     $image_info = getimagesize($image);
     $type = $image_info['mime'];
 
-    switch ($type){
+    switch ($type) {
         case "image/gif":
             $img = imagecreatefromgif($image);
             break;
@@ -60,7 +60,7 @@ function watermark($image, $text = "mealton.ru")
     // вывод самого текста
     imagettftext($img, $fontSise, 0, $x, $y, $textColor, $fontName, $text);
 
-    switch ($type){
+    switch ($type) {
         case "image/gif":
             imagegif($img, $image);
             break;
@@ -289,9 +289,9 @@ function getPeriod($date)
             break;
         case ($period / 365 > 1):
             $years = floor($period / 365) . ' ' . current_ending(floor($period / 365), array('год', 'года', 'лет'));
-            $monthes = floor($period % 365 / 30) > 0 ?
-                ' и ' . floor($period % 365 / 30) . ' ' . current_ending(ceil($period % 365 / 30), array('месяц', 'месяца', 'месяцев')) : '';
-            return $years . $monthes;
+            $months_count = floor($period % 365 / 30);
+            $months = $months_count ? ' и ' . $months_count . ' ' . current_ending($months_count, ['месяц', 'месяца', 'месяцев']) : '';
+            return $years . $months;
             break;
     }
 

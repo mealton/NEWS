@@ -16,8 +16,8 @@ RewriteRule ^(.*)\/$ /$1 [R=301,L]
 RewriteCond %{REQUEST_URI} =/publication
 RewriteRule (.*) https://%{HTTP_HOST} [QSA,L]
 
-RewriteCond %{HTTP_HOST} mtuci.mealton.ru
-RewriteRule (.*) https://news.mealton.ru/$1 [R=301,L]
+#RewriteCond %{HTTP_HOST} mtuci.mealton.ru
+#RewriteRule (.*) https://news.mealton.ru/$1 [R=301,L]
 
 # The Friendly URLs part
 RewriteCond %{REQUEST_FILENAME} !-f
