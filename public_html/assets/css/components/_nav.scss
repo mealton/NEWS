@@ -130,9 +130,22 @@
 .notification-menu {
   .dropdown-menu {
     margin-top: 15px;
+
+    max-height: calc(100vh - 100px);
+    overflow: auto;
+
+    &::-webkit-scrollbar-thumb {
+      //background-color: blue;    /* цвет плашки */
+      border-radius: 20px;       /* закругления плашки */
+      border: 3px solid #efefef;  /* padding вокруг плашки */
+    }
+
+    scrollbar-width: thin;          /* "auto" или "thin"  */
+    //scrollbar-color: blue orange;   /* плашка скролла и дорожка */
+
   }
 
-  #note-counter{
+  #note-counter {
     position: absolute;
     right: -50%;
     top: -8px;
@@ -148,7 +161,7 @@
     max-width: 270px;
     text-wrap: wrap;
 
-    &:not(:last-child){
+    &:not(:last-child) {
       padding-bottom: 10px;
       margin-bottom: 10px;
       border-bottom: 1px solid #ededed;

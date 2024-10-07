@@ -50,7 +50,7 @@
                 <p class="img-description"><em><?= $description ?></em></p>
                 <?php // endif; ?>
                 <div class="position-relative d-inline-block" style="max-width: calc(100% - 30px)">
-                    <div style="margin-right: 10px;"><?= $content ?></div>
+                    <div style="margin-right: 10px;"><?= preg_replace("/https?:\/\/(mtuci|news)\.mealton\.ru/", '', $content)  ?></div>
                     <?php if ($like_content): ?>
                         <?php include dirname(dirname(__DIR__)) . '/show/item/like_content.php'; ?>
                     <?php endif; ?>

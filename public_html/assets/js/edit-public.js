@@ -2,13 +2,13 @@ const publication = {
 
     action: '/',
 
-    readAll(){
+    readAll() {
         let data = {
-            method:'read_all',
+            method: 'read_all',
         };
         let callback = response => {
             console.log(response);
-            if(response.result){
+            if (response.result) {
                 $('.notification-menu .dropdown-menu').html(`<small class="dropdown-item">Новых уведомлений нет</small>`);
                 $('.notification-menu').find('.fa.fa-bell').attr('class', 'fa fa-bell-o');
                 $('#note-counter').html('');
@@ -1211,12 +1211,17 @@ const publication = {
 
     showModal(img) {
 
-        let src = img.src;
+        let src = img.src.replace(/https?:\/\/(news|mtuci)\.mealton\.ru/gi, '');
 
         let all_images = $(`#publication-content img.publication-image-item`);
         let current_image = document.querySelector(`#publication-content img.publication-image-item[src="${src}"]`);
 
+        if (!current_image)
+            return;
+
         let id = img.classList.contains('comment-img') ? "" : +current_image.dataset.id;
+
+
         let number = +all_images.index(current_image) + 1;
         let imagesCount = all_images.length;
         let counter = `${number} / ${imagesCount}`;

@@ -10,6 +10,8 @@
  * @var $likes integer
  * @var $comment_count integer
  */
+$public_img = preg_replace("/https?:\/\/(mtuci|news)\.mealton\.ru/", '', $public_img);
+
 ?>
 
 <p>

@@ -18,6 +18,8 @@
  * @var $introtext string
  * @var $search string
  */
+
+$public_img = preg_replace("/https?:\/\/(mtuci|news)\.mealton\.ru/", '', $public_img);
 ?>
 <article>
     <div class="row gx-5 public-item-preview">

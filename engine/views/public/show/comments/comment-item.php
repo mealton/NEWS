@@ -47,7 +47,7 @@
                     <?= $is_author ? '<span class="author-comment">Комментарий автора</span>' : '' ?>
                 </a>
 
-                <?php if ($commented_content): ?>
+                <?php if ($commented_content): $commented_content = preg_replace("/https?:\/\/(mtuci|news)\.mealton\.ru/", '', $commented_content) ?>
                     <span class="mb-0 comment-note">
                         <small>к изображению </small>
                         <img src="<?= $commented_content ?>" class="comment-to-img" onclick="publication.scrollToImage(this)" alt="">

@@ -29,6 +29,9 @@ else {
     if (!$is_published)
         $classname = 'opacity-75';
 }
+
+$public_img = preg_replace("/https?:\/\/(mtuci|news)\.mealton\.ru/", '', $public_img);
+
 ?>
 
 <div class="<?= $moderated ? '' : 'none-moderated' ?>">

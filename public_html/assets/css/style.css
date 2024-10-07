@@ -267,6 +267,13 @@ footer {
 
 .notification-menu .dropdown-menu {
   margin-top: 15px;
+  max-height: calc(100vh - 100px);
+  overflow: auto;
+  scrollbar-width: thin; /* "auto" или "thin"  */
+}
+.notification-menu .dropdown-menu::-webkit-scrollbar-thumb {
+  border-radius: 20px; /* закругления плашки */
+  border: 3px solid #efefef; /* padding вокруг плашки */
 }
 .notification-menu #note-counter {
   position: absolute;

@@ -21,7 +21,7 @@
         <figure class="publication-image-item-container">
             <img itemprop="contentUrl" class="img-fluid rounded publication-image-item"
                  data-id="<?= $id ?>"
-                 onclick="publication.showModal(this)" src="<?= $content ?>"
+                 onclick="publication.showModal(this)" src="<?= preg_replace("/https?:\/\/(mtuci|news)\.mealton\.ru/", '', $content)  ?>"
                  alt="<?= htmlspecialchars($description) ?>">
 
             <?php if ($like_content): ?>

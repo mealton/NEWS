@@ -16,6 +16,8 @@
  * @var $replies string
  * @var $has_replies boolean
  */
+$public_img = preg_replace("/https?:\/\/(mtuci|news)\.mealton\.ru/", '', $public_img);
+
 ?>
 <div class="card-body p-4 comment-item-container">
     <div class="row">
